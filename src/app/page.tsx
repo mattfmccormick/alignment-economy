@@ -147,9 +147,10 @@ function Hero() {
         </div>
 
         <p className="text-gray-400 text-base max-w-xl mx-auto mb-10 leading-relaxed">
-          The left wants to redistribute. The right wants to deregulate. Both
-          are missing the point. The measuring stick is broken. This is a new
-          way to measure and transfer value.
+          The global economic system is evolving: The left wants to
+          redistribute. The right wants to deregulate. Both are missing the
+          point. The measuring stick is broken. This is a new way to measure
+          and transfer value.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">

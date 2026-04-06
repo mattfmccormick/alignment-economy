@@ -6,9 +6,12 @@ import { useEffect, useRef, useState, useCallback } from "react";
 function ALogo({ className = "w-8 h-8" }: { className?: string }) {
   return (
     <svg viewBox="0 0 40 40" fill="none" className={className} aria-label="Alignment Economy logo">
+      {/* Two converging lines */}
       <path d="M20 4L6 36" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" />
       <path d="M20 4L34 36" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" />
-      <path d="M11 24H29" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      {/* Two crossbars */}
+      <path d="M12 22H28" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M10 28H30" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
     </svg>
   );
 }

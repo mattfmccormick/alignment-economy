@@ -122,26 +122,31 @@ function Nav() {
    ══════════════════════════════════════════════════════ */
 function Hero() {
   return (
-    <section className="hero-gradient relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
+    <section className="hero-gradient relative min-h-screen flex items-center justify-center px-6 pt-20 overflow-hidden">
       <div className="relative z-10 max-w-4xl mx-auto text-center">
-        <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-8">
-          The dollar buys less each year.
+        {/* Main title */}
+        <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-none mb-6 tracking-tight">
+          Alignment
           <br />
-          AI is coming for your job.
-          <br />
-          <span className="text-ae-gold">Your mom's contribution has never been valued economically.</span>
+          <span className="text-ae-gold">Economy</span>
         </h1>
 
-        {/* Subheader dividers */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-0 mb-8">
-          <span className="text-red-400 font-medium text-sm sm:text-base">Fiat is failing</span>
-          <span className="hidden sm:inline text-white/30 mx-4">|</span>
-          <span className="text-yellow-400 font-medium text-sm sm:text-base">Bitcoin can't fix this</span>
-          <span className="hidden sm:inline text-white/30 mx-4">|</span>
-          <span className="text-ae-teal font-medium text-sm sm:text-base">The Alignment Economy is a viable path forward</span>
+        {/* Subtitle */}
+        <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-6 leading-relaxed">
+          The dollar buys less each year. AI is coming for your job. Your mom's
+          contribution has never been valued economically.
+        </p>
+
+        {/* Three-phrase subtext */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0 mb-6 text-xs sm:text-sm tracking-wide uppercase">
+          <span className="text-red-400 font-medium">Fiat is failing</span>
+          <span className="hidden sm:inline text-white/20 mx-3">|</span>
+          <span className="text-yellow-400 font-medium">Bitcoin can't fix this</span>
+          <span className="hidden sm:inline text-white/20 mx-3">|</span>
+          <span className="text-ae-teal font-medium">The AE is a viable path forward</span>
         </div>
 
-        <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+        <p className="text-gray-400 text-base max-w-xl mx-auto mb-10 leading-relaxed">
           The left wants to redistribute. The right wants to deregulate. Both
           are missing the point. The measuring stick is broken. This is a new
           way to measure and transfer value.

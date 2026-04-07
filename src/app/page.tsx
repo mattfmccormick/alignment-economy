@@ -1,18 +1,28 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
+import Link from "next/link";
 
-/* ── Logo: Stylized "A" mark ── */
+/* ── Logo: Stylized "A" mark with extended crossbars ── */
 function ALogo({ className = "w-8 h-8" }: { className?: string }) {
   return (
     <svg viewBox="0 0 40 40" fill="none" className={className} aria-label="Alignment Economy logo">
-      {/* Two converging lines */}
       <path d="M20 4L6 36" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" />
       <path d="M20 4L34 36" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" />
-      {/* Two crossbars */}
-      <path d="M12 22H28" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-      <path d="M10 28H30" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M9 22H31" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M7 28H33" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
     </svg>
+  );
+}
+
+/* ── Arrow between cards ── */
+function ArrowRight() {
+  return (
+    <div className="hidden md:flex items-center justify-center text-gray-300">
+      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+      </svg>
+    </div>
   );
 }
 
@@ -70,11 +80,9 @@ function Nav() {
   }, []);
 
   const links = [
-    { label: "Fiat Is Failing", href: "#fiat-is-failing" },
-    { label: "Bitcoin Can't Fix This", href: "#bitcoin-cant-fix-this" },
-    { label: "How AE Works", href: "#how-ae-works" },
-    { label: "Why Now", href: "#why-now" },
-    { label: "Build With Us", href: "#build-with-us" },
+    { label: "About", href: "/about" },
+    { label: "Fund", href: "/fund" },
+    { label: "Get Involved", href: "/get-involved" },
   ];
 
   return (
@@ -86,17 +94,17 @@ function Nav() {
         </a>
         <div className="hidden lg:flex items-center gap-6 text-sm">
           {links.map((l) => (
-            <a
+            <Link
               key={l.href}
               href={l.href}
-              className={`nav-link transition-colors ${active === l.href.slice(1) ? "text-ae-teal active" : scrolled ? "text-gray-300 hover:text-white" : "text-white/70 hover:text-white"}`}
+              className={`nav-link transition-colors ${scrolled ? "text-gray-300 hover:text-white" : "text-white/70 hover:text-white"}`}
             >
               {l.label}
-            </a>
+            </Link>
           ))}
-          <a href="#" target="_blank" rel="noopener noreferrer" className="bg-ae-teal text-white px-5 py-2 rounded-full hover:bg-ae-teal-light transition-colors text-sm font-medium">
+          <Link href="/white-paper" className="bg-ae-teal text-white px-5 py-2 rounded-full hover:bg-ae-teal-light transition-colors text-sm font-medium">
             White Paper
-          </a>
+          </Link>
         </div>
         <button className="lg:hidden text-white p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -107,13 +115,13 @@ function Nav() {
       {menuOpen && (
         <div className="lg:hidden bg-ae-navy/95 backdrop-blur-md border-t border-white/10 px-6 pb-6">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="block py-3 text-gray-300 hover:text-white transition-colors" onClick={() => setMenuOpen(false)}>
+            <Link key={l.href} href={l.href} className="block py-3 text-gray-300 hover:text-white transition-colors" onClick={() => setMenuOpen(false)}>
               {l.label}
-            </a>
+            </Link>
           ))}
-          <a href="#" target="_blank" rel="noopener noreferrer" className="block mt-3 text-center bg-ae-teal text-white px-5 py-3 rounded-full hover:bg-ae-teal-light transition-colors font-medium" onClick={() => setMenuOpen(false)}>
+          <Link href="/white-paper" className="block mt-3 text-center bg-ae-teal text-white px-5 py-3 rounded-full hover:bg-ae-teal-light transition-colors font-medium" onClick={() => setMenuOpen(false)}>
             White Paper
-          </a>
+          </Link>
         </div>
       )}
     </nav>
@@ -127,20 +135,17 @@ function Hero() {
   return (
     <section className="hero-gradient relative min-h-screen flex items-center justify-center px-6 pt-20 overflow-hidden">
       <div className="relative z-10 max-w-4xl mx-auto text-center">
-        {/* Main title */}
         <h1 className="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-none mb-6 tracking-tight">
           Alignment
           <br />
           <span className="text-ae-gold">Economy</span>
         </h1>
 
-        {/* Subtitle */}
         <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-6 leading-relaxed">
           The dollar buys less each year. AI is coming for your job. Your mom's
           contribution has never been valued economically.
         </p>
 
-        {/* Three-phrase subtext */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0 mb-6 text-xs sm:text-sm tracking-wide uppercase">
           <span className="text-red-400 font-medium">Fiat is failing</span>
           <span className="hidden sm:inline text-white/20 mx-3">|</span>
@@ -160,9 +165,9 @@ function Hero() {
           <a href="#the-bridge" className="bg-ae-teal text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-ae-teal-light transition-colors">
             Show Me What You Mean ↓
           </a>
-          <a href="#" target="_blank" rel="noopener noreferrer" className="border-2 border-white/30 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-white/10 transition-colors">
+          <Link href="/white-paper" className="border-2 border-white/30 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-white/10 transition-colors">
             Read the White Paper →
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -176,83 +181,119 @@ function Hero() {
 }
 
 /* ══════════════════════════════════════════════════════
-   SECTION 2: THE BRIDGE BETWEEN TWO WORLDS
+   SECTION 2: THE BRIDGE (Analogy + Three Eras)
    ══════════════════════════════════════════════════════ */
 function TheBridge() {
   const ref = useFadeIn();
 
   return (
-    <section id="the-bridge" className="py-24 md:py-36 px-6 bg-ae-warm">
+    <section id="the-bridge" className="py-20 md:py-28 px-6 bg-ae-warm">
       <div ref={ref} className="fade-in-section max-w-5xl mx-auto">
         <h2 className="font-heading text-3xl md:text-5xl font-bold text-ae-navy mb-16 text-center leading-tight">
           Every breakthrough follows the same pattern
         </h2>
 
-        {/* Horse → Car → Model T */}
-        <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-2xl p-8 text-center card-hover">
-            <div className="text-4xl mb-4">🐴</div>
-            <h3 className="font-heading text-xl font-bold text-ae-navy mb-2">Horses <span className="text-ae-slate/50 font-normal text-sm">(Pre-1886)</span></h3>
-            <p className="text-ae-slate text-sm leading-relaxed">100% of transport. Slow, limited, familiar.</p>
+        {/* Horse → Car → Model T with arrows */}
+        <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-0 mb-8">
+          <div className="flex-1 bg-white rounded-2xl p-7 text-center card-hover">
+            <div className="text-4xl mb-3">🐴</div>
+            <h3 className="font-heading text-lg font-bold text-ae-navy mb-1">Horses <span className="text-ae-slate/50 font-normal text-xs">(Pre-1886)</span></h3>
+            <p className="text-ae-slate text-sm">100% of transport. Slow, limited, familiar.</p>
           </div>
-          <div className="bg-white rounded-2xl p-8 text-center card-hover">
-            <div className="text-4xl mb-4">🚗</div>
-            <h3 className="font-heading text-xl font-bold text-ae-navy mb-2">Early Cars <span className="text-ae-slate/50 font-normal text-sm">(1886-1908)</span></h3>
-            <p className="text-ae-slate text-sm leading-relaxed">Loud, broke down, odd. Only enthusiasts used them.</p>
+          <ArrowRight />
+          <div className="flex-1 bg-white rounded-2xl p-7 text-center card-hover">
+            <div className="text-4xl mb-3">🚗</div>
+            <h3 className="font-heading text-lg font-bold text-ae-navy mb-1">Early Cars <span className="text-ae-slate/50 font-normal text-xs">(1886-1908)</span></h3>
+            <p className="text-ae-slate text-sm">Loud, broke down, odd. Only enthusiasts.</p>
           </div>
-          <div className="bg-white rounded-2xl p-8 text-center card-hover ring-2 ring-ae-teal/20">
-            <div className="text-4xl mb-4">🏭</div>
-            <h3 className="font-heading text-xl font-bold text-ae-navy mb-2">Model T <span className="text-ae-teal font-normal text-sm">(1908+)</span></h3>
-            <p className="text-ae-slate text-sm leading-relaxed">Affordable, reliable, practical. The bridge to mass adoption.</p>
+          <ArrowRight />
+          <div className="flex-1 bg-white rounded-2xl p-7 text-center card-hover ring-2 ring-ae-teal/20">
+            <div className="text-4xl mb-3">🏭</div>
+            <h3 className="font-heading text-lg font-bold text-ae-navy mb-1">Model T <span className="text-ae-teal font-normal text-xs">(1908+)</span></h3>
+            <p className="text-ae-teal text-sm font-medium">The bridge to mass adoption.</p>
           </div>
         </div>
 
-        {/* Connector */}
-        <p className="text-center text-ae-navy font-heading text-xl font-semibold my-12">
+        <p className="text-center text-ae-navy font-heading text-xl font-semibold my-10">
           The same pattern is happening with money.
         </p>
 
-        {/* Fiat → BTC → AE */}
-        <div className="grid md:grid-cols-3 gap-6 mb-16">
-          <div className="bg-white rounded-2xl p-8 text-center card-hover border-2 border-red-100">
-            <div className="text-red-400 font-bold text-sm tracking-wide uppercase mb-3">The Horse</div>
-            <h3 className="font-heading text-xl font-bold text-ae-navy mb-2">Fiat ($)</h3>
-            <p className="text-ae-slate text-sm leading-relaxed">Familiar, but losing value every year.</p>
+        {/* Fiat → BTC → AE with arrows */}
+        <div className="flex flex-col md:flex-row items-stretch gap-3 md:gap-0 mb-14">
+          <div className="flex-1 bg-white rounded-2xl p-7 text-center card-hover border-2 border-red-100">
+            <div className="text-red-400 font-bold text-xs tracking-wide uppercase mb-2">The Horse</div>
+            <h3 className="font-heading text-lg font-bold text-ae-navy mb-1">Fiat ($)</h3>
+            <p className="text-ae-slate text-sm">Familiar, but losing value every year.</p>
           </div>
-          <div className="bg-white rounded-2xl p-8 text-center card-hover border-2 border-yellow-100">
-            <div className="text-yellow-600 font-bold text-sm tracking-wide uppercase mb-3">The Early Car</div>
-            <h3 className="font-heading text-xl font-bold text-ae-navy mb-2">Bitcoin / Crypto</h3>
-            <p className="text-ae-slate text-sm leading-relaxed">Revolutionary, but unusable as daily money.</p>
+          <ArrowRight />
+          <div className="flex-1 bg-white rounded-2xl p-7 text-center card-hover border-2 border-yellow-100">
+            <div className="text-yellow-600 font-bold text-xs tracking-wide uppercase mb-2">The Early Car</div>
+            <h3 className="font-heading text-lg font-bold text-ae-navy mb-1">Bitcoin / Crypto</h3>
+            <p className="text-ae-slate text-sm">Revolutionary, but unusable as daily money.</p>
           </div>
-          <div className="bg-white rounded-2xl p-8 text-center card-hover border-2 border-ae-teal/30 ring-2 ring-ae-teal/20">
-            <div className="text-ae-teal font-bold text-sm tracking-wide uppercase mb-3">The Model T</div>
-            <h3 className="font-heading text-xl font-bold text-ae-navy mb-2">Alignment Economy</h3>
-            <p className="text-ae-teal text-sm font-medium leading-relaxed">The Model T of money.</p>
+          <ArrowRight />
+          <div className="flex-1 bg-white rounded-2xl p-7 text-center card-hover border-2 border-ae-teal/30 ring-2 ring-ae-teal/20">
+            <div className="text-ae-teal font-bold text-xs tracking-wide uppercase mb-2">The Model T</div>
+            <h3 className="font-heading text-lg font-bold text-ae-navy mb-1">Alignment Economy</h3>
+            <p className="text-ae-teal text-sm font-medium">The Model T of money.</p>
           </div>
         </div>
 
-        {/* The Bigger Pattern */}
-        <div className="bg-ae-navy rounded-2xl p-8 md:p-12 max-w-3xl mx-auto">
-          <h3 className="font-heading text-xl font-bold text-white mb-4">The Bigger Pattern</h3>
-          <p className="text-gray-300 leading-relaxed mb-4">
-            This pattern is bigger than money. Humanity has only ever had two
-            strategies for getting what it needs.{" "}
-            <strong className="text-white">Take it by force</strong> (swords,
-            armies, empires) or{" "}
-            <strong className="text-white">take it by persuasion</strong>{" "}
-            (advertising, media, algorithms). Force broke when weapons got too
-            powerful. Persuasion is breaking now, as AI makes truth
-            indistinguishable from fiction.
-          </p>
-          <p className="text-gray-300 leading-relaxed mb-6">
-            The Alignment Economy is built on a third strategy:{" "}
-            <strong className="text-ae-teal">coordinate</strong>. Not because
+        {/* The Bigger Pattern as table */}
+        <div className="bg-ae-navy rounded-2xl p-8 md:p-10 max-w-3xl mx-auto">
+          <h3 className="font-heading text-xl font-bold text-white mb-6 text-center">The Bigger Pattern</h3>
+          <div className="grid grid-cols-3 gap-px bg-white/10 rounded-xl overflow-hidden mb-6">
+            {/* Header */}
+            <div className="bg-ae-navy p-4 text-center">
+              <span className="text-red-400 font-bold text-sm">1) Capture</span>
+            </div>
+            <div className="bg-ae-navy p-4 text-center">
+              <span className="text-yellow-400 font-bold text-sm">2) Convince</span>
+            </div>
+            <div className="bg-ae-navy p-4 text-center">
+              <span className="text-ae-teal font-bold text-sm">3) Coordinate</span>
+            </div>
+            {/* Strategy row */}
+            <div className="bg-white/5 p-4 text-center">
+              <p className="text-white text-sm font-medium">Take by force</p>
+            </div>
+            <div className="bg-white/5 p-4 text-center">
+              <p className="text-white text-sm font-medium">Take by persuasion</p>
+            </div>
+            <div className="bg-white/5 p-4 text-center">
+              <p className="text-ae-teal text-sm font-medium">Align incentives</p>
+            </div>
+            {/* Tools row */}
+            <div className="bg-white/5 p-4 text-center">
+              <p className="text-gray-400 text-xs">Swords, armies, empires</p>
+            </div>
+            <div className="bg-white/5 p-4 text-center">
+              <p className="text-gray-400 text-xs">Ads, media, algorithms</p>
+            </div>
+            <div className="bg-white/5 p-4 text-center">
+              <p className="text-gray-400 text-xs">Cooperation wins by design</p>
+            </div>
+            {/* Broke when row */}
+            <div className="bg-white/5 p-4 text-center">
+              <p className="text-red-400/70 text-xs">Broke: nuclear weapons</p>
+            </div>
+            <div className="bg-white/5 p-4 text-center">
+              <p className="text-yellow-400/70 text-xs">Breaking: AI + deepfakes</p>
+            </div>
+            <div className="bg-white/5 p-4 text-center">
+              <p className="text-ae-teal/70 text-xs">Building now</p>
+            </div>
+          </div>
+          <p className="text-gray-300 text-sm leading-relaxed text-center">
+            The Alignment Economy is built on the third strategy: not because
             people are virtuous, but because the system makes cooperation the
             winning move.
           </p>
-          <a href="#" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-ae-gold font-medium hover:text-ae-gold-light transition-colors">
-            The Bridge tells the full story →
-          </a>
+          <div className="text-center mt-6">
+            <Link href="/bridge" className="inline-flex items-center gap-2 text-ae-gold font-medium hover:text-ae-gold-light transition-colors text-sm">
+              Read a short story that gives another view →
+            </Link>
+          </div>
         </div>
       </div>
     </section>
@@ -260,7 +301,7 @@ function TheBridge() {
 }
 
 /* ══════════════════════════════════════════════════════
-   SECTION 3: PERSONAS
+   SECTION 3: PERSONAS (reduced spacing)
    ══════════════════════════════════════════════════════ */
 function Personas() {
   const ref = useFadeIn();
@@ -329,31 +370,31 @@ function Personas() {
   ];
 
   return (
-    <section className="py-24 md:py-36 px-6 bg-white">
+    <section className="py-14 md:py-20 px-6 bg-white">
       <div ref={ref} className="fade-in-section max-w-6xl mx-auto">
-        <h2 className="font-heading text-3xl md:text-5xl font-bold text-ae-navy mb-4 text-center leading-tight">
+        <h2 className="font-heading text-3xl md:text-4xl font-bold text-ae-navy mb-3 text-center leading-tight">
           Where are you in the conversation?
         </h2>
-        <p className="text-ae-slate text-lg text-center max-w-2xl mx-auto mb-16 leading-relaxed">
+        <p className="text-ae-slate text-base text-center max-w-2xl mx-auto mb-10 leading-relaxed">
           Everyone enters at a different door. Find yours, then jump to the
           section that will move you forward.
         </p>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {personas.map((p, i) => (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {personas.map((p) => (
             <button
               key={p.title}
               onClick={() => scrollToSection(p.target)}
-              className={`persona-card text-left rounded-2xl border-2 ${p.color} bg-white p-6 flex flex-col`}
+              className={`persona-card text-left rounded-2xl border-2 ${p.color} bg-white p-5 flex flex-col`}
             >
-              <div className={`font-bold text-xs tracking-wide uppercase mb-3 ${p.accent}`}>
+              <div className={`font-bold text-xs tracking-wide uppercase mb-2 ${p.accent}`}>
                 {p.title}
               </div>
-              <p className="text-ae-navy font-semibold text-sm mb-4 italic">
+              <p className="text-ae-navy font-semibold text-sm mb-3 italic">
                 &ldquo;{p.quote}&rdquo;
               </p>
               <div className="text-xs text-ae-slate/70 font-medium uppercase tracking-wide mb-2">We'd start here:</div>
-              <ul className="text-ae-slate text-sm leading-relaxed space-y-2 mb-auto">
+              <ul className="text-ae-slate text-sm leading-relaxed space-y-1.5 mb-auto">
                 {p.points.map((pt, j) => (
                   <li key={j} className="flex gap-2">
                     <span className="text-ae-teal mt-0.5 shrink-0">•</span>
@@ -361,17 +402,83 @@ function Personas() {
                   </li>
                 ))}
               </ul>
-              <div className={`mt-5 font-semibold text-sm ${p.accent}`}>
+              <div className={`mt-4 font-semibold text-sm ${p.accent}`}>
                 {p.cta}
               </div>
-              {/* Arrow between cards on large screens */}
-              {i < personas.length - 1 && (
-                <div className="hidden lg:block absolute -right-3 top-1/2 -translate-y-1/2 text-gray-300 z-10">
-                </div>
-              )}
             </button>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════════
+   DESIGN REQUIREMENTS (before How AE Works)
+   ══════════════════════════════════════════════════════ */
+function DesignRequirements() {
+  const ref = useFadeIn();
+
+  const reqs = [
+    { n: "1", title: "Decentralized control", desc: "No central authority may manipulate the money supply, interest rates, or transaction rules.", fiat: false, btc: true, ae: true },
+    { n: "2", title: "Minimized first-mover advantage", desc: "Late adopters must not be structurally disadvantaged relative to early adopters.", fiat: false, btc: false, ae: true },
+    { n: "3", title: "Stable purchasing power", desc: "Neither inflation nor deflation should erode or artificially increase the value of holdings.", fiat: false, btc: false, ae: true },
+    { n: "4", title: "Incentive to transact", desc: "The system must encourage buying and selling, not holding and hoping.", fiat: true, btc: false, ae: true },
+    { n: "5", title: "Visibility of contribution", desc: "Caregiving, mentorship, maintenance of spaces and durable goods must become economically visible.", fiat: false, btc: false, ae: true },
+  ];
+
+  function Check() {
+    return (
+      <svg className="w-5 h-5 text-ae-teal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+    );
+  }
+  function Cross() {
+    return (
+      <svg className="w-4 h-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    );
+  }
+
+  return (
+    <section id="design-requirements" className="py-20 md:py-28 px-6 bg-ae-warm">
+      <div ref={ref} className="fade-in-section max-w-4xl mx-auto">
+        <h2 className="font-heading text-3xl md:text-4xl font-bold text-ae-navy mb-4 text-center leading-tight">
+          Five Design Requirements
+        </h2>
+        <p className="text-ae-slate text-base text-center max-w-2xl mx-auto mb-12 leading-relaxed">
+          Any system that replaces money must satisfy all five. Check for yourself.
+        </p>
+
+        <div className="overflow-x-auto">
+          <table className="w-full bg-white rounded-xl overflow-hidden">
+            <thead>
+              <tr className="border-b-2 border-gray-100">
+                <th className="text-left py-4 px-5 text-ae-slate font-medium text-sm">Requirement</th>
+                <th className="py-4 px-3 text-center text-ae-slate font-medium text-sm w-20">Fiat</th>
+                <th className="py-4 px-3 text-center text-ae-slate font-medium text-sm w-20">BTC</th>
+                <th className="py-4 px-3 text-center font-bold text-ae-teal text-sm w-20">AE</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reqs.map((r) => (
+                <tr key={r.n} className="border-b border-gray-50">
+                  <td className="py-4 px-5 text-ae-navy text-sm font-medium">{r.title}</td>
+                  <td className="py-4 px-3"><div className="check-cell">{r.fiat ? <Check /> : <Cross />}</div></td>
+                  <td className="py-4 px-3"><div className="check-cell">{r.btc ? <Check /> : <Cross />}</div></td>
+                  <td className="py-4 px-3"><div className="check-cell"><Check /></div></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-center mt-8 text-ae-navy font-semibold">
+          Bitcoin met the first. Fiat meets none.{" "}
+          <span className="text-ae-teal">The Alignment Economy meets all five.</span>
+        </p>
       </div>
     </section>
   );
@@ -382,67 +489,59 @@ function Personas() {
    ══════════════════════════════════════════════════════ */
 function FiatIsFailing() {
   const ref = useFadeIn();
-  const spiralRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = spiralRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) el.classList.add("spiral-visible"); },
-      { threshold: 0.15 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
 
   return (
-    <section id="fiat-is-failing" className="py-24 md:py-36 px-6 bg-ae-navy text-white">
-      <div ref={ref} className="fade-in-section max-w-5xl mx-auto">
-        <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6 text-center leading-tight">
-          What is money? A measuring stick.
-        </h2>
-        <p className="text-gray-300 text-lg text-center max-w-3xl mx-auto mb-12 leading-relaxed">
-          We create value for others in exchange for money, which we use to
-          obtain the value we need. Money is the measuring stick. It tells us
-          what things are worth relative to each other.
-        </p>
-        <p className="text-gray-400 text-lg text-center max-w-2xl mx-auto mb-12">
-          The problem: our measuring stick has lost 96% of its accuracy since 1913.
-        </p>
+    <section id="fiat-is-failing" className="bg-ae-navy text-white">
+      <div className="py-20 md:py-28 px-6">
+        <div ref={ref} className="fade-in-section max-w-5xl mx-auto">
+          <h2 className="font-heading text-3xl md:text-5xl font-bold mb-6 text-center leading-tight">
+            What is money? A measuring stick.
+          </h2>
+          <p className="text-gray-300 text-lg text-center max-w-3xl mx-auto mb-12 leading-relaxed">
+            We create value for others in exchange for money, which we use to
+            obtain the value we need. Money is the measuring stick. It tells us
+            what things are worth relative to each other.
+          </p>
+          <p className="text-gray-400 text-lg text-center max-w-2xl mx-auto mb-12">
+            The problem: our measuring stick has lost 96% of its accuracy since 1913.
+          </p>
 
-        {/* Big stat */}
-        <div className="text-center mb-16">
-          <div className="text-7xl md:text-9xl font-bold text-red-400 font-heading">-96%</div>
-          <p className="text-gray-400 text-lg mt-2">purchasing power lost since 1913</p>
+          {/* Big stat */}
+          <div className="text-center mb-16">
+            <div className="text-7xl md:text-9xl font-bold text-red-400 font-heading">-96%</div>
+            <p className="text-gray-400 text-lg mt-2">U.S. Dollar purchasing power lost since 1913</p>
+          </div>
+
+          {/* Three points */}
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <div className="bg-white/5 rounded-2xl p-7">
+              <p className="text-white leading-relaxed">
+                Governments print money at will. No accountability, no audit, no limit.
+              </p>
+            </div>
+            <div className="bg-white/5 rounded-2xl p-7">
+              <p className="text-white leading-relaxed">
+                Each generation's savings buy less. Your grandparents bought a
+                house. After rent and expenses, you don't have savings.
+              </p>
+            </div>
+            <div className="bg-white/5 rounded-2xl p-7">
+              <p className="text-white leading-relaxed">
+                It feels like the weather: something that just is, not something
+                being done to you.
+              </p>
+            </div>
+          </div>
+
+          <p className="text-center text-2xl font-bold text-red-400 font-heading">
+            It is being done to you.
+          </p>
         </div>
+      </div>
 
-        {/* Three points */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white/5 rounded-2xl p-7">
-            <p className="text-white leading-relaxed">
-              Governments print money at will. No accountability, no audit, no limit.
-            </p>
-          </div>
-          <div className="bg-white/5 rounded-2xl p-7">
-            <p className="text-white leading-relaxed">
-              Each generation's savings buy less. Your grandparents bought a
-              house. After rent and expenses, you don't have savings.
-            </p>
-          </div>
-          <div className="bg-white/5 rounded-2xl p-7">
-            <p className="text-white leading-relaxed">
-              It feels like the weather: something that just is, not something
-              being done to you.
-            </p>
-          </div>
-        </div>
-
-        <p className="text-center text-2xl font-bold text-red-400 font-heading mb-20">
-          It is being done to you.
-        </p>
-
-        {/* Invisible labor */}
-        <div className="max-w-3xl mx-auto mb-20">
+      {/* Invisible labor - different background */}
+      <div className="py-20 md:py-28 px-6 bg-[#162035]">
+        <div className="max-w-3xl mx-auto">
           <h3 className="font-heading text-2xl md:text-3xl font-bold text-white mb-6 text-center">
             And what about the value it has never measured?
           </h3>
@@ -471,41 +570,76 @@ function FiatIsFailing() {
             The most important work is the least visible.
           </p>
         </div>
+      </div>
 
-        {/* AI Spiral */}
-        <div className="max-w-3xl mx-auto">
+      {/* AI Spiral - circular graphic */}
+      <div className="py-20 md:py-28 px-6 bg-ae-navy">
+        <div className="max-w-4xl mx-auto">
           <h3 className="font-heading text-2xl md:text-3xl font-bold text-white mb-4 text-center">
             A spiral with no clear exit
           </h3>
-          <p className="text-gray-400 text-center mb-12">
+          <p className="text-gray-400 text-center mb-14">
             AI is about to make the situation much worse.
           </p>
 
-          <div ref={spiralRef} className="space-y-4">
+          {/* Circular spiral graphic */}
+          <div className="relative max-w-lg mx-auto mb-10">
+            <svg viewBox="0 0 400 400" className="w-full" fill="none">
+              {/* Outer circular arrow */}
+              <path d="M200 30 A170 170 0 1 1 170 33" stroke="rgba(239,68,68,0.15)" strokeWidth="2" fill="none" />
+              <path d="M170 33 L180 22 L175 40" fill="rgba(239,68,68,0.3)" />
+
+              {/* Step circles and labels */}
+              {/* Step 1 - top */}
+              <circle cx="200" cy="45" r="28" fill="rgba(239,68,68,0.15)" stroke="rgba(239,68,68,0.3)" strokeWidth="1" />
+              <text x="200" y="50" textAnchor="middle" fill="rgba(248,113,113,1)" fontSize="16" fontWeight="bold">1</text>
+
+              {/* Step 2 - right */}
+              <circle cx="355" cy="185" r="28" fill="rgba(239,68,68,0.15)" stroke="rgba(239,68,68,0.3)" strokeWidth="1" />
+              <text x="355" y="190" textAnchor="middle" fill="rgba(248,113,113,1)" fontSize="16" fontWeight="bold">2</text>
+
+              {/* Step 3 - bottom right */}
+              <circle cx="310" cy="350" r="28" fill="rgba(239,68,68,0.15)" stroke="rgba(239,68,68,0.3)" strokeWidth="1" />
+              <text x="310" y="355" textAnchor="middle" fill="rgba(248,113,113,1)" fontSize="16" fontWeight="bold">3</text>
+
+              {/* Step 4 - bottom left */}
+              <circle cx="90" cy="350" r="28" fill="rgba(239,68,68,0.15)" stroke="rgba(239,68,68,0.3)" strokeWidth="1" />
+              <text x="90" y="355" textAnchor="middle" fill="rgba(248,113,113,1)" fontSize="16" fontWeight="bold">4</text>
+
+              {/* Step 5 - left */}
+              <circle cx="45" cy="185" r="28" fill="rgba(239,68,68,0.15)" stroke="rgba(239,68,68,0.3)" strokeWidth="1" />
+              <text x="45" y="190" textAnchor="middle" fill="rgba(248,113,113,1)" fontSize="16" fontWeight="bold">5</text>
+
+              {/* Connecting arrows */}
+              <path d="M225 55 Q300 80 340 165" stroke="rgba(239,68,68,0.25)" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" />
+              <path d="M365 215 Q370 300 330 335" stroke="rgba(239,68,68,0.25)" strokeWidth="2" fill="none" />
+              <path d="M280 360 Q200 390 120 360" stroke="rgba(239,68,68,0.25)" strokeWidth="2" fill="none" />
+              <path d="M65 340 Q30 280 38 210" stroke="rgba(239,68,68,0.25)" strokeWidth="2" fill="none" />
+              <path d="M55 160 Q80 70 180 40" stroke="rgba(239,68,68,0.25)" strokeWidth="2" fill="none" />
+
+              {/* Center text */}
+              <text x="200" y="190" textAnchor="middle" fill="rgba(239,68,68,0.5)" fontSize="13" fontWeight="bold">REPEAT</text>
+              <text x="200" y="210" textAnchor="middle" fill="rgba(239,68,68,0.5)" fontSize="13" fontWeight="bold">FOREVER</text>
+            </svg>
+          </div>
+
+          {/* Step descriptions */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 max-w-5xl mx-auto">
             {[
-              { step: "1", title: "AI gets more capable", desc: "Machines produce real output at near-zero cost. Writing, designing, assembling, delivering. Every cycle, AI handles more complex work for less money." },
-              { step: "2", title: "Jobs are displaced", desc: "White collar first, then blue collar. Each role AI can do cheaper is a role that disappears. The people displaced don't own the machines that replaced them." },
-              { step: "3", title: "Government prints more", desc: "Stimulus, handouts, bailouts to cover the displacement. But there's no limit. Each round debases the currency further." },
-              { step: "4", title: "Asset prices inflate", desc: "Asset owners get richer automatically. Stocks, real estate, businesses inflate. The people without assets are priced out further." },
-              { step: "5", title: "Workers get squeezed", desc: "Cost of living rises. Workers demand higher wages. But businesses won't pay it because AI is good enough, better, and cheaper. Back to step 1." },
+              { step: "1", title: "AI gets more capable", desc: "Machines produce real output at near-zero cost." },
+              { step: "2", title: "Jobs are displaced", desc: "Each role AI can do cheaper is a role that disappears." },
+              { step: "3", title: "Government prints more", desc: "Stimulus and bailouts. Each round debases the currency." },
+              { step: "4", title: "Asset prices inflate", desc: "Owners get richer automatically. Everyone else is priced out." },
+              { step: "5", title: "Workers get squeezed", desc: "Cost rises. AI is cheaper. Back to step 1." },
             ].map((s) => (
-              <div key={s.step} className="spiral-step flex gap-5 items-start bg-white/5 rounded-2xl p-6">
-                <div className="shrink-0 w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 font-bold">
+              <div key={s.step} className="bg-white/5 rounded-xl p-4 text-center">
+                <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 font-bold text-sm mx-auto mb-2">
                   {s.step}
                 </div>
-                <div>
-                  <h4 className="text-white font-semibold mb-1">{s.title}</h4>
-                  <p className="text-gray-400 text-sm leading-relaxed">{s.desc}</p>
-                </div>
+                <h4 className="text-white font-semibold text-sm mb-1">{s.title}</h4>
+                <p className="text-gray-400 text-xs leading-relaxed">{s.desc}</p>
               </div>
             ))}
-            {/* Loop arrow */}
-            <div className="text-center pt-2">
-              <svg className="w-8 h-8 mx-auto text-red-400/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3" />
-              </svg>
-              <p className="text-red-400/70 text-sm mt-2">Repeat forever</p>
-            </div>
           </div>
 
           <p className="text-center text-xl font-bold text-ae-gold font-heading mt-12">
@@ -524,7 +658,7 @@ function BitcoinCantFix() {
   const ref = useFadeIn();
 
   return (
-    <section id="bitcoin-cant-fix-this" className="py-24 md:py-36 px-6 bg-ae-navy text-white border-t border-white/5">
+    <section id="bitcoin-cant-fix-this" className="py-20 md:py-28 px-6 bg-[#162035] text-white">
       <div ref={ref} className="fade-in-section max-w-5xl mx-auto">
         <h2 className="font-heading text-3xl md:text-5xl font-bold mb-4 text-center leading-tight">
           Bitcoin proved decentralized value transfer works.
@@ -536,7 +670,6 @@ function BitcoinCantFix() {
           It was designed as &ldquo;peer-to-peer electronic cash.&rdquo; It became a speculative asset instead.
         </p>
 
-        {/* Two Paradoxes */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
           <div className="bg-white/5 rounded-2xl p-8">
             <div className="text-yellow-400 font-bold text-sm tracking-wide uppercase mb-4">Paradox #1</div>
@@ -566,7 +699,6 @@ function BitcoinCantFix() {
           </div>
         </div>
 
-        {/* Stablecoins */}
         <div className="max-w-3xl mx-auto bg-white/5 rounded-2xl p-8 md:p-10">
           <h3 className="font-heading text-xl font-bold text-white mb-2">
             Stablecoins don't solve it either
@@ -605,18 +737,18 @@ function HowAEWorks() {
   const ref = useFadeIn();
 
   return (
-    <section id="how-ae-works" className="py-24 md:py-36 px-6 bg-ae-warm">
+    <section id="how-ae-works" className="py-20 md:py-28 px-6 bg-ae-warm">
       <div ref={ref} className="fade-in-section max-w-6xl mx-auto">
         <h2 className="font-heading text-3xl md:text-5xl font-bold text-ae-navy mb-4 text-center leading-tight">
           A new way to measure and transfer value
         </h2>
-        <p className="text-ae-slate text-lg text-center max-w-3xl mx-auto mb-20 leading-relaxed">
+        <p className="text-ae-slate text-lg text-center max-w-3xl mx-auto mb-16 leading-relaxed">
           Built from scratch for an economy where AI does the production and
           humans do what matters.
         </p>
 
         {/* Three Core Mechanics */}
-        <div className="grid md:grid-cols-3 gap-8 mb-20">
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
           <div className="bg-white rounded-2xl p-8 card-hover">
             <div className="w-12 h-12 rounded-full bg-ae-teal/10 flex items-center justify-center mb-5">
               <svg className="w-6 h-6 text-ae-teal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -653,16 +785,15 @@ function HowAEWorks() {
             <p className="text-ae-slate text-sm leading-relaxed">
               A percent-human score (0-100%) helps mitigate fraud from bots and
               duplicate accounts. Miners verify humans (not math or stake). A
-              court system with bounties supports quality. Each participant
-              determines what information to disclose.
+              court system with bounties supports quality.
             </p>
           </div>
         </div>
 
         {/* Four Point Types */}
         <h3 className="font-heading text-2xl font-bold text-ae-navy mb-8 text-center">The Four Point Types</h3>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-2xl p-7 card-hover border-t-4 border-ae-teal">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+          <div className="bg-white rounded-2xl p-6 card-hover border-t-4 border-ae-teal">
             <div className="flex items-center justify-between mb-3">
               <h4 className="font-bold text-ae-navy">Active</h4>
               <span className="text-ae-teal font-bold text-xs bg-ae-teal/10 px-2 py-1 rounded-full">1,440/day</span>
@@ -670,50 +801,45 @@ function HowAEWorks() {
             <p className="text-ae-slate text-sm leading-relaxed">
               Spend however you choose. Unspent points expire every 24 hours. A
               billionaire and a minimum-wage worker wake up with the same 1,440.
-              A spouse sending points to a stay-at-home partner makes caregiving
-              visible.
             </p>
           </div>
-          <div className="bg-white rounded-2xl p-7 card-hover border-t-4 border-ae-gold">
+          <div className="bg-white rounded-2xl p-6 card-hover border-t-4 border-ae-gold">
             <div className="flex items-center justify-between mb-3">
               <h4 className="font-bold text-ae-navy">Supportive</h4>
               <span className="text-ae-gold font-bold text-xs bg-ae-gold/10 px-2 py-1 rounded-full">144/day</span>
             </div>
             <p className="text-ae-slate text-sm leading-relaxed">
               Flows to durable goods in active use. A chair used 20 years earns
-              20 years of income for its maker. Planned obsolescence becomes
-              economically irrational.
+              20 years of income for its maker.
             </p>
           </div>
-          <div className="bg-white rounded-2xl p-7 card-hover border-t-4 border-emerald-500">
+          <div className="bg-white rounded-2xl p-6 card-hover border-t-4 border-emerald-500">
             <div className="flex items-center justify-between mb-3">
               <h4 className="font-bold text-ae-navy">Ambient</h4>
               <span className="text-emerald-600 font-bold text-xs bg-emerald-500/10 px-2 py-1 rounded-full">14.4/day</span>
             </div>
             <p className="text-ae-slate text-sm leading-relaxed">
-              Flows to physical spaces occupied. Cascades up: room, building,
-              city, state, nation. A city people move to earns more than one
-              people flee. Usage-based alternative to taxation.
+              Flows to physical spaces occupied. A city people move to earns more
+              than one people flee.
             </p>
           </div>
-          <div className="bg-white rounded-2xl p-7 card-hover border-t-4 border-purple-500">
+          <div className="bg-white rounded-2xl p-6 card-hover border-t-4 border-purple-500">
             <div className="flex items-center justify-between mb-3">
               <h4 className="font-bold text-ae-navy">Earned</h4>
               <span className="text-purple-600 font-bold text-xs bg-purple-500/10 px-2 py-1 rounded-full">Saveable</span>
             </div>
             <p className="text-ae-slate text-sm leading-relaxed">
               Points received from others through transactions. The savings
-              layer. Saveable without limit. Only category subject to daily
-              rebasing. Wealth differences persist based on contribution.
+              layer. Wealth differences persist based on contribution.
             </p>
           </div>
         </div>
-        <p className="text-center text-ae-slate/70 text-sm mb-20 italic">
-          Only individuals receive daily allocations. Not companies, governments, or AI. Those entities earn points through voluntary transactions with humans.
+        <p className="text-center text-ae-slate/70 text-xs mb-16 italic">
+          Only individuals receive daily allocations. Not companies, governments, or AI.
         </p>
 
         {/* Paradox Solutions */}
-        <div className="grid md:grid-cols-2 gap-8 mb-20">
+        <div className="grid md:grid-cols-2 gap-8">
           <div className="bg-ae-teal/5 border border-ae-teal/20 rounded-2xl p-8">
             <div className="text-ae-teal font-bold text-sm tracking-wide uppercase mb-3">Paradox #1: Solved</div>
             <h4 className="font-heading text-xl font-bold text-ae-navy mb-3">First-Mover Advantage</h4>
@@ -726,38 +852,8 @@ function HowAEWorks() {
             <h4 className="font-heading text-xl font-bold text-ae-navy mb-3">Deflation</h4>
             <p className="text-ae-slate leading-relaxed">
               Active points expire daily (no hoarding). Rebasing keeps purchasing
-              power stable (no &ldquo;number go up&rdquo; dynamic). Built for spending, not speculation.
+              power stable. Built for spending, not speculation.
             </p>
-          </div>
-        </div>
-
-        {/* Design Requirements Checklist */}
-        <div className="max-w-3xl mx-auto">
-          <h3 className="font-heading text-2xl font-bold text-ae-navy mb-4 text-center">Design Requirements</h3>
-          <p className="text-ae-slate text-center mb-10 leading-relaxed">
-            Any replacement system must satisfy five requirements. Every design
-            decision in the Alignment Economy traces back to one of these.
-          </p>
-          <div className="space-y-4">
-            {[
-              { n: "1", title: "Decentralized control", desc: "No central authority may manipulate the money supply, interest rates, or transaction rules." },
-              { n: "2", title: "Minimized first-mover advantage", desc: "Late adopters must not be structurally disadvantaged relative to early adopters." },
-              { n: "3", title: "Stable purchasing power", desc: "Neither inflation nor deflation should erode or artificially increase the value of holdings." },
-              { n: "4", title: "Incentive to transact", desc: "The system must encourage buying and selling, not holding and hoping." },
-              { n: "5", title: "Visibility of contribution", desc: "Caregiving, mentorship, maintenance of spaces and durable goods must become economically visible." },
-            ].map((r) => (
-              <div key={r.n} className="flex gap-4 items-start bg-white rounded-xl p-5">
-                <div className="shrink-0 w-8 h-8 rounded-full bg-ae-teal/10 flex items-center justify-center">
-                  <svg className="w-5 h-5 text-ae-teal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <div>
-                  <h4 className="text-ae-navy font-semibold mb-1">{r.title}</h4>
-                  <p className="text-ae-slate text-sm">{r.desc}</p>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </div>
@@ -766,20 +862,19 @@ function HowAEWorks() {
 }
 
 /* ══════════════════════════════════════════════════════
-   SECTION 7: WHY NOW / URGENCY
+   SECTION 7: WHY NOW
    ══════════════════════════════════════════════════════ */
 function WhyNow() {
   const ref = useFadeIn();
 
   return (
-    <section id="why-now" className="py-24 md:py-36 px-6 bg-ae-navy text-white">
+    <section id="why-now" className="py-20 md:py-28 px-6 bg-ae-navy text-white">
       <div ref={ref} className="fade-in-section max-w-5xl mx-auto">
-        <h2 className="font-heading text-3xl md:text-5xl font-bold mb-16 text-center leading-tight">
+        <h2 className="font-heading text-3xl md:text-5xl font-bold mb-14 text-center leading-tight">
           Why The Alignment Economy. Why Now.
         </h2>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
-          {/* If we don't */}
+        <div className="grid md:grid-cols-2 gap-8 mb-14">
           <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-8">
             <h3 className="font-heading text-xl font-bold text-red-400 mb-6">If we don't build this:</h3>
             <ul className="space-y-4">
@@ -799,7 +894,6 @@ function WhyNow() {
             </ul>
           </div>
 
-          {/* If we do */}
           <div className="bg-ae-teal/10 border border-ae-teal/20 rounded-2xl p-8">
             <h3 className="font-heading text-xl font-bold text-ae-teal mb-6">If we do:</h3>
             <ul className="space-y-4">
@@ -836,80 +930,89 @@ function WhyNow() {
 function BuildWithUs() {
   const ref = useFadeIn();
 
+  async function handleSubscribe(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert("Thanks for subscribing! We'll be in touch.");
+        form.reset();
+      } else {
+        alert(data.error || "Something went wrong.");
+      }
+    } catch {
+      alert("Something went wrong. Please try again.");
+    }
+  }
+
   return (
-    <section id="build-with-us" className="py-24 md:py-36 px-6 bg-ae-warm">
+    <section id="build-with-us" className="py-20 md:py-28 px-6 bg-ae-warm">
       <div ref={ref} className="fade-in-section max-w-5xl mx-auto">
-        <h2 className="font-heading text-3xl md:text-5xl font-bold text-ae-navy mb-16 text-center leading-tight">
+        <h2 className="font-heading text-3xl md:text-5xl font-bold text-ae-navy mb-14 text-center leading-tight">
           Build the Bridge With Us
         </h2>
 
-        {/* Three cards */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white rounded-2xl p-8 card-hover text-center">
+        <div className="grid md:grid-cols-3 gap-8 mb-14">
+          <Link href="/fund" className="bg-white rounded-2xl p-8 card-hover text-center block">
             <div className="w-14 h-14 rounded-full bg-ae-gold/10 flex items-center justify-center mx-auto mb-5">
               <svg className="w-7 h-7 text-ae-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
             <h3 className="font-heading text-xl font-bold text-ae-navy mb-3">Fund</h3>
-            <p className="text-ae-slate text-sm leading-relaxed">
-              Fund the build. We need capital to bring the protocol from white
-              paper to working network. This is a 501(c)(3). Contributions are
-              tax-deductible. No token sales, no equity, no ICO.
+            <p className="text-ae-slate text-sm leading-relaxed mb-4">
+              Fund the build. 501(c)(3). Tax-deductible. No token sales, no equity, no ICO.
             </p>
-            <a href="#" className="inline-block mt-5 bg-ae-gold text-ae-navy px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-ae-gold-light transition-colors">
-              Donate
-            </a>
-          </div>
-          <div className="bg-white rounded-2xl p-8 card-hover text-center">
+            <span className="inline-block bg-ae-gold text-ae-navy px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-ae-gold-light transition-colors">
+              Donate →
+            </span>
+          </Link>
+          <Link href="/get-involved" className="bg-white rounded-2xl p-8 card-hover text-center block">
             <div className="w-14 h-14 rounded-full bg-ae-teal/10 flex items-center justify-center mx-auto mb-5">
               <svg className="w-7 h-7 text-ae-teal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17l-5.384 3.173A2.25 2.25 0 013 16.25V8.25a2.25 2.25 0 013.036-2.093l5.384 3.173a2.25 2.25 0 010 3.84zM20.25 8.25v7.5" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
               </svg>
             </div>
             <h3 className="font-heading text-xl font-bold text-ae-navy mb-3">Build</h3>
-            <p className="text-ae-slate text-sm leading-relaxed">
-              Join the team. Engineers, cryptographers, economists, and marketers
-              who want to build something that matters.
+            <p className="text-ae-slate text-sm leading-relaxed mb-4">
+              Engineers, cryptographers, economists, and marketers who want to build something that matters.
             </p>
-            <a href="mailto:mattfmccormick@gmail.com" className="inline-block mt-5 bg-ae-teal text-white px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-ae-teal-light transition-colors">
-              Get in Touch
-            </a>
-          </div>
-          <div className="bg-white rounded-2xl p-8 card-hover text-center">
+            <span className="inline-block bg-ae-teal text-white px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-ae-teal-light transition-colors">
+              Get in Touch →
+            </span>
+          </Link>
+          <Link href="/get-involved" className="bg-white rounded-2xl p-8 card-hover text-center block">
             <div className="w-14 h-14 rounded-full bg-purple-500/10 flex items-center justify-center mx-auto mb-5">
               <svg className="w-7 h-7 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
               </svg>
             </div>
             <h3 className="font-heading text-xl font-bold text-ae-navy mb-3">Connect</h3>
-            <p className="text-ae-slate text-sm leading-relaxed">
-              If this isn't for you, tell us who it is for. The right
-              introduction is as valuable as a check.
+            <p className="text-ae-slate text-sm leading-relaxed mb-4">
+              If this isn't for you, tell us who it is for. The right introduction is as valuable as a check.
             </p>
-            <a href="mailto:mattfmccormick@gmail.com" className="inline-block mt-5 border-2 border-ae-navy text-ae-navy px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-ae-navy hover:text-white transition-colors">
-              Share
-            </a>
-          </div>
-        </div>
-
-        {/* Contact */}
-        <div className="text-center mb-16">
-          <p className="text-ae-navy font-semibold text-lg">Matt McCormick</p>
-          <a href="mailto:mattfmccormick@gmail.com" className="text-ae-teal hover:text-ae-teal-light transition-colors">
-            mattfmccormick@gmail.com
-          </a>
+            <span className="inline-block border-2 border-ae-navy text-ae-navy px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-ae-navy hover:text-white transition-colors">
+              Share →
+            </span>
+          </Link>
         </div>
 
         {/* Document links */}
-        <div className="flex flex-wrap gap-4 justify-center mb-16">
-          <a href="#" target="_blank" rel="noopener noreferrer" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
+        <div className="flex flex-wrap gap-4 justify-center mb-14">
+          <Link href="/white-paper" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
             White Paper
-          </a>
-          <a href="#" target="_blank" rel="noopener noreferrer" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
+          </Link>
+          <Link href="/bridge" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
             The Bridge (Story)
-          </a>
-          <a href="#" target="_blank" rel="noopener noreferrer" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
+          </Link>
+          <a href="#" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
             Presentation Deck
           </a>
         </div>
@@ -920,15 +1023,10 @@ function BuildWithUs() {
           <p className="text-ae-slate text-sm mb-6">
             Progress updates, early access, and ways to contribute.
           </p>
-          <form
-            className="flex flex-col sm:flex-row gap-3"
-            onSubmit={(e) => {
-              e.preventDefault();
-              alert("Newsletter signup coming soon!");
-            }}
-          >
+          <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3">
             <input
               type="email"
+              name="email"
               placeholder="your@email.com"
               required
               className="flex-1 px-5 py-3 rounded-full border border-gray-200 text-ae-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-ae-teal/30 focus:border-ae-teal"
@@ -959,11 +1057,11 @@ function Footer() {
             </div>
           </div>
           <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-gray-400">
-            <a href="#" className="hover:text-white transition-colors">White Paper</a>
-            <a href="#" className="hover:text-white transition-colors">The Bridge</a>
-            <a href="#build-with-us" className="hover:text-white transition-colors">Newsletter</a>
-            <a href="#build-with-us" className="hover:text-white transition-colors">Donate</a>
-            <a href="mailto:mattfmccormick@gmail.com" className="hover:text-white transition-colors">Contact</a>
+            <Link href="/about" className="hover:text-white transition-colors">About</Link>
+            <Link href="/white-paper" className="hover:text-white transition-colors">White Paper</Link>
+            <Link href="/bridge" className="hover:text-white transition-colors">The Bridge</Link>
+            <Link href="/fund" className="hover:text-white transition-colors">Donate</Link>
+            <Link href="/get-involved" className="hover:text-white transition-colors">Get Involved</Link>
           </div>
         </div>
         <div className="mt-10 pt-8 border-t border-white/5 text-gray-600 text-xs text-center">
@@ -984,6 +1082,7 @@ export default function Home() {
       <Hero />
       <TheBridge />
       <Personas />
+      <DesignRequirements />
       <FiatIsFailing />
       <BitcoinCantFix />
       <HowAEWorks />

@@ -8,9 +8,49 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "The Alignment Economy",
+  title: {
+    default: "The Alignment Economy | A New Way to Measure and Transfer Value",
+    template: "%s | The Alignment Economy",
+  },
   description:
-    "A new way to measure and transfer value. Daily point allocations, daily rebasing, proof of human.",
+    "The Alignment Economy is a 501(c)(3) nonprofit building a new economic system with daily point allocations, daily rebasing, and proof of human verification. Fiat is failing. Bitcoin can't fix it. This is the third way.",
+  keywords: [
+    "alignment economy",
+    "new economic system",
+    "proof of human",
+    "daily point allocations",
+    "alternative to fiat",
+    "alternative to bitcoin",
+    "nonprofit economics",
+    "invisible labor",
+    "caregiving economy",
+    "economic reform",
+    "decentralized currency",
+    "daily rebasing",
+  ],
+  authors: [{ name: "The Alignment Economy" }],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://alignmenteconomy.org",
+    siteName: "The Alignment Economy",
+    title: "The Alignment Economy | A New Way to Measure and Transfer Value",
+    description:
+      "Fiat is failing. Bitcoin can't fix it. The Alignment Economy is a 501(c)(3) building the third way: daily point allocations, daily rebasing, proof of human.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The Alignment Economy",
+    description:
+      "A new way to measure and transfer value. Daily point allocations. Daily rebasing. Proof of human.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://alignmenteconomy.org",
+  },
 };
 
 export default function RootLayout({
@@ -20,6 +60,46 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
+      <head>
+        {/* Structured data for Google/AI search */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "The Alignment Economy",
+              url: "https://alignmenteconomy.org",
+              description:
+                "A 501(c)(3) nonprofit building a new economic system that makes invisible labor visible and aligns incentives so cooperation wins.",
+              foundingDate: "2025",
+              nonprofitStatus: "501(c)(3)",
+              sameAs: [],
+              contactPoint: {
+                "@type": "ContactPoint",
+                email: "mattfmccormick@gmail.com",
+                contactType: "general",
+              },
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "The Alignment Economy",
+              url: "https://alignmenteconomy.org",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://alignmenteconomy.org/?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>
   );

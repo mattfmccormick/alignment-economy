@@ -80,9 +80,12 @@ function Nav() {
   }, []);
 
   const links = [
+    { label: "Home", href: "#" },
     { label: "About", href: "/about" },
     { label: "Get Involved", href: "/get-involved" },
     { label: "Fund", href: "/fund" },
+    { label: "White Paper", href: "/white-paper" },
+    { label: "Short Story", href: "/bridge" },
   ];
 
   return (
@@ -102,9 +105,6 @@ function Nav() {
               {l.label}
             </Link>
           ))}
-          <Link href="/white-paper" className="bg-ae-teal text-white px-5 py-2 rounded-full hover:bg-ae-teal-light transition-colors text-sm font-medium">
-            White Paper
-          </Link>
         </div>
         <button className="lg:hidden text-white p-2" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -119,9 +119,6 @@ function Nav() {
               {l.label}
             </Link>
           ))}
-          <Link href="/white-paper" className="block mt-3 text-center bg-ae-teal text-white px-5 py-3 rounded-full hover:bg-ae-teal-light transition-colors font-medium" onClick={() => setMenuOpen(false)}>
-            White Paper
-          </Link>
         </div>
       )}
     </nav>
@@ -393,7 +390,7 @@ function DesignRequirements() {
           Five Design Requirements
         </h2>
         <p className="text-ae-slate text-base text-center max-w-2xl mx-auto mb-12 leading-relaxed">
-          Any system that replaces money must satisfy all five.
+          Any successful monetary system must have all five.
         </p>
 
         <div className="overflow-x-auto">
@@ -806,8 +803,7 @@ function HowAEWorks() {
             <div className="text-ae-teal font-bold text-sm tracking-wide uppercase mb-3">Paradox #2: Solved</div>
             <h4 className="font-heading text-xl font-bold text-ae-navy mb-3">Deflation</h4>
             <p className="text-ae-slate leading-relaxed">
-              Active points expire daily (no hoarding). Rebasing keeps purchasing
-              power stable. Built for spending, not speculation.
+              Active, supportive, and ambient points expire daily (no hoarding). Earned points rebasing each day keeps purchasing power stable. Built for spending, not speculation.
             </p>
           </div>
         </div>
@@ -836,7 +832,7 @@ function WhyNow() {
               {[
                 "AI produces more, humans earn less, governments print to cover the gap.",
                 "Your savings buy less every year. This is already happening.",
-                "Your kids graduate into an economy that literally cannot see what they do.",
+                "Your kids graduate into an economy where work is much harder to find.",
                 "The spiral has no exit within the current system.",
               ].map((item) => (
                 <li key={item} className="flex gap-3 items-start">
@@ -855,7 +851,7 @@ function WhyNow() {
               {[
                 "A mother's work counts for the first time in the history of money.",
                 "A chair built to last 20 years earns more than one designed to break.",
-                "A city that works earns more than one that doesn't.",
+                "A city that people spend time in earns more than one that doesn't.",
                 "Your purchasing power is stable because math protects it, not politicians.",
               ].map((item) => (
                 <li key={item} className="flex gap-3 items-start">
@@ -929,7 +925,7 @@ function BuildWithUs() {
               Donate →
             </span>
           </Link>
-          <Link href="/get-involved" className="bg-white rounded-2xl p-8 card-hover text-center block">
+          <Link href="/get-involved?type=build" className="bg-white rounded-2xl p-8 card-hover text-center block">
             <div className="w-14 h-14 rounded-full bg-ae-teal/10 flex items-center justify-center mx-auto mb-5">
               <svg className="w-7 h-7 text-ae-teal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
@@ -937,13 +933,13 @@ function BuildWithUs() {
             </div>
             <h3 className="font-heading text-xl font-bold text-ae-navy mb-3">Build</h3>
             <p className="text-ae-slate text-sm leading-relaxed mb-4">
-              Engineers, cryptographers, economists, storytelling, and marketers who want to build something that matters.
+              Engineers, cryptographers, economists, story tellers, and marketers who want to build something that matters.
             </p>
             <span className="inline-block bg-ae-teal text-white px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-ae-teal-light transition-colors">
               Get in Touch →
             </span>
           </Link>
-          <Link href="/get-involved" className="bg-white rounded-2xl p-8 card-hover text-center block">
+          <Link href="/get-involved?type=connect" className="bg-white rounded-2xl p-8 card-hover text-center block">
             <div className="w-14 h-14 rounded-full bg-purple-500/10 flex items-center justify-center mx-auto mb-5">
               <svg className="w-7 h-7 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
@@ -951,7 +947,7 @@ function BuildWithUs() {
             </div>
             <h3 className="font-heading text-xl font-bold text-ae-navy mb-3">Connect</h3>
             <p className="text-ae-slate text-sm leading-relaxed mb-4">
-              If this isn't for you, tell us who it is for. The right collaboration is as valuable as a check.
+              If this isn't for you, tell us who it is for. The right introduction is as valuable as a check.
             </p>
             <span className="inline-block border-2 border-ae-navy text-ae-navy px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-ae-navy hover:text-white transition-colors">
               Share →
@@ -1020,15 +1016,16 @@ function Footer() {
             </div>
           </div>
           <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-gray-400">
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
             <Link href="/about" className="hover:text-white transition-colors">About</Link>
-            <Link href="/white-paper" className="hover:text-white transition-colors">White Paper</Link>
-            <Link href="/bridge" className="hover:text-white transition-colors">The Bridge</Link>
-            <Link href="/fund" className="hover:text-white transition-colors">Donate</Link>
             <Link href="/get-involved" className="hover:text-white transition-colors">Get Involved</Link>
+            <Link href="/fund" className="hover:text-white transition-colors">Fund</Link>
+            <Link href="/white-paper" className="hover:text-white transition-colors">White Paper</Link>
+            <Link href="/bridge" className="hover:text-white transition-colors">Short Story</Link>
           </div>
         </div>
         <div className="mt-10 pt-8 border-t border-white/5 text-gray-600 text-xs text-center">
-          Human attention, made into money.
+          Make value visible.
         </div>
       </div>
     </footer>

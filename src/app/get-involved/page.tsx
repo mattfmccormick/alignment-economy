@@ -1,9 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import { SubpageNav, SubpageFooter } from "@/components/site-nav";
 
-export default function GetInvolvedPage() {
+function GetInvolvedForm() {
+  const searchParams = useSearchParams();
+  const preselect = searchParams.get("type") || "build";
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -38,21 +42,6 @@ export default function GetInvolvedPage() {
   }
 
   return (
-    <>
-      <SubpageNav />
-      <main className="min-h-screen bg-ae-warm">
-        {/* Hero */}
-        <section className="py-16 md:py-24 px-6 bg-ae-navy text-white text-center">
-          <div className="max-w-3xl mx-auto">
-            <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">Get Involved</h1>
-            <p className="text-gray-300 text-lg leading-relaxed">
-              Whether you want to build, connect, or contribute in another way,
-              we'd love to hear from you.
-            </p>
-          </div>
-        </section>
-
-        {/* Form section */}
         <section className="py-16 md:py-24 px-6">
           <div className="max-w-xl mx-auto">
             {submitted ? (
@@ -98,11 +87,14 @@ export default function GetInvolvedPage() {
                     <select
                       id="type"
                       name="type"
+                      defaultValue={preselect}
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 text-ae-navy focus:outline-none focus:ring-2 focus:ring-ae-teal/30 focus:border-ae-teal bg-white"
                     >
-                      <option value="build">I want to build (engineering, storytelling, economics)</option>
+                      <option value="build">I want to build (engineering, story tellers, economics)</option>
                       <option value="connect">I want to connect (introductions, collaborations)</option>
                       <option value="contribute">I want to contribute (donate, one-time or recurring)</option>
+                      <option value="miner">I want to be a miner (run the blockchain &amp; proof of human)</option>
+                      <option value="participant">I want to be a participant (tell me when you launch)</option>
                       <option value="other">Something else</option>
                     </select>
                   </div>
@@ -134,6 +126,28 @@ export default function GetInvolvedPage() {
             )}
           </div>
         </section>
+  );
+}
+
+export default function GetInvolvedPage() {
+  return (
+    <>
+      <SubpageNav />
+      <main className="min-h-screen bg-ae-warm">
+        {/* Hero */}
+        <section className="py-16 md:py-24 px-6 bg-ae-navy text-white text-center">
+          <div className="max-w-3xl mx-auto">
+            <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">Get Involved</h1>
+            <p className="text-gray-300 text-lg leading-relaxed">
+              Whether you want to build, connect, or contribute in another way,
+              we'd love to hear from you.
+            </p>
+          </div>
+        </section>
+
+        <Suspense fallback={<div className="py-16 text-center text-ae-slate">Loading...</div>}>
+          <GetInvolvedForm />
+        </Suspense>
       </main>
       <SubpageFooter />
     </>

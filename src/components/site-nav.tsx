@@ -27,6 +27,8 @@ export function SubpageNav({ cta }: { cta?: { label: string; href: string } }) {
             <Link href="/about" className="text-gray-400 hover:text-white transition-colors">About</Link>
             <Link href="/get-involved" className="text-gray-400 hover:text-white transition-colors">Get Involved</Link>
             <Link href="/fund" className="text-gray-400 hover:text-white transition-colors">Fund</Link>
+            <Link href="/white-paper" className="text-gray-400 hover:text-white transition-colors">White Paper</Link>
+            <Link href="/bridge" className="text-gray-400 hover:text-white transition-colors">Short Story</Link>
           </div>
           <Link href="/" className="sm:hidden text-gray-400 hover:text-white text-sm transition-colors">
             ← Home
@@ -52,9 +54,12 @@ export function SubpageFooter() {
           <span className="text-gray-500 text-xs ml-2">&copy; 2026 Alignment Economy</span>
         </Link>
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-gray-400">
+          <Link href="/" className="hover:text-white transition-colors">Home</Link>
           <Link href="/about" className="hover:text-white transition-colors">About</Link>
-          <Link href="/fund" className="hover:text-white transition-colors">Fund</Link>
           <Link href="/get-involved" className="hover:text-white transition-colors">Get Involved</Link>
+          <Link href="/fund" className="hover:text-white transition-colors">Fund</Link>
+          <Link href="/white-paper" className="hover:text-white transition-colors">White Paper</Link>
+          <Link href="/bridge" className="hover:text-white transition-colors">Short Story</Link>
         </div>
       </div>
     </footer>

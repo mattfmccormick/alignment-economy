@@ -5,7 +5,7 @@ import { SubpageNav, SubpageFooter, NewsletterForm } from "@/components/site-nav
 export default function BridgePage() {
   return (
     <>
-      <SubpageNav cta={{ label: "Download PDF", href: "#" }} />
+      <SubpageNav cta={{ label: "Download .docx", href: "/The_Bridge.docx" }} />
       <main className="min-h-screen bg-white">
         {/* Hero */}
         <section className="py-16 md:py-24 px-6 bg-ae-navy text-white text-center">
@@ -32,8 +32,8 @@ export default function BridgePage() {
               <p className="text-ae-slate leading-relaxed mb-6">
                 The full story is coming soon. Subscribe to be the first to read it.
               </p>
-              <a href="#" className="inline-block bg-ae-gold text-ae-navy px-7 py-3 rounded-full font-semibold hover:bg-ae-gold-light transition-colors">
-                Download Current Draft (PDF)
+              <a href="/The_Bridge.docx" className="inline-block bg-ae-gold text-ae-navy px-7 py-3 rounded-full font-semibold hover:bg-ae-gold-light transition-colors">
+                Download The Bridge (.docx)
               </a>
             </div>
 

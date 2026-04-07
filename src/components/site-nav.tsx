@@ -43,7 +43,7 @@ export function SubpageFooter() {
         <Link href="/" className="flex items-center gap-2">
           <span className="text-ae-teal"><ALogo className="w-6 h-6" /></span>
           <span className="text-white font-semibold text-sm">Alignment Economy</span>
-          <span className="text-gray-500 text-xs ml-2">501(c)(3) nonprofit</span>
+          <span className="text-gray-500 text-xs ml-2">&copy; 2026 Alignment Economy</span>
         </Link>
         <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-gray-400">
           <Link href="/about" className="hover:text-white transition-colors">About</Link>

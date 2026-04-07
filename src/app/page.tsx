@@ -209,7 +209,7 @@ function TheBridge() {
           <ArrowRight />
           <div className="flex-1 bg-white rounded-2xl p-7 text-center card-hover ring-2 ring-ae-teal/20">
             <div className="text-4xl mb-3">🏭</div>
-            <h3 className="font-heading text-lg font-bold text-ae-navy mb-1">Model T <span className="text-ae-teal font-normal text-xs">(1908+)</span></h3>
+            <h3 className="font-heading text-lg font-bold text-ae-navy mb-1">Ford Model T <span className="text-ae-teal font-normal text-xs">(1908+)</span></h3>
             <p className="text-ae-teal text-sm font-medium">The bridge to mass adoption.</p>
           </div>
         </div>
@@ -233,17 +233,12 @@ function TheBridge() {
           </div>
           <ArrowRight />
           <div className="flex-1 bg-white rounded-2xl p-7 text-center card-hover border-2 border-ae-teal/30 ring-2 ring-ae-teal/20">
-            <div className="text-ae-teal font-bold text-xs tracking-wide uppercase mb-2">The Model T</div>
+            <div className="text-ae-teal font-bold text-xs tracking-wide uppercase mb-2">The Ford Model T</div>
             <h3 className="font-heading text-lg font-bold text-ae-navy mb-1">Alignment Economy</h3>
-            <p className="text-ae-teal text-sm font-medium">The Model T of money.</p>
+            <p className="text-ae-teal text-sm font-medium">The Ford Model T of money.</p>
           </div>
         </div>
 
-        <div className="text-center mt-6">
-          <Link href="/bridge" className="inline-flex items-center gap-2 text-ae-navy font-medium hover:text-ae-teal transition-colors text-sm">
-            Read a short story that gives another view →
-          </Link>
-        </div>
       </div>
     </section>
   );
@@ -431,6 +426,10 @@ function DesignRequirements() {
           Bitcoin met the first. Fiat meets none.{" "}
           <span className="text-ae-teal">The Alignment Economy meets all five.</span>
         </p>
+
+        <h2 className="font-heading text-3xl md:text-5xl font-bold text-ae-navy mt-16 text-center leading-tight">
+          How the Alignment Economy Works
+        </h2>
       </div>
     </section>
   );
@@ -534,37 +533,71 @@ function FiatIsFailing() {
             This cycle has already started, and it accelerates from here.
           </p>
 
-          {/* Circular loop with integrated step cards */}
-          <div className="relative max-w-2xl mx-auto">
-            {/* The circular arrow behind everything */}
-            <svg viewBox="0 0 500 500" className="w-full absolute inset-0" fill="none">
-              <path d="M250 60 A190 190 0 1 1 220 63" stroke="rgba(239,68,68,0.12)" strokeWidth="3" fill="none" />
-              <path d="M220 63 L232 50 L226 70" fill="rgba(239,68,68,0.25)" />
-              <text x="250" y="245" textAnchor="middle" fill="rgba(239,68,68,0.4)" fontSize="14" fontWeight="bold">REPEAT</text>
-              <text x="250" y="265" textAnchor="middle" fill="rgba(239,68,68,0.4)" fontSize="14" fontWeight="bold">FOREVER</text>
-            </svg>
-
-            {/* Step cards positioned in a circle */}
-            <div className="relative" style={{ paddingBottom: "100%" }}>
+          {/* Loop graphic - vertical on mobile, circular on desktop */}
+          <div className="max-w-3xl mx-auto">
+            {/* Mobile: vertical loop with connecting arrows */}
+            <div className="md:hidden space-y-0">
               {[
-                { step: "1", title: "AI gets more capable", desc: "Machines produce real output at near-zero cost.", top: "2%", left: "50%", transform: "translateX(-50%)" },
-                { step: "2", title: "Jobs are displaced", desc: "Each role AI can do cheaper is a role that disappears.", top: "28%", left: "82%", transform: "translateX(-50%)" },
-                { step: "3", title: "Government prints more", desc: "Stimulus and bailouts. Each round debases the currency.", top: "68%", left: "82%", transform: "translateX(-50%)" },
-                { step: "4", title: "Asset prices inflate", desc: "Owners get richer automatically. Everyone else is priced out.", top: "68%", left: "18%", transform: "translateX(-50%)" },
-                { step: "5", title: "Workers get squeezed", desc: "Workers ask for higher wages, but companies would rather invest in AI than pay them. Cost rises, jobs shrink.", top: "28%", left: "18%", transform: "translateX(-50%)" },
-              ].map((s) => (
-                <div
-                  key={s.step}
-                  className="absolute bg-white/5 backdrop-blur-sm border border-red-500/20 rounded-xl p-3 text-center w-[38%] sm:w-[32%]"
-                  style={{ top: s.top, left: s.left, transform: s.transform }}
-                >
-                  <div className="w-7 h-7 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 font-bold text-xs mx-auto mb-1.5">
-                    {s.step}
+                { step: "1", title: "AI gets more capable", desc: "Machines produce real output at near-zero cost." },
+                { step: "2", title: "Jobs are displaced", desc: "Each role AI can do cheaper is a role that disappears." },
+                { step: "3", title: "Government prints more", desc: "Stimulus and bailouts. Each round debases the currency." },
+                { step: "4", title: "Asset prices inflate", desc: "Owners get richer automatically. Everyone else is priced out." },
+                { step: "5", title: "Workers get squeezed", desc: "Workers ask for higher wages, but companies would rather invest in AI than pay them. Cost rises, jobs shrink." },
+              ].map((s, i) => (
+                <div key={s.step}>
+                  <div className="flex items-start gap-4">
+                    <div className="flex flex-col items-center">
+                      <div className="w-10 h-10 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-400 font-bold text-sm shrink-0">
+                        {s.step}
+                      </div>
+                      {i < 4 && <div className="w-0.5 h-8 bg-red-500/20 mt-1" />}
+                    </div>
+                    <div className="pb-4">
+                      <h4 className="text-white font-semibold text-sm mb-1">{s.title}</h4>
+                      <p className="text-gray-400 text-xs leading-relaxed">{s.desc}</p>
+                    </div>
                   </div>
-                  <h4 className="text-white font-semibold text-xs sm:text-sm mb-1">{s.title}</h4>
-                  <p className="text-gray-400 text-[10px] sm:text-xs leading-relaxed">{s.desc}</p>
                 </div>
               ))}
+              {/* Loop-back arrow */}
+              <div className="flex items-center gap-4 pl-3">
+                <svg className="w-6 h-6 text-red-400/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 9l-6 6m0 0l6 6m-6-6h18" />
+                </svg>
+                <span className="text-red-400/60 text-xs font-bold uppercase tracking-wide">Back to step 1. Repeat forever.</span>
+              </div>
+            </div>
+
+            {/* Desktop: circular layout */}
+            <div className="hidden md:block relative max-w-2xl mx-auto">
+              <svg viewBox="0 0 500 500" className="w-full absolute inset-0" fill="none">
+                <path d="M250 60 A190 190 0 1 1 220 63" stroke="rgba(239,68,68,0.12)" strokeWidth="3" fill="none" />
+                <path d="M220 63 L232 50 L226 70" fill="rgba(239,68,68,0.25)" />
+                <text x="250" y="245" textAnchor="middle" fill="rgba(239,68,68,0.4)" fontSize="14" fontWeight="bold">REPEAT</text>
+                <text x="250" y="265" textAnchor="middle" fill="rgba(239,68,68,0.4)" fontSize="14" fontWeight="bold">FOREVER</text>
+              </svg>
+
+              <div className="relative" style={{ paddingBottom: "100%" }}>
+                {[
+                  { step: "1", title: "AI gets more capable", desc: "Machines produce real output at near-zero cost.", top: "2%", left: "50%", transform: "translateX(-50%)" },
+                  { step: "2", title: "Jobs are displaced", desc: "Each role AI can do cheaper is a role that disappears.", top: "28%", left: "82%", transform: "translateX(-50%)" },
+                  { step: "3", title: "Government prints more", desc: "Stimulus and bailouts. Each round debases the currency.", top: "68%", left: "82%", transform: "translateX(-50%)" },
+                  { step: "4", title: "Asset prices inflate", desc: "Owners get richer automatically. Everyone else is priced out.", top: "68%", left: "18%", transform: "translateX(-50%)" },
+                  { step: "5", title: "Workers get squeezed", desc: "Workers ask for higher wages, but companies would rather invest in AI than pay them. Cost rises, jobs shrink.", top: "28%", left: "18%", transform: "translateX(-50%)" },
+                ].map((s) => (
+                  <div
+                    key={s.step}
+                    className="absolute bg-white/5 backdrop-blur-sm border border-red-500/20 rounded-xl p-3 text-center w-[32%]"
+                    style={{ top: s.top, left: s.left, transform: s.transform }}
+                  >
+                    <div className="w-7 h-7 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 font-bold text-xs mx-auto mb-1.5">
+                      {s.step}
+                    </div>
+                    <h4 className="text-white font-semibold text-sm mb-1">{s.title}</h4>
+                    <p className="text-gray-400 text-xs leading-relaxed">{s.desc}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -904,7 +937,7 @@ function BuildWithUs() {
             </div>
             <h3 className="font-heading text-xl font-bold text-ae-navy mb-3">Build</h3>
             <p className="text-ae-slate text-sm leading-relaxed mb-4">
-              Engineers, cryptographers, economists, and marketers who want to build something that matters.
+              Engineers, cryptographers, economists, storytelling, and marketers who want to build something that matters.
             </p>
             <span className="inline-block bg-ae-teal text-white px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-ae-teal-light transition-colors">
               Get in Touch →
@@ -918,7 +951,7 @@ function BuildWithUs() {
             </div>
             <h3 className="font-heading text-xl font-bold text-ae-navy mb-3">Connect</h3>
             <p className="text-ae-slate text-sm leading-relaxed mb-4">
-              If this isn't for you, tell us who it is for. The right introduction is as valuable as a check.
+              If this isn't for you, tell us who it is for. The right collaboration is as valuable as a check.
             </p>
             <span className="inline-block border-2 border-ae-navy text-ae-navy px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-ae-navy hover:text-white transition-colors">
               Share →
@@ -937,7 +970,10 @@ function BuildWithUs() {
           <Link href="/bridge" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
             The Bridge (Story)
           </Link>
-          <a href="#" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
+          <a href="/The_Bridge.docx" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
+            The Bridge (.docx)
+          </a>
+          <a href="/AE_Presentation_Deck.pdf" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
             Presentation Deck
           </a>
         </div>
@@ -986,7 +1022,7 @@ function Footer() {
             <span className="text-ae-teal"><ALogo className="w-8 h-8" /></span>
             <div>
               <span className="text-white font-semibold block">Alignment Economy</span>
-              <span className="text-gray-500 text-sm">A 501(c)(3) nonprofit</span>
+              <span className="text-gray-500 text-sm">&copy; 2026 Alignment Economy</span>
             </div>
           </div>
           <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-gray-400">
@@ -998,7 +1034,7 @@ function Footer() {
           </div>
         </div>
         <div className="mt-10 pt-8 border-t border-white/5 text-gray-600 text-xs text-center">
-          Building the economy that measures what matters.
+          Human attention, made into money.
         </div>
       </div>
     </footer>

@@ -100,9 +100,9 @@ export default function GetInvolvedPage() {
                       name="type"
                       className="w-full px-4 py-3 rounded-xl border border-gray-200 text-ae-navy focus:outline-none focus:ring-2 focus:ring-ae-teal/30 focus:border-ae-teal bg-white"
                     >
-                      <option value="build">I want to build (engineering, design, economics)</option>
-                      <option value="connect">I want to connect (introductions, partnerships)</option>
-                      <option value="contribute">I want to contribute (writing, research, marketing)</option>
+                      <option value="build">I want to build (engineering, storytelling, economics)</option>
+                      <option value="connect">I want to connect (introductions, collaborations)</option>
+                      <option value="contribute">I want to contribute (donate, one-time or recurring)</option>
                       <option value="other">Something else</option>
                     </select>
                   </div>

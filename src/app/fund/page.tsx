@@ -1,6 +1,6 @@
 "use client";
 
-import { SubpageNav, SubpageFooter, NewsletterForm } from "@/components/site-nav";
+import { SubpageNav, SubpageFooter } from "@/components/site-nav";
 
 export default function FundPage() {
   return (
@@ -27,8 +27,7 @@ export default function FundPage() {
               </svg>
               <h2 className="font-heading text-2xl font-bold text-ae-navy mb-4">Support the Build</h2>
               <p className="text-ae-slate text-lg leading-relaxed mb-4">
-                We need capital to bring the protocol from white paper to
-                working network. Every dollar goes directly to research,
+                Funds go directly to research,
                 engineering, and building in the open.
               </p>
               <p className="text-ae-slate/70 text-sm mb-8">
@@ -46,25 +45,6 @@ export default function FundPage() {
               </p>
             </div>
 
-            <div className="bg-white rounded-2xl p-8 text-center shadow-sm mb-12">
-              <h3 className="font-heading text-lg font-bold text-ae-navy mb-3">What your funding supports</h3>
-              <div className="grid sm:grid-cols-3 gap-4 text-sm">
-                <div className="bg-ae-warm rounded-xl p-4">
-                  <p className="font-semibold text-ae-navy mb-1">Research</p>
-                  <p className="text-ae-slate/70">Economic modeling, game theory analysis, academic review</p>
-                </div>
-                <div className="bg-ae-warm rounded-xl p-4">
-                  <p className="font-semibold text-ae-navy mb-1">Engineering</p>
-                  <p className="text-ae-slate/70">Protocol development, security audits, infrastructure</p>
-                </div>
-                <div className="bg-ae-warm rounded-xl p-4">
-                  <p className="font-semibold text-ae-navy mb-1">Outreach</p>
-                  <p className="text-ae-slate/70">Documentation, community building, partnerships</p>
-                </div>
-              </div>
-            </div>
-
-            <NewsletterForm />
           </div>
         </section>
       </main>

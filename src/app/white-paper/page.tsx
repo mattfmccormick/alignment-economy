@@ -5,7 +5,7 @@ import { SubpageNav, SubpageFooter } from "@/components/site-nav";
 export default function WhitePaperPage() {
   return (
     <>
-      <SubpageNav cta={{ label: "Download .docx", href: "/Alignment_Economy_White_Paper.docx" }} />
+      <SubpageNav cta={{ label: "Download White Paper", href: "/Alignment_Economy_White_Paper.docx" }} />
       <main className="min-h-screen bg-white">
         {/* Hero */}
         <section className="py-16 md:py-24 px-6 bg-ae-navy text-white text-center">
@@ -180,9 +180,9 @@ export default function WhitePaperPage() {
             <a href="/Alignment_Economy_White_Paper.docx" download className="inline-block bg-ae-teal text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-ae-teal-light transition-colors">
               Download White Paper (.docx)
             </a>
-            <div className="mt-6">
-              <a href="/about" className="text-ae-teal hover:text-ae-teal-light transition-colors text-sm font-medium">
-                ← Back to About
+            <div className="mt-4">
+              <a href="/AE_Math_Model.xlsx" download className="inline-block border-2 border-ae-teal text-ae-teal px-6 py-3 rounded-full text-sm font-medium hover:bg-ae-teal hover:text-white transition-colors">
+                Download Math Model (.xlsx)
               </a>
             </div>
           </div>

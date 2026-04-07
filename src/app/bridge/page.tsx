@@ -5,7 +5,7 @@ import { SubpageNav, SubpageFooter } from "@/components/site-nav";
 export default function BridgePage() {
   return (
     <>
-      <SubpageNav cta={{ label: "Download .docx", href: "/The_Bridge.docx" }} />
+      <SubpageNav cta={{ label: "Download The Bridge", href: "/The_Bridge.docx" }} />
       <main className="min-h-screen bg-white">
         {/* Hero */}
         <section className="py-16 md:py-24 px-6 bg-ae-navy text-white text-center">
@@ -13,8 +13,7 @@ export default function BridgePage() {
             <p className="text-ae-gold text-sm font-medium tracking-wide uppercase mb-4">A Short Story</p>
             <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">The Bridge</h1>
             <p className="text-gray-300 text-lg italic">A Story of How We Get What We Need</p>
-            <p className="text-gray-400 text-sm mt-4">Matt McCormick</p>
-            <p className="text-gray-500 text-xs mt-1 italic">Attention, directed the right way, can hold back the tides of entropy.</p>
+            <p className="text-gray-500 text-xs mt-4 italic">Attention, directed the right way, can hold back the tides of entropy.</p>
           </div>
         </section>
 
@@ -242,6 +241,15 @@ export default function BridgePage() {
             <p className="text-ae-navy font-semibold text-lg">"That's the game. It is infinite. The enemy is entropy. The tool is attention. The questions have always been the same: Where are you? Where do you want to go? How will you build a bridge to get there?"</p>
           </div>
         </article>
+
+        {/* Download CTA */}
+        <section className="py-12 px-6 bg-ae-warm">
+          <div className="max-w-2xl mx-auto text-center">
+            <a href="/The_Bridge.docx" download className="inline-block bg-ae-teal text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-ae-teal-light transition-colors">
+              Download The Bridge (.docx)
+            </a>
+          </div>
+        </section>
       </main>
       <SubpageFooter />
     </>

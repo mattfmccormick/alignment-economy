@@ -1,14 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Alignment Economy <onboarding@resend.dev>";
 const NOTIFY_EMAIL = "info@alignmenteconomy.org";
 
 export async function POST(req: NextRequest) {
   try {
+    const apiKey = process.env.RESEND_API_KEY;
+    console.log("RESEND_API_KEY exists:", !!apiKey);
+
+    const resend = apiKey ? new Resend(apiKey) : null;
+    const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Alignment Economy <onboarding@resend.dev>";
+
     const data = await req.json();
     const { name, email, type, message } = data;
+
     if (!name || !email || !email.includes("@")) {
       return NextResponse.json({ error: "Name and valid email required" }, { status: 400 });
     }

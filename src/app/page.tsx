@@ -81,8 +81,8 @@ function Nav() {
 
   const links = [
     { label: "About", href: "/about" },
-    { label: "Fund", href: "/fund" },
     { label: "Get Involved", href: "/get-involved" },
+    { label: "Fund", href: "/fund" },
   ];
 
   return (
@@ -151,13 +151,13 @@ function Hero() {
           <span className="hidden sm:inline text-white/20 mx-3">|</span>
           <span className="text-yellow-400 font-medium">Bitcoin can't fix this</span>
           <span className="hidden sm:inline text-white/20 mx-3">|</span>
-          <span className="text-ae-teal font-medium">The AE is a viable path forward</span>
+          <span className="text-ae-teal font-medium">The Alignment Economy is a viable path forward</span>
         </div>
 
         <p className="text-gray-400 text-base max-w-xl mx-auto mb-10 leading-relaxed">
           The global economic system is evolving: The left wants to
           redistribute. The right wants to deregulate. Both are missing the
-          point. The measuring stick is broken. This is a new way to measure
+          point. The measuring stick is broken. The Alignment Economy is a new way to measure
           and transfer value.
         </p>
 
@@ -190,7 +190,7 @@ function TheBridge() {
     <section id="the-bridge" className="py-20 md:py-28 px-6 bg-ae-warm">
       <div ref={ref} className="fade-in-section max-w-5xl mx-auto">
         <h2 className="font-heading text-3xl md:text-5xl font-bold text-ae-navy mb-16 text-center leading-tight">
-          Every breakthrough follows the same pattern
+          Technological shifts take time
         </h2>
 
         {/* Horse → Car → Model T with arrows */}
@@ -239,61 +239,10 @@ function TheBridge() {
           </div>
         </div>
 
-        {/* The Bigger Pattern as table */}
-        <div className="bg-ae-navy rounded-2xl p-8 md:p-10 max-w-3xl mx-auto">
-          <h3 className="font-heading text-xl font-bold text-white mb-6 text-center">The Bigger Pattern</h3>
-          <div className="grid grid-cols-3 gap-px bg-white/10 rounded-xl overflow-hidden mb-6">
-            {/* Header */}
-            <div className="bg-ae-navy p-4 text-center">
-              <span className="text-red-400 font-bold text-sm">1) Capture</span>
-            </div>
-            <div className="bg-ae-navy p-4 text-center">
-              <span className="text-yellow-400 font-bold text-sm">2) Convince</span>
-            </div>
-            <div className="bg-ae-navy p-4 text-center">
-              <span className="text-ae-teal font-bold text-sm">3) Coordinate</span>
-            </div>
-            {/* Strategy row */}
-            <div className="bg-white/5 p-4 text-center">
-              <p className="text-white text-sm font-medium">Take by force</p>
-            </div>
-            <div className="bg-white/5 p-4 text-center">
-              <p className="text-white text-sm font-medium">Take by persuasion</p>
-            </div>
-            <div className="bg-white/5 p-4 text-center">
-              <p className="text-ae-teal text-sm font-medium">Align incentives</p>
-            </div>
-            {/* Tools row */}
-            <div className="bg-white/5 p-4 text-center">
-              <p className="text-gray-400 text-xs">Swords, armies, empires</p>
-            </div>
-            <div className="bg-white/5 p-4 text-center">
-              <p className="text-gray-400 text-xs">Ads, media, algorithms</p>
-            </div>
-            <div className="bg-white/5 p-4 text-center">
-              <p className="text-gray-400 text-xs">Cooperation wins by design</p>
-            </div>
-            {/* Broke when row */}
-            <div className="bg-white/5 p-4 text-center">
-              <p className="text-red-400/70 text-xs">Broke: nuclear weapons</p>
-            </div>
-            <div className="bg-white/5 p-4 text-center">
-              <p className="text-yellow-400/70 text-xs">Breaking: AI + deepfakes</p>
-            </div>
-            <div className="bg-white/5 p-4 text-center">
-              <p className="text-ae-teal/70 text-xs">Building now</p>
-            </div>
-          </div>
-          <p className="text-gray-300 text-sm leading-relaxed text-center">
-            The Alignment Economy is built on the third strategy: not because
-            people are virtuous, but because the system makes cooperation the
-            winning move.
-          </p>
-          <div className="text-center mt-6">
-            <Link href="/bridge" className="inline-flex items-center gap-2 text-ae-gold font-medium hover:text-ae-gold-light transition-colors text-sm">
-              Read a short story that gives another view →
-            </Link>
-          </div>
+        <div className="text-center mt-6">
+          <Link href="/bridge" className="inline-flex items-center gap-2 text-ae-navy font-medium hover:text-ae-teal transition-colors text-sm">
+            Read a short story that gives another view →
+          </Link>
         </div>
       </div>
     </section>
@@ -420,11 +369,11 @@ function DesignRequirements() {
   const ref = useFadeIn();
 
   const reqs = [
-    { n: "1", title: "Decentralized control", desc: "No central authority may manipulate the money supply, interest rates, or transaction rules.", fiat: false, btc: true, ae: true },
-    { n: "2", title: "Minimized first-mover advantage", desc: "Late adopters must not be structurally disadvantaged relative to early adopters.", fiat: false, btc: false, ae: true },
-    { n: "3", title: "Stable purchasing power", desc: "Neither inflation nor deflation should erode or artificially increase the value of holdings.", fiat: false, btc: false, ae: true },
-    { n: "4", title: "Incentive to transact", desc: "The system must encourage buying and selling, not holding and hoping.", fiat: true, btc: false, ae: true },
-    { n: "5", title: "Visibility of contribution", desc: "Caregiving, mentorship, maintenance of spaces and durable goods must become economically visible.", fiat: false, btc: false, ae: true },
+    { n: "1", title: "Decentralized control", def: "No single entity controls the rules.", desc: "No central authority may manipulate the money supply, interest rates, or transaction rules.", fiat: false, btc: true, ae: true },
+    { n: "2", title: "Minimized first-mover advantage", def: "Joining late doesn't mean losing out.", desc: "Late adopters must not be structurally disadvantaged relative to early adopters.", fiat: false, btc: false, ae: true },
+    { n: "3", title: "Stable purchasing power", def: "What you earn today buys the same tomorrow.", desc: "Neither inflation nor deflation should erode or artificially increase the value of holdings.", fiat: false, btc: false, ae: true },
+    { n: "4", title: "Incentive to transact", def: "The system rewards spending, not hoarding.", desc: "The system must encourage buying and selling, not holding and hoping.", fiat: true, btc: false, ae: true },
+    { n: "5", title: "Visibility of contribution", def: "Caregiving, teaching, and maintenance finally count.", desc: "Caregiving, mentorship, maintenance of spaces and durable goods must become economically visible.", fiat: false, btc: false, ae: true },
   ];
 
   function Check() {
@@ -449,7 +398,7 @@ function DesignRequirements() {
           Five Design Requirements
         </h2>
         <p className="text-ae-slate text-base text-center max-w-2xl mx-auto mb-12 leading-relaxed">
-          Any system that replaces money must satisfy all five. Check for yourself.
+          Any system that replaces money must satisfy all five.
         </p>
 
         <div className="overflow-x-auto">
@@ -465,7 +414,10 @@ function DesignRequirements() {
             <tbody>
               {reqs.map((r) => (
                 <tr key={r.n} className="border-b border-gray-50">
-                  <td className="py-4 px-5 text-ae-navy text-sm font-medium">{r.title}</td>
+                  <td className="py-4 px-5">
+                    <div className="text-ae-navy text-sm font-medium">{r.title}</div>
+                    <div className="text-ae-slate/70 text-xs mt-0.5">{r.def}</div>
+                  </td>
                   <td className="py-4 px-3"><div className="check-cell">{r.fiat ? <Check /> : <Cross />}</div></td>
                   <td className="py-4 px-3"><div className="check-cell">{r.btc ? <Check /> : <Cross />}</div></td>
                   <td className="py-4 px-3"><div className="check-cell"><Check /></div></td>
@@ -576,70 +528,44 @@ function FiatIsFailing() {
       <div className="py-20 md:py-28 px-6 bg-ae-navy">
         <div className="max-w-4xl mx-auto">
           <h3 className="font-heading text-2xl md:text-3xl font-bold text-white mb-4 text-center">
-            A spiral with no clear exit
+            AI is About to Make the Situation Much Worse
           </h3>
           <p className="text-gray-400 text-center mb-14">
-            AI is about to make the situation much worse.
+            This cycle has already started, and it accelerates from here.
           </p>
 
-          {/* Circular spiral graphic */}
-          <div className="relative max-w-lg mx-auto mb-10">
-            <svg viewBox="0 0 400 400" className="w-full" fill="none">
-              {/* Outer circular arrow */}
-              <path d="M200 30 A170 170 0 1 1 170 33" stroke="rgba(239,68,68,0.15)" strokeWidth="2" fill="none" />
-              <path d="M170 33 L180 22 L175 40" fill="rgba(239,68,68,0.3)" />
-
-              {/* Step circles and labels */}
-              {/* Step 1 - top */}
-              <circle cx="200" cy="45" r="28" fill="rgba(239,68,68,0.15)" stroke="rgba(239,68,68,0.3)" strokeWidth="1" />
-              <text x="200" y="50" textAnchor="middle" fill="rgba(248,113,113,1)" fontSize="16" fontWeight="bold">1</text>
-
-              {/* Step 2 - right */}
-              <circle cx="355" cy="185" r="28" fill="rgba(239,68,68,0.15)" stroke="rgba(239,68,68,0.3)" strokeWidth="1" />
-              <text x="355" y="190" textAnchor="middle" fill="rgba(248,113,113,1)" fontSize="16" fontWeight="bold">2</text>
-
-              {/* Step 3 - bottom right */}
-              <circle cx="310" cy="350" r="28" fill="rgba(239,68,68,0.15)" stroke="rgba(239,68,68,0.3)" strokeWidth="1" />
-              <text x="310" y="355" textAnchor="middle" fill="rgba(248,113,113,1)" fontSize="16" fontWeight="bold">3</text>
-
-              {/* Step 4 - bottom left */}
-              <circle cx="90" cy="350" r="28" fill="rgba(239,68,68,0.15)" stroke="rgba(239,68,68,0.3)" strokeWidth="1" />
-              <text x="90" y="355" textAnchor="middle" fill="rgba(248,113,113,1)" fontSize="16" fontWeight="bold">4</text>
-
-              {/* Step 5 - left */}
-              <circle cx="45" cy="185" r="28" fill="rgba(239,68,68,0.15)" stroke="rgba(239,68,68,0.3)" strokeWidth="1" />
-              <text x="45" y="190" textAnchor="middle" fill="rgba(248,113,113,1)" fontSize="16" fontWeight="bold">5</text>
-
-              {/* Connecting arrows */}
-              <path d="M225 55 Q300 80 340 165" stroke="rgba(239,68,68,0.25)" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" />
-              <path d="M365 215 Q370 300 330 335" stroke="rgba(239,68,68,0.25)" strokeWidth="2" fill="none" />
-              <path d="M280 360 Q200 390 120 360" stroke="rgba(239,68,68,0.25)" strokeWidth="2" fill="none" />
-              <path d="M65 340 Q30 280 38 210" stroke="rgba(239,68,68,0.25)" strokeWidth="2" fill="none" />
-              <path d="M55 160 Q80 70 180 40" stroke="rgba(239,68,68,0.25)" strokeWidth="2" fill="none" />
-
-              {/* Center text */}
-              <text x="200" y="190" textAnchor="middle" fill="rgba(239,68,68,0.5)" fontSize="13" fontWeight="bold">REPEAT</text>
-              <text x="200" y="210" textAnchor="middle" fill="rgba(239,68,68,0.5)" fontSize="13" fontWeight="bold">FOREVER</text>
+          {/* Circular loop with integrated step cards */}
+          <div className="relative max-w-2xl mx-auto">
+            {/* The circular arrow behind everything */}
+            <svg viewBox="0 0 500 500" className="w-full absolute inset-0" fill="none">
+              <path d="M250 60 A190 190 0 1 1 220 63" stroke="rgba(239,68,68,0.12)" strokeWidth="3" fill="none" />
+              <path d="M220 63 L232 50 L226 70" fill="rgba(239,68,68,0.25)" />
+              <text x="250" y="245" textAnchor="middle" fill="rgba(239,68,68,0.4)" fontSize="14" fontWeight="bold">REPEAT</text>
+              <text x="250" y="265" textAnchor="middle" fill="rgba(239,68,68,0.4)" fontSize="14" fontWeight="bold">FOREVER</text>
             </svg>
-          </div>
 
-          {/* Step descriptions */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 max-w-5xl mx-auto">
-            {[
-              { step: "1", title: "AI gets more capable", desc: "Machines produce real output at near-zero cost." },
-              { step: "2", title: "Jobs are displaced", desc: "Each role AI can do cheaper is a role that disappears." },
-              { step: "3", title: "Government prints more", desc: "Stimulus and bailouts. Each round debases the currency." },
-              { step: "4", title: "Asset prices inflate", desc: "Owners get richer automatically. Everyone else is priced out." },
-              { step: "5", title: "Workers get squeezed", desc: "Cost rises. AI is cheaper. Back to step 1." },
-            ].map((s) => (
-              <div key={s.step} className="bg-white/5 rounded-xl p-4 text-center">
-                <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 font-bold text-sm mx-auto mb-2">
-                  {s.step}
+            {/* Step cards positioned in a circle */}
+            <div className="relative" style={{ paddingBottom: "100%" }}>
+              {[
+                { step: "1", title: "AI gets more capable", desc: "Machines produce real output at near-zero cost.", top: "2%", left: "50%", transform: "translateX(-50%)" },
+                { step: "2", title: "Jobs are displaced", desc: "Each role AI can do cheaper is a role that disappears.", top: "28%", left: "82%", transform: "translateX(-50%)" },
+                { step: "3", title: "Government prints more", desc: "Stimulus and bailouts. Each round debases the currency.", top: "68%", left: "82%", transform: "translateX(-50%)" },
+                { step: "4", title: "Asset prices inflate", desc: "Owners get richer automatically. Everyone else is priced out.", top: "68%", left: "18%", transform: "translateX(-50%)" },
+                { step: "5", title: "Workers get squeezed", desc: "Workers ask for higher wages, but companies would rather invest in AI than pay them. Cost rises, jobs shrink.", top: "28%", left: "18%", transform: "translateX(-50%)" },
+              ].map((s) => (
+                <div
+                  key={s.step}
+                  className="absolute bg-white/5 backdrop-blur-sm border border-red-500/20 rounded-xl p-3 text-center w-[38%] sm:w-[32%]"
+                  style={{ top: s.top, left: s.left, transform: s.transform }}
+                >
+                  <div className="w-7 h-7 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 font-bold text-xs mx-auto mb-1.5">
+                    {s.step}
+                  </div>
+                  <h4 className="text-white font-semibold text-xs sm:text-sm mb-1">{s.title}</h4>
+                  <p className="text-gray-400 text-[10px] sm:text-xs leading-relaxed">{s.desc}</p>
                 </div>
-                <h4 className="text-white font-semibold text-sm mb-1">{s.title}</h4>
-                <p className="text-gray-400 text-xs leading-relaxed">{s.desc}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           <p className="text-center text-xl font-bold text-ae-gold font-heading mt-12">
@@ -742,10 +668,6 @@ function HowAEWorks() {
         <h2 className="font-heading text-3xl md:text-5xl font-bold text-ae-navy mb-4 text-center leading-tight">
           A new way to measure and transfer value
         </h2>
-        <p className="text-ae-slate text-lg text-center max-w-3xl mx-auto mb-16 leading-relaxed">
-          Built from scratch for an economy where AI does the production and
-          humans do what matters.
-        </p>
 
         {/* Three Core Mechanics */}
         <div className="grid md:grid-cols-3 gap-8 mb-16">
@@ -1009,6 +931,9 @@ function BuildWithUs() {
           <Link href="/white-paper" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
             White Paper
           </Link>
+          <a href="/Alignment_Economy_White_Paper.docx" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
+            White Paper (.docx)
+          </a>
           <Link href="/bridge" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
             The Bridge (Story)
           </Link>
@@ -1016,6 +941,14 @@ function BuildWithUs() {
             Presentation Deck
           </a>
         </div>
+
+        {/* Contact email */}
+        <p className="text-center text-ae-slate text-sm mb-14">
+          Questions? Reach out at{" "}
+          <a href="mailto:info@alignmenteconomy.org" className="text-ae-teal font-medium hover:text-ae-teal-light transition-colors">
+            info@alignmenteconomy.org
+          </a>
+        </p>
 
         {/* Newsletter */}
         <div className="max-w-lg mx-auto bg-white rounded-2xl p-8 text-center">
@@ -1082,9 +1015,9 @@ export default function Home() {
       <Hero />
       <TheBridge />
       <Personas />
-      <DesignRequirements />
       <FiatIsFailing />
       <BitcoinCantFix />
+      <DesignRequirements />
       <HowAEWorks />
       <WhyNow />
       <BuildWithUs />

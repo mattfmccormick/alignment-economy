@@ -126,8 +126,8 @@ export default function GetInvolvedPage() {
                 </form>
                 <p className="text-center text-ae-slate/50 text-xs mt-6">
                   Or email directly:{" "}
-                  <a href="mailto:mattfmccormick@gmail.com" className="text-ae-teal hover:text-ae-teal-light">
-                    mattfmccormick@gmail.com
+                  <a href="mailto:info@alignmenteconomy.org" className="text-ae-teal hover:text-ae-teal-light">
+                    info@alignmenteconomy.org
                   </a>
                 </p>
               </div>

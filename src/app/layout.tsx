@@ -61,6 +61,18 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <head>
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PTYC6Z2P8G" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-PTYC6Z2P8G');
+            `,
+          }}
+        />
         {/* Structured data for Google/AI search */}
         <script
           type="application/ld+json"
@@ -77,7 +89,7 @@ export default function RootLayout({
               sameAs: [],
               contactPoint: {
                 "@type": "ContactPoint",
-                email: "mattfmccormick@gmail.com",
+                email: "info@alignmenteconomy.org",
                 contactType: "general",
               },
             }),

@@ -36,7 +36,7 @@ export default function FundPage() {
                 to discuss how you can support the project.
               </p>
               <a
-                href="mailto:mattfmccormick@gmail.com?subject=I%20want%20to%20fund%20the%20Alignment%20Economy"
+                href="mailto:info@alignmenteconomy.org?subject=I%20want%20to%20fund%20the%20Alignment%20Economy"
                 className="inline-block bg-ae-gold text-ae-navy px-8 py-4 rounded-full text-lg font-semibold hover:bg-ae-gold-light transition-colors mb-4"
               >
                 Reach Out to Donate

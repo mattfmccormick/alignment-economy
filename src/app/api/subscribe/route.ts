@@ -7,6 +7,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Valid email required" }, { status: 400 });
     }
     // TODO: Integrate with email service (Buttondown, Mailchimp, Resend, etc.)
+    // Signups should be forwarded to info@alignmenteconomy.org
     // For now, log and return success
     console.log("Newsletter signup:", email, "at", new Date().toISOString());
     return NextResponse.json({ success: true, message: "Thanks for subscribing!" });

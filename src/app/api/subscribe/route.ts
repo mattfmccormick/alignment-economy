@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const NOTIFY_EMAIL = "info@alignmenteconomy.org";
+const NOTIFY_EMAIL = "mattfmccormick@gmail.com";
 
 export async function POST(req: NextRequest) {
   try {

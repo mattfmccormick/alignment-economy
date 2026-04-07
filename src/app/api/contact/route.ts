@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "Alignment Economy <onboarding@resend.dev>";
+const NOTIFY_EMAIL = "info@alignmenteconomy.org";
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,11 +13,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Name and valid email required" }, { status: 400 });
     }
 
-    // Send notification email to info@alignmenteconomy.org
     if (resend) {
-      await resend.emails.send({
-        from: "Alignment Economy <notifications@alignmenteconomy.org>",
-        to: "info@alignmenteconomy.org",
+      console.log("Sending contact notification via Resend...");
+      const result = await resend.emails.send({
+        from: FROM_EMAIL,
+        to: NOTIFY_EMAIL,
         subject: `New Contact Form: ${type || "general"} from ${name}`,
         html: `
           <h2>New Contact Form Submission</h2>
@@ -26,13 +28,14 @@ export async function POST(req: NextRequest) {
           <p><strong>Time:</strong> ${new Date().toISOString()}</p>
         `,
       });
+      console.log("Resend result:", JSON.stringify(result));
     } else {
       console.log("RESEND_API_KEY not set. Contact form:", { name, email, type, message, at: new Date().toISOString() });
     }
 
     return NextResponse.json({ success: true, message: "Thanks! We'll be in touch." });
-  } catch (err) {
-    console.error("Contact error:", err);
+  } catch (err: unknown) {
+    console.error("Contact error:", JSON.stringify(err, Object.getOwnPropertyNames(err as object)));
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
   }
 }

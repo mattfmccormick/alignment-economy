@@ -494,7 +494,7 @@ function FiatIsFailing() {
       <div className="py-20 md:py-28 px-6 bg-[#162035]">
         <div className="max-w-3xl mx-auto">
           <h3 className="font-heading text-2xl md:text-3xl font-bold text-white mb-6 text-center">
-            And what about the value it has never measured?
+            And what about the value money has never measured?
           </h3>
           <p className="text-gray-300 text-lg text-center leading-relaxed mb-8">
             The economy can count every ad impression, every click, every
@@ -964,15 +964,9 @@ function BuildWithUs() {
           <Link href="/white-paper" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
             White Paper
           </Link>
-          <a href="/Alignment_Economy_White_Paper.docx" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
-            White Paper (.docx)
-          </a>
           <Link href="/bridge" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
             The Bridge (Story)
           </Link>
-          <a href="/The_Bridge.docx" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
-            The Bridge (.docx)
-          </a>
           <a href="/AE_Presentation_Deck.pdf" className="bg-white border border-gray-200 text-ae-navy px-6 py-3 rounded-full font-medium text-sm hover:shadow-md transition-shadow">
             Presentation Deck
           </a>

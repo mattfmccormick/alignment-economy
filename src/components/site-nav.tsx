@@ -22,7 +22,13 @@ export function SubpageNav({ cta }: { cta?: { label: string; href: string } }) {
           <span className="text-white font-semibold text-lg">Alignment Economy</span>
         </Link>
         <div className="flex items-center gap-4">
-          <Link href="/" className="text-gray-400 hover:text-white text-sm transition-colors">
+          <div className="hidden sm:flex items-center gap-4 text-sm">
+            <Link href="/" className="text-gray-400 hover:text-white transition-colors">Home</Link>
+            <Link href="/about" className="text-gray-400 hover:text-white transition-colors">About</Link>
+            <Link href="/get-involved" className="text-gray-400 hover:text-white transition-colors">Get Involved</Link>
+            <Link href="/fund" className="text-gray-400 hover:text-white transition-colors">Fund</Link>
+          </div>
+          <Link href="/" className="sm:hidden text-gray-400 hover:text-white text-sm transition-colors">
             ← Home
           </Link>
           {cta && (

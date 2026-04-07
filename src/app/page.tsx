@@ -86,6 +86,7 @@ function Nav() {
     { label: "Fund", href: "/fund" },
     { label: "White Paper", href: "/white-paper" },
     { label: "Short Story", href: "/bridge" },
+    { label: "Memes", href: "/memes" },
   ];
 
   return (
@@ -164,6 +165,9 @@ function Hero() {
           </a>
           <Link href="/white-paper" className="border-2 border-white/30 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-white/10 transition-colors">
             Read the White Paper →
+          </Link>
+          <Link href="/memes" className="border-2 border-ae-gold/50 text-ae-gold px-8 py-4 rounded-full text-lg font-medium hover:bg-ae-gold/10 transition-colors">
+            I Prefer Memes →
           </Link>
         </div>
       </div>
@@ -1022,6 +1026,7 @@ function Footer() {
             <Link href="/fund" className="hover:text-white transition-colors">Fund</Link>
             <Link href="/white-paper" className="hover:text-white transition-colors">White Paper</Link>
             <Link href="/bridge" className="hover:text-white transition-colors">Short Story</Link>
+            <Link href="/memes" className="hover:text-white transition-colors">Memes</Link>
           </div>
         </div>
         <div className="mt-10 pt-8 border-t border-white/5 text-gray-600 text-xs text-center">

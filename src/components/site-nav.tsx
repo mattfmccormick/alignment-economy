@@ -29,6 +29,7 @@ export function SubpageNav({ cta }: { cta?: { label: string; href: string } }) {
             <Link href="/fund" className="text-gray-400 hover:text-white transition-colors">Fund</Link>
             <Link href="/white-paper" className="text-gray-400 hover:text-white transition-colors">White Paper</Link>
             <Link href="/bridge" className="text-gray-400 hover:text-white transition-colors">Short Story</Link>
+            <Link href="/memes" className="text-gray-400 hover:text-white transition-colors">Memes</Link>
           </div>
           <Link href="/" className="sm:hidden text-gray-400 hover:text-white text-sm transition-colors">
             ← Home
@@ -60,6 +61,7 @@ export function SubpageFooter() {
           <Link href="/fund" className="hover:text-white transition-colors">Fund</Link>
           <Link href="/white-paper" className="hover:text-white transition-colors">White Paper</Link>
           <Link href="/bridge" className="hover:text-white transition-colors">Short Story</Link>
+          <Link href="/memes" className="hover:text-white transition-colors">Memes</Link>
         </div>
       </div>
     </footer>

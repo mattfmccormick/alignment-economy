@@ -871,10 +871,21 @@ function IconRow({e,t,s,c}:any){return <div style={{display:"flex",alignItems:"c
 // EXPORTS
 // ═══════════════════════════════════════════════════
 
-export { memes };
+// Curated meme IDs in display order per section
+const curatedOrder: string[] = [
+  // Fiat Is Failing
+  "fiat-graveyard", "what-things-cost", "printer-go-brr", "king-vs-fed", "mom-gdp", "grandma-vs-you",
+  // Why Bitcoin Can't Fix It
+  "90pct-scams", "btc-exits", "btc-pizza-math", "drake-btc", "wallet-ux", "stablecoin-trap",
+  // How the Alignment Economy Works
+  "join-anytime", "stay-at-home", "bread-stable", "vouch-system",
+];
 
-export const stageColors: Record<number, {accent: string; label: string}> = {
-  1:{accent:"#ff4444",label:"STAGE 1: AWAKENING"},
-  2:{accent:"#f7931a",label:"STAGE 2: CRYPTO CURIOUS"},
-  3:{accent:"#44ff88",label:"STAGE 3: FIRST STEP"},
-};
+const curatedSet = new Set(curatedOrder);
+const memeMap = new Map(memes.map(m => [m.id, m]));
+
+export const curatedMemes = curatedOrder
+  .filter(id => memeMap.has(id))
+  .map(id => memeMap.get(id)!);
+
+export { memes };

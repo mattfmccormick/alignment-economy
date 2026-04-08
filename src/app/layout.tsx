@@ -8,6 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://alignmenteconomy.org"),
   title: {
     default: "The Alignment Economy | A New Way to Measure and Transfer Value",
     template: "%s | The Alignment Economy",

@@ -851,20 +851,20 @@ const memes = [
 // ═══════════════════════════════════════════════════
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-function C({bg,font,center,children}:any){
-  return <div style={{width:"100%",aspectRatio:"1",background:bg,display:"flex",flexDirection:"column",fontFamily:font==="mono"?"'Courier New',monospace":"'Georgia',serif",position:"relative",overflow:"hidden",...(center?{justifyContent:"center",alignItems:"center",padding:"40px"}:{})}}>{children}</div>;
+function C({font,center,children}:any){
+  return <div className="meme-card-content" style={{width:"100%",minHeight:"280px",background:"#ffffff",display:"flex",flexDirection:"column",fontFamily:font==="mono"?"'Courier New',monospace":"'Georgia',serif",position:"relative",overflow:"visible",...(center?{justifyContent:"center",alignItems:"center",padding:"32px 28px"}:{})}}>{children}</div>;
 }
-function Top({dark,children}:any){return <div style={{padding:"28px 28px 0",fontSize:"10px",letterSpacing:"3px",color:dark?"#aaa":"#555",textTransform:"uppercase",fontFamily:"'Courier New',monospace"}}>{children}</div>}
-function Mid({gap,center,children}:any){return <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center",padding:"20px 32px",gap:gap||"16px",...(center?{alignItems:"center"}:{})}}>{children}</div>}
+function Top({children}:any){return <div style={{padding:"24px 28px 0",fontSize:"10px",letterSpacing:"3px",color:"#1b2a4a",textTransform:"uppercase",fontFamily:"'Courier New',monospace",fontWeight:"bold"}}>{children}</div>}
+function Mid({gap,center,children}:any){return <div style={{flex:1,display:"flex",flexDirection:"column",justifyContent:"center",padding:"20px 28px",gap:gap||"16px",...(center?{alignItems:"center"}:{})}}>{children}</div>}
 function Row2({children}:any){return <div style={{flex:1,display:"flex"}}>{children}</div>}
-function Half({br,dark,children}:any){return <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"20px",...(br?{borderRight:`1px solid ${dark?"#ddd":"#1a1a1a"}`}:{})}}>{children}</div>}
+function Half({br,children}:any){return <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"20px",...(br?{borderRight:"1px solid #e2e8f0"}:{})}}>{children}</div>}
 function Big({e}:any){return <div style={{fontSize:"48px",marginBottom:"12px"}}>{e}</div>}
 function Num({c,children}:any){return <div style={{color:c,fontSize:"36px",fontWeight:"bold",fontFamily:"'Georgia',serif"}}>{children}</div>}
-function Sub({dark,children}:any){return <div style={{color:dark?"#777":"#666",fontSize:"13px",marginTop:"8px",textAlign:"center",lineHeight:1.6}}>{children}</div>}
-function BoldT({dark,children}:any){return <div style={{fontSize:"14px",color:dark?"#333":"#fff",fontWeight:"bold",marginBottom:"4px"}}>{children}</div>}
-function Punch({dark,g,children}:any){return <div style={{padding:"0 28px 28px",textAlign:"center",color:dark?"#333":g?"#44ff88":"#fff",fontSize:"16px",fontFamily:"'Georgia',serif",fontStyle:"italic",lineHeight:1.5}}>{children}</div>}
-function Yr({children}:any){return <div style={{fontSize:"11px",color:"#666",letterSpacing:"2px",marginBottom:"8px"}}>{children}</div>}
-function IconRow({e,t,s,c}:any){return <div style={{display:"flex",alignItems:"center",gap:"20px",width:"100%"}}><div style={{fontSize:"44px"}}>{e}</div><div><div style={{color:c,fontSize:"24px",fontFamily:"'Georgia',serif",fontWeight:"bold"}}>{t}</div><div style={{color:"#444",fontSize:"12px",marginTop:"2px"}}>{s}</div></div></div>}
+function Sub({children}:any){return <div style={{color:"#64748b",fontSize:"13px",marginTop:"8px",textAlign:"center",lineHeight:1.6}}>{children}</div>}
+function BoldT({children}:any){return <div style={{fontSize:"14px",color:"#1b2a4a",fontWeight:"bold",marginBottom:"4px"}}>{children}</div>}
+function Punch({g,children}:any){return <div style={{padding:"0 28px 24px",textAlign:"center",color:g?"#0d9488":"#1b2a4a",fontSize:"16px",fontFamily:"'Georgia',serif",fontStyle:"italic",lineHeight:1.5,fontWeight:"600"}}>{children}</div>}
+function Yr({children}:any){return <div style={{fontSize:"11px",color:"#64748b",letterSpacing:"2px",marginBottom:"8px"}}>{children}</div>}
+function IconRow({e,t,s,c}:any){return <div style={{display:"flex",alignItems:"center",gap:"20px",width:"100%"}}><div style={{fontSize:"44px"}}>{e}</div><div><div style={{color:c,fontSize:"24px",fontFamily:"'Georgia',serif",fontWeight:"bold"}}>{t}</div><div style={{color:"#64748b",fontSize:"12px",marginTop:"2px"}}>{s}</div></div></div>}
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 // ═══════════════════════════════════════════════════

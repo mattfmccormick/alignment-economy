@@ -106,7 +106,7 @@ export default function MemesPage() {
                   {sectionMemes.map((meme) => (
                     <div
                       key={meme.id}
-                      className={`rounded-2xl overflow-hidden border ${section.border} bg-white shadow-sm hover:shadow-md transition-shadow`}
+                      className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow"
                     >
                       <div className="meme-card-inner">
                         {meme.render()}

@@ -162,9 +162,156 @@ body {
   color: var(--color-ae-navy);
 }
 
-/* Meme cards - ensure square aspect ratio renders properly in grid */
+/* Meme cards - light theme overrides for inline dark styles */
 .meme-card-inner > div {
   width: 100% !important;
+}
+.meme-card-content {
+  background: #ffffff !important;
+}
+.meme-card-content * {
+  border-color: #e2e8f0 !important;
+}
+/* Override dark background panels inside memes */
+.meme-card-content div[style*="background"] {
+  /* Keep colored backgrounds (charts, progress bars) but lighten dark ones */
+}
+/* Force white/light text to dark */
+.meme-card-content [style*="color: rgb(255, 255, 255)"],
+.meme-card-content [style*="color:#fff"],
+.meme-card-content [style*="color: #fff"] {
+  color: #1b2a4a !important;
+}
+/* Force medium gray text to readable dark */
+.meme-card-content [style*="color: rgb(136, 136, 136)"],
+.meme-card-content [style*="color:#888"],
+.meme-card-content [style*="color: #888"] {
+  color: #475569 !important;
+}
+/* Force light gray text darker */
+.meme-card-content [style*="color: rgb(102, 102, 102)"],
+.meme-card-content [style*="color:#666"],
+.meme-card-content [style*="color: #666"] {
+  color: #64748b !important;
+}
+/* Force dark gray text visible */
+.meme-card-content [style*="color: rgb(85, 85, 85)"],
+.meme-card-content [style*="color:#555"],
+.meme-card-content [style*="color: #555"] {
+  color: #64748b !important;
+}
+.meme-card-content [style*="color: rgb(68, 68, 68)"],
+.meme-card-content [style*="color:#444"],
+.meme-card-content [style*="color: #444"] {
+  color: #64748b !important;
+}
+.meme-card-content [style*="color: rgb(51, 51, 51)"],
+.meme-card-content [style*="color:#333"],
+.meme-card-content [style*="color: #333"] {
+  color: #334155 !important;
+}
+/* Force very dark bg panels to light */
+.meme-card-content [style*="background: rgb(17"],
+.meme-card-content [style*="background: rgb(10"],
+.meme-card-content [style*="background: rgb(26"],
+.meme-card-content [style*="background:#111"],
+.meme-card-content [style*="background:#1a1a1a"],
+.meme-card-content [style*="background: #1a1a1a"],
+.meme-card-content [style*="background: #111"] {
+  background: #f1f5f9 !important;
+}
+/* Override very dark backgrounds used as subtle panels */
+.meme-card-content [style*="background: rgba(255, 255, 255, 0.0"] {
+  background: #f8fafc !important;
+}
+.meme-card-content [style*="background: rgba(255,255,255,0.0"] {
+  background: #f8fafc !important;
+}
+/* Green accent text (AE solution memes) - use our teal */
+.meme-card-content [style*="color: rgb(68, 255, 136)"],
+.meme-card-content [style*="color:#44ff88"],
+.meme-card-content [style*="color: #44ff88"] {
+  color: #0d9488 !important;
+}
+/* Green bg subtle panels */
+.meme-card-content [style*="background: rgba(68, 255, 136"],
+.meme-card-content [style*="background: rgba(68,255,136"] {
+  background: rgba(13, 148, 136, 0.08) !important;
+}
+/* Green border panels */
+.meme-card-content [style*="border-color: rgb(26, 58, 26)"],
+.meme-card-content [style*="border: 1px solid #1a3a1a"],
+.meme-card-content [style*="border: 1px solid rgb(26, 58, 26)"] {
+  border-color: rgba(13, 148, 136, 0.2) !important;
+}
+/* Bitcoin orange stays */
+/* Red accent stays */
+/* Gold stays */
+/* Dark divider lines to light */
+.meme-card-content [style*="background: rgb(34, 34, 34)"],
+.meme-card-content [style*="background:#222"],
+.meme-card-content [style*="background: #222"] {
+  background: #e2e8f0 !important;
+}
+/* Progress bar dark backgrounds */
+.meme-card-content [style*="background: rgb(26, 26, 26)"] {
+  background: #e2e8f0 !important;
+}
+/* AE green subtle dark bg panels */
+.meme-card-content [style*="border: 1px solid rgb(15, 31, 15)"] {
+  border-color: rgba(13, 148, 136, 0.15) !important;
+}
+/* Dark green text to our teal */
+.meme-card-content [style*="color: rgb(42, 107, 58)"],
+.meme-card-content [style*="color:#2a6b3a"],
+.meme-card-content [style*="color: #2a6b3a"] {
+  color: #0d9488 !important;
+}
+.meme-card-content [style*="color: rgb(85, 107, 85)"],
+.meme-card-content [style*="color:#556b55"],
+.meme-card-content [style*="color: #556b55"] {
+  color: #0d9488 !important;
+}
+/* CCC gray (used for large $0 etc) */
+.meme-card-content [style*="color: rgb(204, 204, 204)"],
+.meme-card-content [style*="color:#ccc"],
+.meme-card-content [style*="color: #ccc"] {
+  color: #cbd5e1 !important;
+}
+/* AAA gray labels */
+.meme-card-content [style*="color: rgb(170, 170, 170)"],
+.meme-card-content [style*="color:#aaa"],
+.meme-card-content [style*="color: #aaa"] {
+  color: #94a3b8 !important;
+}
+/* BBB gray */
+.meme-card-content [style*="color: rgb(187, 187, 187)"],
+.meme-card-content [style*="color:#bbb"],
+.meme-card-content [style*="color: #bbb"] {
+  color: #94a3b8 !important;
+}
+/* Subtle bg for BTC-themed panels */
+.meme-card-content [style*="background: rgba(247, 147, 26"] {
+  background: rgba(247, 147, 26, 0.06) !important;
+}
+/* Dark BTC-border panels */
+.meme-card-content [style*="border: 1px solid rgb(51, 42, 26)"] {
+  border-color: rgba(247, 147, 26, 0.2) !important;
+}
+/* Red subtle panels */
+.meme-card-content [style*="background: rgba(255, 68, 68"] {
+  background: rgba(239, 68, 68, 0.06) !important;
+}
+.meme-card-content [style*="border: 1px solid rgb(51, 17, 17)"] {
+  border-color: rgba(239, 68, 68, 0.2) !important;
+}
+/* Radial gradient overlays - remove */
+.meme-card-content [style*="radial-gradient"] {
+  background: transparent !important;
+}
+/* Dark blue meme bg to white */
+.meme-card-content [style*="background: rgb(26, 26, 46)"] {
+  background: #ffffff !important;
 }
 
 /* Pulse animation on scroll arrival */

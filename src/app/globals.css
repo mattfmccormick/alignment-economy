@@ -162,6 +162,11 @@ body {
   color: var(--color-ae-navy);
 }
 
+/* Meme cards - ensure square aspect ratio renders properly in grid */
+.meme-card-inner > div {
+  width: 100% !important;
+}
+
 /* Pulse animation on scroll arrival */
 @keyframes sectionPulse {
   0% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.3); }

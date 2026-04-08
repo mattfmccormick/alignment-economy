@@ -1,167 +1,145 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback } from "react";
 import { SubpageNav, SubpageFooter } from "@/components/site-nav";
-import { memes, stageColors } from "./meme-data";
+import { memes } from "./meme-data";
+
+const sections = [
+  {
+    id: "fiat-failing",
+    stage: 1,
+    title: "The Problem: Fiat Is Failing",
+    subtitle: "The measuring stick is broken. Every fiat currency in history has failed. Invisible labor, inflation by design, and AI accelerating the decline.",
+    accent: "text-red-400",
+    border: "border-red-400/30",
+    bg: "bg-red-500/5",
+  },
+  {
+    id: "bitcoin-cant-fix",
+    stage: 2,
+    title: "The Attempt: Why Bitcoin Can't Fix It",
+    subtitle: "Bitcoin proved decentralized value transfer works. But first-mover advantage and deflation mean it will never be daily money.",
+    accent: "text-yellow-500",
+    border: "border-yellow-500/30",
+    bg: "bg-yellow-500/5",
+  },
+  {
+    id: "alignment-economy",
+    stage: 3,
+    title: "The Solution: How the Alignment Economy Works",
+    subtitle: "Daily point allocations, daily rebasing, proof of human. A system built for spending, not speculation, that finally sees invisible work.",
+    accent: "text-ae-teal",
+    border: "border-ae-teal/30",
+    bg: "bg-ae-teal/5",
+  },
+];
 
 export default function MemesPage() {
-  const [selected, setSelected] = useState(0);
-  const [stageFilter, setStageFilter] = useState<number | "hearts" | null>(null);
-  const [hearts, setHearts] = useState<Record<string, boolean>>({});
-
-  const heartCount = Object.values(hearts).filter(Boolean).length;
-  const showHearted = stageFilter === "hearts";
-  const filtered = typeof stageFilter === "number" ? memes.filter(m => m.stage === stageFilter) : memes;
-  const displayMemes = showHearted ? memes.filter(m => hearts[m.id]) : filtered;
-  const displayCurrent = displayMemes[selected] || displayMemes[0];
-  const displaySc = displayCurrent ? stageColors[displayCurrent.stage] : stageColors[1];
-
-  const toggleHeart = () => {
-    const m = displayMemes[selected];
-    if (m) setHearts(h => ({ ...h, [m.id]: !h[m.id] }));
-  };
+  const scrollToSection = useCallback((id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  }, []);
 
   return (
     <>
       <SubpageNav />
-      <main className="min-h-screen bg-[#080808]">
+      <main className="min-h-screen bg-ae-warm">
         {/* Hero */}
         <section className="py-12 md:py-16 px-6 bg-ae-navy text-white text-center">
           <div className="max-w-3xl mx-auto">
-            <p className="text-ae-gold text-sm font-medium tracking-wide uppercase mb-4">64 Memes Across 3 Stages</p>
             <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">The Alignment Economy in Memes</h1>
-            <p className="text-gray-300 text-lg leading-relaxed">
-              The problem, the failed fixes, and the path forward. One meme at a time.
+            <p className="text-gray-300 text-lg leading-relaxed mb-8">
+              The problem, the failed fix, and the path forward. {memes.length} memes across three stages.
             </p>
+
+            {/* Jump nav */}
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              {sections.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => scrollToSection(s.id)}
+                  className={`px-5 py-2.5 rounded-full text-sm font-medium border transition-colors hover:bg-white/10 ${s.border} ${s.accent}`}
+                >
+                  {s.title.split(": ")[1]} ↓
+                </button>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Filter tabs */}
-        <div className="px-6 py-4 border-b border-white/5">
-          <div className="max-w-xl mx-auto flex flex-wrap gap-2 justify-center">
-            {([
-              { val: null, label: "All" },
-              { val: 1, label: "Awakening" },
-              { val: 2, label: "Crypto Curious" },
-              { val: 3, label: "First Step" },
-              { val: "hearts" as const, label: `Saved ${heartCount}` },
-            ]).map(f => (
+        {/* Sticky jump nav on scroll */}
+        <div className="sticky top-16 z-40 bg-ae-navy/95 backdrop-blur-md border-b border-white/10 px-6 py-3">
+          <div className="max-w-6xl mx-auto flex gap-2 justify-center overflow-x-auto">
+            {sections.map((s) => (
               <button
-                key={f.label}
-                onClick={() => { setStageFilter(f.val); setSelected(0); }}
-                className="px-4 py-1.5 rounded-full text-xs tracking-wide transition-colors"
-                style={{
-                  border: "1px solid",
-                  borderColor: stageFilter === f.val
-                    ? (f.val === "hearts" ? "#ff4444" : stageColors[typeof f.val === "number" ? f.val : 1]?.accent || "#222")
-                    : "#222",
-                  background: stageFilter === f.val ? "rgba(255,255,255,0.05)" : "transparent",
-                  color: stageFilter === f.val ? "#fff" : "#555",
-                  fontFamily: "'Courier New',monospace",
-                }}
+                key={s.id}
+                onClick={() => scrollToSection(s.id)}
+                className={`px-4 py-1.5 rounded-full text-xs font-medium border whitespace-nowrap transition-colors hover:bg-white/10 ${s.border} ${s.accent}`}
               >
-                {f.label}
+                {s.title.split(": ")[1]}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Meme viewer */}
-        {displayMemes.length === 0 ? (
-          <div className="py-20 text-center text-gray-600 text-sm">
-            No saved memes yet. Browse and tap the heart on the ones that hit.
-          </div>
-        ) : (
-          <div className="px-6 py-8 max-w-[500px] mx-auto">
-            {/* Stage label */}
-            <div
-              className="text-[10px] tracking-widest mb-3 opacity-70"
-              style={{ color: displaySc?.accent }}
-            >
-              {displaySc?.label}
-            </div>
+        {/* Meme sections */}
+        {sections.map((section) => {
+          const sectionMemes = memes.filter(m => m.stage === section.stage);
+          return (
+            <section key={section.id} id={section.id} className="py-16 md:py-20 px-6">
+              <div className="max-w-6xl mx-auto">
+                {/* Section header */}
+                <div className="text-center mb-12">
+                  <h2 className={`font-heading text-3xl md:text-4xl font-bold text-ae-navy mb-3`}>
+                    {section.title}
+                  </h2>
+                  <p className="text-ae-slate text-base max-w-2xl mx-auto leading-relaxed">
+                    {section.subtitle}
+                  </p>
+                  <div className={`mt-4 text-sm ${section.accent} font-medium`}>
+                    {sectionMemes.length} memes
+                  </div>
+                </div>
 
-            {/* Meme card */}
-            <div
-              className="rounded-2xl overflow-hidden"
-              style={{
-                border: "1px solid #1a1a1a",
-                boxShadow: `0 0 60px ${displaySc?.accent}08`,
-              }}
-            >
-              {displayCurrent && displayCurrent.render()}
-            </div>
-
-            {/* Heart + Nav row */}
-            <div className="flex justify-between items-center mt-5 px-1">
-              <button
-                onClick={() => setSelected(Math.max(0, selected - 1))}
-                disabled={selected === 0}
-                className="px-4 py-2 rounded-lg border text-xs transition-colors"
-                style={{
-                  background: selected === 0 ? "#111" : "#1a1a1a",
-                  borderColor: "#222",
-                  color: selected === 0 ? "#333" : "#888",
-                  cursor: selected === 0 ? "default" : "pointer",
-                  fontFamily: "'Courier New',monospace",
-                }}
-              >
-                &larr;
-              </button>
-
-              <button
-                onClick={toggleHeart}
-                className="px-6 py-2.5 rounded-full text-lg transition-all"
-                style={{
-                  background: hearts[displayCurrent?.id] ? "rgba(255,68,68,0.15)" : "rgba(255,255,255,0.03)",
-                  border: hearts[displayCurrent?.id] ? "1px solid #ff4444" : "1px solid #222",
-                }}
-              >
-                {hearts[displayCurrent?.id] ? "❤️" : "🤍"}
-              </button>
-
-              <div className="text-xs text-gray-600 min-w-[50px] text-center" style={{ fontFamily: "'Courier New',monospace" }}>
-                {selected + 1}/{displayMemes.length}
+                {/* Meme grid: 1 col mobile, 2 col tablet, 3 col desktop */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {sectionMemes.map((meme) => (
+                    <div
+                      key={meme.id}
+                      className={`rounded-2xl overflow-hidden border ${section.border} bg-white shadow-sm hover:shadow-md transition-shadow`}
+                    >
+                      <div className="meme-card-inner">
+                        {meme.render()}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              <button
-                onClick={() => setSelected(Math.min(displayMemes.length - 1, selected + 1))}
-                disabled={selected === displayMemes.length - 1}
-                className="px-4 py-2 rounded-lg border text-xs transition-colors"
-                style={{
-                  background: selected === displayMemes.length - 1 ? "#111" : "#1a1a1a",
-                  borderColor: "#222",
-                  color: selected === displayMemes.length - 1 ? "#333" : "#888",
-                  cursor: selected === displayMemes.length - 1 ? "default" : "pointer",
-                  fontFamily: "'Courier New',monospace",
-                }}
-              >
-                &rarr;
-              </button>
-            </div>
+              {/* Divider between sections */}
+              <div className="max-w-xs mx-auto mt-16 border-t border-gray-200" />
+            </section>
+          );
+        })}
 
-            {/* Thumbnail grid */}
-            <div className="grid grid-cols-4 gap-1.5 mt-5">
-              {displayMemes.map((m, i) => (
-                <button
-                  key={m.id}
-                  onClick={() => setSelected(i)}
-                  className="aspect-square rounded-lg overflow-hidden relative flex flex-col items-center justify-center gap-1 p-1.5"
-                  style={{
-                    border: selected === i ? `2px solid ${stageColors[m.stage].accent}` : "2px solid #1a1a1a",
-                    background: "#111",
-                  }}
-                >
-                  {hearts[m.id] && <div className="absolute top-1 right-1 text-[8px]">❤️</div>}
-                  <div className="text-[7px] tracking-wide" style={{ color: stageColors[m.stage].accent }}>S{m.stage}</div>
-                  <div className="text-[7px] text-gray-500 text-center leading-tight" style={{ fontFamily: "'Courier New',monospace" }}>
-                    {m.id.replace(/-/g, " ")}
-                  </div>
-                </button>
-              ))}
+        {/* Bottom CTA */}
+        <section className="py-16 px-6 bg-ae-navy text-white text-center">
+          <div className="max-w-2xl mx-auto">
+            <h2 className="font-heading text-2xl md:text-3xl font-bold mb-4">Want the full picture?</h2>
+            <p className="text-gray-400 mb-8">Read the white paper, the short story, or get involved.</p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a href="/white-paper" className="bg-ae-teal text-white px-6 py-3 rounded-full font-medium hover:bg-ae-teal-light transition-colors">
+                Read the White Paper
+              </a>
+              <a href="/bridge" className="border border-white/30 text-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-colors">
+                Read the Short Story
+              </a>
+              <a href="/get-involved" className="border border-ae-gold/50 text-ae-gold px-6 py-3 rounded-full font-medium hover:bg-ae-gold/10 transition-colors">
+                Get Involved
+              </a>
             </div>
           </div>
-        )}
+        </section>
       </main>
       <SubpageFooter />
     </>

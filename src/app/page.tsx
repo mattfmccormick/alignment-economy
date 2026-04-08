@@ -160,12 +160,12 @@ function Hero() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link href="/white-paper" className="border-2 border-white/30 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-white/10 transition-colors">
+            ← Read the White Paper
+          </Link>
           <a href="#the-bridge" className="bg-ae-teal text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-ae-teal-light transition-colors">
             Show Me What You Mean ↓
           </a>
-          <Link href="/white-paper" className="border-2 border-white/30 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-white/10 transition-colors">
-            Read the White Paper →
-          </Link>
           <Link href="/memes" className="border-2 border-ae-gold/50 text-ae-gold px-8 py-4 rounded-full text-lg font-medium hover:bg-ae-gold/10 transition-colors">
             I Prefer Memes →
           </Link>

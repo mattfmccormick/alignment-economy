@@ -83,9 +83,7 @@ export default function MemesPage() {
                       key={meme.id}
                       className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow"
                     >
-                      <div className="meme-card-inner">
-                        {meme.render()}
-                      </div>
+                      {meme.render()}
                     </div>
                   ))}
                 </div>

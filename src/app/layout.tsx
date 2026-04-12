@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: "%s | The Alignment Economy",
   },
   description:
-    "The Alignment Economy is a 501(c)(3) nonprofit building a new economic system with daily point allocations, daily rebasing, and proof of human verification. Fiat is failing. Bitcoin can't fix it. This is the third way.",
+    "The global economic system is evolving: The left wants to redistribute. The right wants to deregulate. Both are missing the point. The Alignment Economy is a 501(c)(3) nonprofit building a new way to measure and transfer value.",
   keywords: [
     "alignment economy",
     "new economic system",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "The Alignment Economy",
     title: "The Alignment Economy | A New Way to Measure and Transfer Value",
     description:
-      "Fiat is failing. Bitcoin can't fix it. The Alignment Economy is a 501(c)(3) building the third way: daily point allocations, daily rebasing, proof of human.",
+      "The global economic system is evolving: The left wants to redistribute. The right wants to deregulate. Both are missing the point.",
   },
   twitter: {
     card: "summary_large_image",

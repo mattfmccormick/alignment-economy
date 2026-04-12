@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: "The Bridge: A Short Story",
   description:
     "A short story about the three eras of human economics: Capture, Convince, and Coordinate. How do we get what we need without taking it or tricking people into giving it?",
+  alternates: { canonical: "https://alignmenteconomy.org/bridge" },
   openGraph: {
     title: "The Bridge: A Short Story | The Alignment Economy",
     description:

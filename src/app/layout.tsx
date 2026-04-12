@@ -104,11 +104,6 @@ export default function RootLayout({
               "@type": "WebSite",
               name: "The Alignment Economy",
               url: "https://alignmenteconomy.org",
-              potentialAction: {
-                "@type": "SearchAction",
-                target: "https://alignmenteconomy.org/?q={search_term_string}",
-                "query-input": "required name=search_term_string",
-              },
             }),
           }}
         />

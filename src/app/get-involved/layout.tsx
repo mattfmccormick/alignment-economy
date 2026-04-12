@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: "Get Involved",
   description:
     "Join the Alignment Economy. Build the protocol, connect us with collaborators, run the blockchain as a miner, or sign up to be notified when we launch.",
+  alternates: { canonical: "https://alignmenteconomy.org/get-involved" },
   openGraph: {
     title: "Get Involved | The Alignment Economy",
     description:

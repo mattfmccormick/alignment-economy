@@ -12,5 +12,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/get-involved`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/fund`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${base}/memes`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${base}/demo`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
   ];
 }

@@ -87,6 +87,7 @@ function Nav() {
     { label: "White Paper", href: "/white-paper" },
     { label: "Short Story", href: "/bridge" },
     { label: "Memes", href: "/memes" },
+    { label: "Demo", href: "/demo" },
   ];
 
   return (

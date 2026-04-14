@@ -30,6 +30,7 @@ export function SubpageNav({ cta }: { cta?: { label: string; href: string } }) {
             <Link href="/white-paper" className="text-gray-400 hover:text-white transition-colors">White Paper</Link>
             <Link href="/bridge" className="text-gray-400 hover:text-white transition-colors">Short Story</Link>
             <Link href="/memes" className="text-gray-400 hover:text-white transition-colors">Memes</Link>
+            <Link href="/demo" className="text-ae-teal hover:text-ae-teal-light transition-colors font-medium">Demo</Link>
           </div>
           <Link href="/" className="sm:hidden text-gray-400 hover:text-white text-sm transition-colors">
             ← Home
@@ -47,21 +48,28 @@ export function SubpageNav({ cta }: { cta?: { label: string; href: string } }) {
 
 export function SubpageFooter() {
   return (
-    <footer className="py-10 px-6 bg-ae-navy border-t border-white/10">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-ae-teal"><ALogo className="w-6 h-6" /></span>
-          <span className="text-white font-semibold text-sm">Alignment Economy</span>
-          <span className="text-gray-500 text-xs ml-2">&copy; 2026 Alignment Economy</span>
-        </Link>
-        <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-gray-400">
-          <Link href="/" className="hover:text-white transition-colors">Home</Link>
-          <Link href="/about" className="hover:text-white transition-colors">About</Link>
-          <Link href="/get-involved" className="hover:text-white transition-colors">Get Involved</Link>
-          <Link href="/fund" className="hover:text-white transition-colors">Fund</Link>
-          <Link href="/white-paper" className="hover:text-white transition-colors">White Paper</Link>
-          <Link href="/bridge" className="hover:text-white transition-colors">Short Story</Link>
-          <Link href="/memes" className="hover:text-white transition-colors">Memes</Link>
+    <footer className="bg-ae-navy border-t border-white/10">
+      {/* Email capture */}
+      <div className="py-12 px-6 border-b border-white/10">
+        <NewsletterForm />
+      </div>
+      <div className="py-8 px-6">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+          <Link href="/" className="flex items-center gap-2">
+            <span className="text-ae-teal"><ALogo className="w-6 h-6" /></span>
+            <span className="text-white font-semibold text-sm">Alignment Economy</span>
+            <span className="text-gray-500 text-xs ml-2">&copy; 2026 Alignment Economy</span>
+          </Link>
+          <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-gray-400">
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+            <Link href="/about" className="hover:text-white transition-colors">About</Link>
+            <Link href="/get-involved" className="hover:text-white transition-colors">Get Involved</Link>
+            <Link href="/fund" className="hover:text-white transition-colors">Fund</Link>
+            <Link href="/white-paper" className="hover:text-white transition-colors">White Paper</Link>
+            <Link href="/bridge" className="hover:text-white transition-colors">Short Story</Link>
+            <Link href="/memes" className="hover:text-white transition-colors">Memes</Link>
+            <Link href="/demo" className="hover:text-white transition-colors">Demo</Link>
+          </div>
         </div>
       </div>
     </footer>

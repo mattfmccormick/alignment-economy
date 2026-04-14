@@ -53,7 +53,7 @@ const memes: Meme[] = [
   {
     stage: 1,
     id: "money-debasement",
-    render: () => <ImgMeme src="/memes/Money Debasement.png" alt="Money printer go brrr vs coin ridges: they're the same picture" />,
+    render: () => <ImgMeme src="/memes/money-debasement.png" alt="Money printer go brrr vs coin ridges: they're the same picture" />,
   },
 
   // ───────────────────────────────────────

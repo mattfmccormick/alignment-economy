@@ -50,6 +50,11 @@ const memes: Meme[] = [
     id: "taxes-theft",
     render: () => <ImgMeme src="/memes/taxes-theft.jpeg" alt="Why are we forced to pay taxes if they print all the money they want anyway? It's theft, son." />,
   },
+  {
+    stage: 1,
+    id: "money-debasement",
+    render: () => <ImgMeme src="/memes/Money Debasement.png" alt="Money printer go brrr vs coin ridges: they're the same picture" />,
+  },
 
   // ───────────────────────────────────────
   // STAGE 2: WHY BITCOIN CAN'T FIX IT

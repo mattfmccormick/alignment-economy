@@ -77,16 +77,23 @@ export default function MemesPage() {
                 </div>
 
                 {/* Meme grid: 1 col mobile, 2 col tablet, 3 col desktop */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {sectionMemes.map((meme) => (
-                    <div
-                      key={meme.id}
-                      className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow"
-                    >
-                      {meme.render()}
-                    </div>
-                  ))}
-                </div>
+                {sectionMemes.length > 0 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {sectionMemes.map((meme) => (
+                      <div
+                        key={meme.id}
+                        className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow"
+                      >
+                        {meme.render()}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-16 border border-dashed border-gray-300 rounded-2xl bg-white/50">
+                    <p className="text-ae-slate text-lg font-medium mb-2">Coming soon</p>
+                    <p className="text-gray-400 text-sm">New memes for this section are on the way.</p>
+                  </div>
+                )}
               </div>
 
               {/* Divider between sections */}

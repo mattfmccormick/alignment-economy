@@ -55,6 +55,16 @@ const memes: Meme[] = [
     id: "money-debasement",
     render: () => <ImgMeme src="/memes/money-debasement.png" alt="Money printer go brrr vs coin ridges: they're the same picture" />,
   },
+  {
+    stage: 1,
+    id: "brain-inflation",
+    render: () => <ImgMeme src="/memes/brain_sleep_inflation.png" alt="Inflation sure is high these days. Why did a Coke cost 5 cents in 1912 but $2 today?" />,
+  },
+  {
+    stage: 1,
+    id: "trolly",
+    render: () => <ImgMeme src="/memes/trolly.webp" alt="Trolley problem meme" />,
+  },
 
   // ───────────────────────────────────────
   // STAGE 2: WHY BITCOIN CAN'T FIX IT

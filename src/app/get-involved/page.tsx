@@ -149,7 +149,7 @@ export default function GetInvolvedPage() {
           <GetInvolvedForm />
         </Suspense>
       </main>
-      <SubpageFooter />
+      <SubpageFooter hideNewsletter />
     </>
   );
 }

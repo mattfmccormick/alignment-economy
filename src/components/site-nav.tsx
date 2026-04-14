@@ -46,13 +46,14 @@ export function SubpageNav({ cta }: { cta?: { label: string; href: string } }) {
   );
 }
 
-export function SubpageFooter() {
+export function SubpageFooter({ hideNewsletter }: { hideNewsletter?: boolean } = {}) {
   return (
     <footer className="bg-ae-navy border-t border-white/10">
-      {/* Email capture */}
-      <div className="py-12 px-6 border-b border-white/10">
-        <NewsletterForm />
-      </div>
+      {!hideNewsletter && (
+        <div className="py-12 px-6 border-b border-white/10">
+          <NewsletterForm />
+        </div>
+      )}
       <div className="py-8 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <Link href="/" className="flex items-center gap-2">

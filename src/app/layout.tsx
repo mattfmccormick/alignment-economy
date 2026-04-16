@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: "%s | The Alignment Economy",
   },
   description:
-    "The global economic system is evolving: The left wants to redistribute. The right wants to deregulate. Both are missing the point. The Alignment Economy is a 501(c)(3) nonprofit building a new way to measure and transfer value.",
+    "The global economic system is evolving: The left wants to redistribute. The right wants to deregulate. Both are missing the point. The Alignment Economy is a nonprofit building a new way to measure and transfer value.",
   keywords: [
     "alignment economy",
     "new economic system",
@@ -88,9 +88,8 @@ export default function RootLayout({
               name: "The Alignment Economy",
               url: "https://alignmenteconomy.org",
               description:
-                "A 501(c)(3) nonprofit building a new economic system that makes invisible labor visible and aligns incentives so cooperation wins.",
+                "A nonprofit building a new economic system that makes invisible labor visible and aligns incentives so cooperation wins.",
               foundingDate: "2025",
-              nonprofitStatus: "501(c)(3)",
               sameAs: [],
               contactPoint: {
                 "@type": "ContactPoint",

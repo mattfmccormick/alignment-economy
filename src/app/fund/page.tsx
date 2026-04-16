@@ -12,8 +12,8 @@ export default function FundPage() {
           <div className="max-w-3xl mx-auto">
             <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">Fund a Public Good</h1>
             <p className="text-gray-300 text-lg leading-relaxed">
-              The Alignment Economy is a 501(c)(3) nonprofit. No equity, no
-              token sale, no ICO. Contributions are tax-deductible.
+              The Alignment Economy is a nonprofit. No equity, no
+              token sale, no ICO.
             </p>
           </div>
         </section>
@@ -41,7 +41,7 @@ export default function FundPage() {
                 Reach Out to Donate
               </a>
               <p className="text-ae-slate/50 text-xs">
-                We accept fiat and crypto. All contributions are tax-deductible.
+                We accept fiat and crypto.
               </p>
             </div>
 

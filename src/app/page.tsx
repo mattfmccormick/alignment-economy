@@ -924,7 +924,7 @@ function BuildWithUs() {
             </div>
             <h3 className="font-heading text-xl font-bold text-ae-navy mb-3">Fund</h3>
             <p className="text-ae-slate text-sm leading-relaxed mb-4">
-              Fund the build. 501(c)(3). Tax-deductible. No token sales, no equity, no ICO.
+              Fund the build. Nonprofit. No token sales, no equity, no ICO.
             </p>
             <span className="inline-block bg-ae-gold text-ae-navy px-6 py-2.5 rounded-full font-semibold text-sm hover:bg-ae-gold-light transition-colors">
               Donate →

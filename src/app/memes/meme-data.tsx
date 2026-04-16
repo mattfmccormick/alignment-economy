@@ -65,6 +65,16 @@ const memes: Meme[] = [
     id: "trolly",
     render: () => <ImgMeme src="/memes/trolly.webp" alt="Trolley problem meme" />,
   },
+  {
+    stage: 1,
+    id: "sahm1",
+    render: () => <ImgMeme src="/memes/sahm1.jpg" alt="Stay-at-home mom contribution is invisible in the economy" />,
+  },
+  {
+    stage: 1,
+    id: "dollar-losing-value",
+    render: () => <ImgMeme src="/memes/dollar-losing-value.jpg" alt="The dollar is losing value every year" />,
+  },
 
   // ───────────────────────────────────────
   // STAGE 2: WHY BITCOIN CAN'T FIX IT

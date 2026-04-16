@@ -148,17 +148,13 @@ function Hero() {
           Your mom&apos;s work was never counted.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0 mb-8 text-xs sm:text-sm tracking-wide uppercase">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0 mb-10 text-xs sm:text-sm tracking-wide uppercase">
           <span className="text-red-400 font-medium">Fiat is failing</span>
           <span className="hidden sm:inline text-white/20 mx-3">|</span>
           <span className="text-yellow-400 font-medium">Bitcoin can't fix this</span>
           <span className="hidden sm:inline text-white/20 mx-3">|</span>
           <span className="text-ae-teal font-medium">Alignment Economy makes value visible</span>
         </div>
-
-        <p className="font-heading text-2xl md:text-3xl text-ae-gold mb-10 tracking-tight">
-          Make value visible.
-        </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link href="/white-paper" className="border-2 border-white/30 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-white/10 transition-colors">

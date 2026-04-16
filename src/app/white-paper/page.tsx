@@ -13,8 +13,7 @@ export default function WhitePaperPage() {
             <p className="text-ae-teal text-sm font-medium tracking-wide uppercase mb-4">White Paper</p>
             <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">The Alignment Economy</h1>
             <p className="text-gray-300 text-lg italic">A Usable Peer-to-Peer Electronic Cash System</p>
-            <p className="text-gray-400 text-sm mt-4">Matt McCormick</p>
-            <p className="text-gray-500 text-xs mt-1 italic">Purpose of this paper: to make the Alignment Economy clear enough for critique and to attract builders who can strengthen it, bring it into the world, and tell the stories required for adoption.</p>
+            <p className="text-gray-500 text-xs mt-4 italic">Purpose of this paper: to make the Alignment Economy clear enough for critique and to attract builders who can strengthen it, bring it into the world, and tell the stories required for adoption.</p>
           </div>
         </section>
 

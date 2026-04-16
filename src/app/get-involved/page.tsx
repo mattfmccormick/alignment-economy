@@ -139,8 +139,7 @@ export default function GetInvolvedPage() {
           <div className="max-w-3xl mx-auto">
             <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">Get Involved</h1>
             <p className="text-gray-300 text-lg leading-relaxed">
-              Whether you want to build, connect, or contribute in another way,
-              we'd love to hear from you.
+              Whether you want to build, connect, or contribute we&apos;d love to hear from you.
             </p>
           </div>
         </section>

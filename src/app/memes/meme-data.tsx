@@ -78,8 +78,32 @@ const memes: Meme[] = [
 
   // ───────────────────────────────────────
   // STAGE 2: WHY BITCOIN CAN'T FIX IT
-  // (New memes coming)
   // ───────────────────────────────────────
+  {
+    stage: 2,
+    id: "then-and-now",
+    render: () => <ImgMeme src="/memes/then-and-now.jpg" alt="Bitcoin then and now: from payment to speculation" />,
+  },
+  {
+    stage: 2,
+    id: "talking-btc",
+    render: () => <ImgMeme src="/memes/talking-btc.jpg" alt="Talking about Bitcoin" />,
+  },
+  {
+    stage: 2,
+    id: "scam1",
+    render: () => <ImgMeme src="/memes/scam1.jpg" alt="Most of crypto is a scam" />,
+  },
+  {
+    stage: 2,
+    id: "pizza-meme",
+    render: () => <ImgMeme src="/memes/pizza-meme.webp" alt="The famous Bitcoin pizza transaction" />,
+  },
+  {
+    stage: 2,
+    id: "jp",
+    render: () => <ImgMeme src="/memes/jp.jpg" alt="JP Morgan and crypto" />,
+  },
 
   // ───────────────────────────────────────
   // STAGE 3: HOW THE ALIGNMENT ECONOMY WORKS

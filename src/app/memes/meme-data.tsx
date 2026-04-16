@@ -75,6 +75,11 @@ const memes: Meme[] = [
     id: "dollar-losing-value",
     render: () => <ImgMeme src="/memes/dollar-losing-value.jpg" alt="The dollar is losing value every year" />,
   },
+  {
+    stage: 1,
+    id: "vote",
+    render: () => <ImgMeme src="/memes/vote.png" alt="Voting can't fix a broken measuring stick" />,
+  },
 
   // ───────────────────────────────────────
   // STAGE 2: WHY BITCOIN CAN'T FIX IT

@@ -153,7 +153,7 @@ function Hero() {
           <span className="hidden sm:inline text-white/20 mx-3">|</span>
           <span className="text-yellow-400 font-medium">Bitcoin can't fix this</span>
           <span className="hidden sm:inline text-white/20 mx-3">|</span>
-          <span className="text-ae-teal font-medium">Alignment Economy fixes it</span>
+          <span className="text-ae-teal font-medium">Alignment Economy makes value visible</span>
         </div>
 
         <p className="font-heading text-2xl md:text-3xl text-ae-gold mb-10 tracking-tight">

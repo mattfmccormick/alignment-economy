@@ -87,6 +87,8 @@ export default function RootLayout({
               "@type": "Organization",
               name: "The Alignment Economy",
               url: "https://alignmenteconomy.org",
+              logo: "https://alignmenteconomy.org/apple-touch-icon.png",
+              image: "https://alignmenteconomy.org/apple-touch-icon.png",
               description:
                 "A nonprofit building a new economic system that makes invisible labor visible and aligns incentives so cooperation wins.",
               foundingDate: "2025",

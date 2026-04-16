@@ -694,14 +694,14 @@ function HowAEWorks() {
   const ref = useFadeIn();
 
   return (
-    <section id="how-ae-works" className="py-20 md:py-28 px-6 bg-ae-warm">
+    <section id="how-ae-works" className="py-14 md:py-20 px-6 bg-ae-warm">
       <div ref={ref} className="fade-in-section max-w-6xl mx-auto">
-        <h2 className="font-heading text-3xl md:text-5xl font-bold text-ae-navy mb-4 text-center leading-tight">
-          A new way to measure and transfer value
+        <h2 className="font-heading text-3xl md:text-5xl font-bold text-ae-navy mb-8 text-center leading-tight">
+          How the Alignment Economy Works
         </h2>
 
         {/* Three Core Mechanics */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
+        <div className="grid md:grid-cols-3 gap-6 mb-10">
           <div className="bg-white rounded-2xl p-8 card-hover">
             <div className="w-12 h-12 rounded-full bg-ae-teal/10 flex items-center justify-center mb-5">
               <svg className="w-6 h-6 text-ae-teal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -787,12 +787,12 @@ function HowAEWorks() {
             </p>
           </div>
         </div>
-        <p className="text-center text-ae-slate/70 text-xs mb-16 italic">
+        <p className="text-center text-ae-slate/70 text-xs mb-10 italic">
           Only individuals receive daily allocations. Not companies, governments, or AI.
         </p>
 
         {/* Paradox Solutions */}
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 gap-6">
           <div className="bg-ae-teal/5 border border-ae-teal/20 rounded-2xl p-8">
             <div className="text-ae-teal font-bold text-sm tracking-wide uppercase mb-3">Paradox #1: Solved</div>
             <h4 className="font-heading text-xl font-bold text-ae-navy mb-3">First-Mover Advantage</h4>

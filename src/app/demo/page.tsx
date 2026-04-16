@@ -65,7 +65,7 @@ const views = [
 export default function DemoPage() {
   return (
     <>
-      <SubpageNav cta={{ label: "Try the Demo", href: "/dashboard" }} />
+      <SubpageNav />
 
       {/* Hero */}
       <section className="bg-ae-navy pt-24 pb-16 px-6">

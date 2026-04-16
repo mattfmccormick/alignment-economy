@@ -5,7 +5,7 @@ import { SubpageNav, SubpageFooter } from "@/components/site-nav";
 export default function WhitePaperPage() {
   return (
     <>
-      <SubpageNav cta={{ label: "Download White Paper", href: "/Alignment_Economy_White_Paper.docx" }} />
+      <SubpageNav />
       <main className="min-h-screen bg-white">
         {/* Hero */}
         <section className="py-16 md:py-24 px-6 bg-ae-navy text-white text-center">

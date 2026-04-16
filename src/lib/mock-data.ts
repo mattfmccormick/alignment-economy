@@ -63,6 +63,17 @@ export interface VouchRecord {
   status: "active" | "revoked";
 }
 
+export type EvidenceTier = "A" | "B" | "C";
+
+export interface TieredEvidenceItem {
+  label: string;
+  tier: EvidenceTier;
+  // the % contribution the miner would assign when accepted. Tier A caps at 30% total,
+  // Tier B caps at 80% total, Tier C is uncapped.
+  contribution: number;
+  description: string;
+}
+
 export interface VerificationRequest {
   id: string;
   applicant: string;
@@ -71,16 +82,23 @@ export interface VerificationRequest {
   type: "biometric" | "government_id" | "vouch_review";
   currentScore: number;
   evidence: string[];
+  tieredEvidence: TieredEvidenceItem[];
   vouchers: number;
   status: "pending" | "in_review" | "approved" | "rejected";
   assignedTo?: string;
   priority: "low" | "medium" | "high";
+  // FIFO position in the miner's assignment queue
+  fifoPosition: number;
 }
 
 export interface JuryMember {
   name: string;
   handle: string;
   vote?: "human" | "not_human" | "pending";
+  // Points staked by this juror (5% of their Earned balance, per white paper 8.3)
+  stake: number;
+  // If true, this is the current user's seat on the jury (demo only)
+  isYou?: boolean;
 }
 
 export interface Dispute {
@@ -91,12 +109,20 @@ export interface Dispute {
   filedBy: string;
   filedAgainst: string;
   filedAt: string;
+  // When the current stage began — used to compute live countdowns
+  stageStartedAt: string;
   description: string;
   evidenceCount: number;
   jury: JuryMember[];
   rulingDue?: string;
   ruling?: string;
   appealAvailable: boolean;
+  // Points the challenger staked to open the case (at risk if case fails)
+  filerStake: number;
+  // Defendant's Earned balance at filing — the pool the bounty is drawn from if they lose
+  defendantEarnedBalance: number;
+  // When resolved, the side the jury landed on
+  verdict?: "human" | "not_human";
 }
 
 // ---- Current user ----
@@ -262,9 +288,17 @@ export const verificationQueue: VerificationRequest[] = [
     type: "biometric",
     currentScore: 32,
     evidence: ["Facial scan", "Voice print"],
+    tieredEvidence: [
+      { label: "Selfie", tier: "A", contribution: 20, description: "Easy to fake. Capped as Tier A." },
+      { label: "Facial geometry scan", tier: "B", contribution: 60, description: "First biometric. Per white paper 6.1." },
+      { label: "Voice print (liveness check)", tier: "B", contribution: 15, description: "Second biometric. +15%." },
+      { label: "Vouch from @elena (staked 5% earned)", tier: "C", contribution: 10, description: "Tier C: +10% per vouch, no cap." },
+      { label: "Vouch from @jmartinez (staked 5% earned)", tier: "C", contribution: 10, description: "Tier C: +10% per vouch, no cap." },
+    ],
     vouchers: 2,
     status: "pending",
     priority: "high",
+    fifoPosition: 1,
   },
   {
     id: "vr_002",
@@ -274,9 +308,19 @@ export const verificationQueue: VerificationRequest[] = [
     type: "government_id",
     currentScore: 55,
     evidence: ["Passport scan", "Utility bill"],
+    tieredEvidence: [
+      { label: "Stated name & DOB", tier: "A", contribution: 10, description: "Self-attestation." },
+      { label: "Passport scan (gov ID)", tier: "B", contribution: 60, description: "Primary Tier B evidence." },
+      { label: "Utility bill (address match)", tier: "B", contribution: 15, description: "Corroborating Tier B." },
+      { label: "Vouch from @sarah_c", tier: "C", contribution: 10, description: "Tier C vouch: +10%." },
+      { label: "Vouch from @jkim", tier: "C", contribution: 10, description: "Tier C vouch: +10%." },
+      { label: "Vouch from @mrivera", tier: "C", contribution: 10, description: "Tier C vouch: +10%." },
+      { label: "Vouch from @localcoop", tier: "C", contribution: 10, description: "Tier C vouch: +10%." },
+    ],
     vouchers: 4,
     status: "pending",
     priority: "medium",
+    fifoPosition: 2,
   },
   {
     id: "vr_003",
@@ -286,10 +330,22 @@ export const verificationQueue: VerificationRequest[] = [
     type: "vouch_review",
     currentScore: 78,
     evidence: [],
+    tieredEvidence: [
+      { label: "Selfie", tier: "A", contribution: 15, description: "Tier A only." },
+      { label: "Vouch from @elena", tier: "C", contribution: 10, description: "+10%." },
+      { label: "Vouch from @dkim", tier: "C", contribution: 10, description: "+10%." },
+      { label: "Vouch from @matt", tier: "C", contribution: 10, description: "+10%." },
+      { label: "Vouch from @sarah_c", tier: "C", contribution: 10, description: "+10%." },
+      { label: "Vouch from @jkim", tier: "C", contribution: 10, description: "+10%." },
+      { label: "Vouch from @mrivera", tier: "C", contribution: 10, description: "+10%." },
+      { label: "Vouch from @localcoop", tier: "C", contribution: 10, description: "+10%." },
+      { label: "Vouch from @community", tier: "C", contribution: 10, description: "+10%." },
+    ],
     vouchers: 8,
     status: "in_review",
     assignedTo: "Miner_042",
     priority: "low",
+    fifoPosition: 3,
   },
   {
     id: "vr_004",
@@ -299,9 +355,13 @@ export const verificationQueue: VerificationRequest[] = [
     type: "biometric",
     currentScore: 10,
     evidence: ["Facial scan"],
+    tieredEvidence: [
+      { label: "Facial scan (partial, no liveness)", tier: "B", contribution: 10, description: "Incomplete. Liveness check missing." },
+    ],
     vouchers: 0,
     status: "pending",
     priority: "high",
+    fifoPosition: 4,
   },
   {
     id: "vr_005",
@@ -311,38 +371,124 @@ export const verificationQueue: VerificationRequest[] = [
     type: "government_id",
     currentScore: 45,
     evidence: ["National ID", "Address proof"],
+    tieredEvidence: [
+      { label: "Stated name & address", tier: "A", contribution: 10, description: "Self-attestation." },
+      { label: "National ID (Aadhaar)", tier: "B", contribution: 60, description: "Primary Tier B." },
+      { label: "Address proof", tier: "B", contribution: 5, description: "Corroborating Tier B." },
+      { label: "Vouch from @rsharma", tier: "C", contribution: 10, description: "+10%." },
+      { label: "Vouch from @auntie_k", tier: "C", contribution: 10, description: "+10%." },
+      { label: "Vouch from @tech_meetup", tier: "C", contribution: 10, description: "+10%." },
+    ],
     vouchers: 3,
     status: "pending",
     priority: "medium",
+    fifoPosition: 5,
   },
 ];
 
 export const minerStats = {
+  // White paper 7.2: Node Operator (Tier 1) or Validator (Tier 2).
+  tier: "validator" as "node_operator" | "validator",
+  tierLabel: "Tier 2: Validator",
+  // Composite accuracy = average of verification accuracy and jury accuracy (white paper 7.3)
+  verificationAccuracy: 98.5, // % of scores not overturned, 30-day rolling
+  juryAccuracy: 96.2,          // % of juror votes matching final verdict, 30-day rolling
+  compositeAccuracy: 97.35,
+  accuracyThreshold: 80,       // 80% composite threshold per white paper 7.3
   totalVerified: 342,
-  accuracy: 98.5,
   rewardsEarned: 15_200,
+  bountyEarned: 8_400,         // from successful challenges (white paper 8.4)
+  lotteryWins: 3,              // Tier 2 lottery wins this window (white paper 7.4)
   rank: 12,
   totalMiners: 1_847,
   pendingInQueue: verificationQueue.filter((v) => v.status === "pending").length,
   avgReviewTime: "4m 32s",
+  rollingWindowDays: 30,
 };
+
+// ---- Miner: jury summons (drafted as juror on live cases) ----
+export interface JurySummons {
+  caseId: string;
+  caseTitle: string;
+  stage: "evidence_review" | "voting";
+  stakeRequired: number;       // 5% of your Earned points per white paper 8.3
+  deadline: string;            // When the voting window closes
+  canVote: boolean;            // Only true when stage === "voting"
+}
+
+export const minerJurySummons: JurySummons[] = [
+  {
+    caseId: "d_002",
+    caseTitle: "Duplicate account: user_2190 and user_4821",
+    stage: "evidence_review",
+    stakeRequired: 1_217, // 5% of 24,350
+    deadline: "2026-04-09",
+    canVote: false,
+  },
+  {
+    caseId: "d_003",
+    caseTitle: "Suspected bot ring: 23 coordinated accounts",
+    stage: "voting",
+    stakeRequired: 1_217,
+    deadline: "2026-04-07",
+    canVote: true,
+  },
+];
+
+// ---- Miner: recent bounty history (successful challenges) ----
+export interface BountyRecord {
+  caseId: string;
+  resolvedAt: string;
+  defendantHandle: string;
+  defendantEarned: number;
+  bountyAwarded: number;       // 20% of defendant's Earned (white paper 8.4)
+  challengerStakeReturned: number;
+}
+
+export const minerBountyHistory: BountyRecord[] = [
+  {
+    caseId: "d_100",
+    resolvedAt: "2026-03-28",
+    defendantHandle: "@tradebot_x",
+    defendantEarned: 42_000,
+    bountyAwarded: 8_400,
+    challengerStakeReturned: 500,
+  },
+];
 
 // ---- Court data ----
 // Case types: non_human, duplicate_account
 // Stages: arbitration → open (jury assigned, 11 members) → evidence_review → voting → ruling → appeal (new jury)
 
+// Each juror stakes 5% of their own Earned points (white paper 8.3).
 const juryPool: JuryMember[] = [
-  { name: "Miner_042", handle: "@miner042", vote: "not_human" },
-  { name: "Miner_188", handle: "@miner188", vote: "not_human" },
-  { name: "Miner_012", handle: "@miner012", vote: "human" },
-  { name: "Miner_099", handle: "@miner099", vote: "not_human" },
-  { name: "Miner_077", handle: "@miner077", vote: "pending" },
-  { name: "Miner_231", handle: "@miner231", vote: "not_human" },
-  { name: "Miner_155", handle: "@miner155", vote: "human" },
-  { name: "Miner_304", handle: "@miner304", vote: "pending" },
-  { name: "Miner_089", handle: "@miner089", vote: "not_human" },
-  { name: "Miner_201", handle: "@miner201", vote: "human" },
-  { name: "Miner_167", handle: "@miner167", vote: "pending" },
+  { name: "Miner_042", handle: "@miner042", vote: "not_human", stake: 1_580 },
+  { name: "Miner_188", handle: "@miner188", vote: "not_human", stake: 940 },
+  { name: "Miner_012", handle: "@miner012", vote: "human", stake: 2_310 },
+  { name: "Miner_099", handle: "@miner099", vote: "not_human", stake: 1_120 },
+  { name: "Miner_077", handle: "@miner077", vote: "pending", stake: 1_450 },
+  { name: "Miner_231", handle: "@miner231", vote: "not_human", stake: 860 },
+  { name: "Miner_155", handle: "@miner155", vote: "human", stake: 2_005 },
+  { name: "Miner_304", handle: "@miner304", vote: "pending", stake: 710 },
+  { name: "Miner_089", handle: "@miner089", vote: "not_human", stake: 1_305 },
+  { name: "Miner_201", handle: "@miner201", vote: "human", stake: 1_775 },
+  { name: "Miner_167", handle: "@miner167", vote: "pending", stake: 895 },
+];
+
+// The juror slate for case d_003 — places the current user in seat #11 so the
+// Vote UI can render. Stake = 5% of currentBalances.earned (1,217).
+const botRingJury: JuryMember[] = [
+  { name: "Miner_042", handle: "@miner042", vote: "not_human", stake: 1_580 },
+  { name: "Miner_188", handle: "@miner188", vote: "not_human", stake: 940 },
+  { name: "Miner_012", handle: "@miner012", vote: "not_human", stake: 2_310 },
+  { name: "Miner_099", handle: "@miner099", vote: "not_human", stake: 1_120 },
+  { name: "Miner_077", handle: "@miner077", vote: "not_human", stake: 1_450 },
+  { name: "Miner_231", handle: "@miner231", vote: "pending", stake: 860 },
+  { name: "Miner_155", handle: "@miner155", vote: "not_human", stake: 2_005 },
+  { name: "Miner_304", handle: "@miner304", vote: "pending", stake: 710 },
+  { name: "Miner_089", handle: "@miner089", vote: "not_human", stake: 1_305 },
+  { name: "Miner_201", handle: "@miner201", vote: "pending", stake: 1_775 },
+  { name: "You (Matt Franklin)", handle: "@matt", vote: "pending", stake: 1_217, isYou: true },
 ];
 
 export const disputes: Dispute[] = [
@@ -354,12 +500,15 @@ export const disputes: Dispute[] = [
     filedBy: "Miner_088",
     filedAgainst: "user_4821",
     filedAt: "2026-04-01T12:00:00",
+    stageStartedAt: "2026-04-01T12:00:00",
     description:
       "Miner_088 assigned a 0% human score during verification. Behavioral analysis shows automated response patterns and no biometric variation. Account escalated from arbitration to court after miner confirmed suspicion.",
     evidenceCount: 3,
     jury: juryPool.slice(0, 11),
-    rulingDue: "2026-04-08",
+    rulingDue: "2026-04-22",
     appealAvailable: true,
+    filerStake: 1_200,
+    defendantEarnedBalance: 18_500,
   },
   {
     id: "d_002",
@@ -369,12 +518,15 @@ export const disputes: Dispute[] = [
     filedBy: "Miner_012",
     filedAgainst: "user_2190",
     filedAt: "2026-03-28T09:00:00",
+    stageStartedAt: "2026-04-04T09:00:00",
     description:
       "Biometric data for user_2190 has a 94% match with user_4821. Requesting identity review to determine if these are the same person operating two accounts to receive double daily airdrop.",
     evidenceCount: 7,
     jury: [...juryPool.slice(3, 11), juryPool[0], juryPool[1], juryPool[2]],
-    rulingDue: "2026-04-05",
+    rulingDue: "2026-04-18",
     appealAvailable: true,
+    filerStake: 2_300,
+    defendantEarnedBalance: 31_200,
   },
   {
     id: "d_003",
@@ -384,11 +536,15 @@ export const disputes: Dispute[] = [
     filedBy: "Miner_012",
     filedAgainst: "Multiple accounts",
     filedAt: "2026-03-20T14:30:00",
+    stageStartedAt: "2026-04-11T14:30:00",
     description:
       "Investigation flagged 23 accounts created within 48 hours, all vouching for each other in a circular pattern. Suspected coordinated Sybil attack to gain fraudulent point allocations.",
     evidenceCount: 31,
-    jury: juryPool,
+    jury: botRingJury,
+    rulingDue: "2026-04-18",
     appealAvailable: true,
+    filerStake: 4_500,
+    defendantEarnedBalance: 87_400,
   },
   {
     id: "d_004",
@@ -398,12 +554,16 @@ export const disputes: Dispute[] = [
     filedBy: "Miner_099",
     filedAgainst: "@tradebot_x",
     filedAt: "2026-03-15T08:00:00",
+    stageStartedAt: "2026-04-12T08:00:00",
     description:
       "Account @tradebot_x shows no biometric data, sends points in exact intervals every 60 seconds, and has never submitted any identity verification evidence.",
     evidenceCount: 12,
     jury: juryPool,
     ruling: "Account confirmed as non-human. Daily airdrop suspended. Account converted to business type.",
+    verdict: "not_human",
     appealAvailable: true,
+    filerStake: 2_000,
+    defendantEarnedBalance: 42_000,
   },
   {
     id: "d_005",
@@ -413,12 +573,16 @@ export const disputes: Dispute[] = [
     filedBy: "Miner_042",
     filedAgainst: "@riverside_park",
     filedAt: "2026-03-10T11:00:00",
+    stageStartedAt: "2026-04-01T11:00:00",
     description:
       "Riverside Park was suspected of operating a duplicate account. Investigation revealed it was a legitimate non-human (business) account that had been miscategorized.",
     evidenceCount: 5,
     jury: juryPool.slice(0, 11),
     ruling: "Case dismissed. Account confirmed as legitimate non-human (space) registration.",
+    verdict: "human",
     appealAvailable: false,
+    filerStake: 1_500,
+    defendantEarnedBalance: 9_200,
   },
   {
     id: "d_006",
@@ -428,13 +592,32 @@ export const disputes: Dispute[] = [
     filedBy: "Miner_231",
     filedAgainst: "@newuser_99",
     filedAt: "2026-04-02T16:00:00",
+    stageStartedAt: "2026-04-02T16:00:00",
     description:
-      "Miner assigned 5% human score. Account has minimal evidence and only 1 voucher. Currently in arbitration stage where the miner decides whether to escalate to full court proceedings.",
+      "Miner assigned 5% human score. Account has minimal evidence and only 1 voucher. The defendant now has 7 days to respond with additional evidence or gather vouchers; if the challenger remains unconvinced, the case escalates to court.",
     evidenceCount: 1,
     jury: [],
     appealAvailable: true,
+    filerStake: 600,
+    defendantEarnedBalance: 1_100,
   },
 ];
+
+// Protocol parameters as of the current block (mirrors white paper defaults).
+export const protocolParams = {
+  transactionFeeBps: 50,          // 0.5% fee on every transaction (white paper 7)
+  tier1FeeSharePct: 20,           // Node Operators
+  tier2FeeSharePct: 80,           // Validators
+  tier2LotteryPct: 60,            // Of Tier 2 pool: 60% to lottery winner
+  tier2BaselinePct: 40,           // Of Tier 2 pool: 40% split evenly among Tier 2
+  jurySize: 11,
+  jurorStakePct: 5,               // Each juror stakes 5% of their Earned (white paper 8.3)
+  stageWindowDays: 7,             // Every stage has a 7-day window
+  bountyPct: 20,                  // Winning challenger gets 20% of defendant's Earned (8.4)
+  burnPct: 80,                    // Remaining 80% of defendant's Earned is burned
+  tier2AccuracyThreshold: 80,     // Composite accuracy floor to hold Tier 2 (7.3)
+  rollingWindowDays: 30,
+};
 
 export const courtStats = {
   arbitration: disputes.filter((d) => d.stage === "arbitration").length,

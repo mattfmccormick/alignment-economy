@@ -1,27 +1,89 @@
 "use client";
 
-import { useState } from "react";
-import { verificationQueue, minerStats, networkStats } from "@/lib/mock-data";
+import { useMemo, useState } from "react";
+import {
+  verificationQueue,
+  minerStats,
+  networkStats,
+  minerJurySummons,
+  minerBountyHistory,
+  protocolParams,
+  currentBalances,
+  type TieredEvidenceItem,
+} from "@/lib/mock-data";
 import { StatusBadge } from "@/components/status-badge";
-import { StatCard } from "@/components/stat-card";
+
+// Tier caps per white paper 6.1
+const TIER_CAPS: Record<"A" | "B" | "C", number | null> = { A: 30, B: 80, C: null };
+
+function tierColor(tier: "A" | "B" | "C") {
+  if (tier === "A") return "bg-gray-100 text-gray-700 border-gray-200";
+  if (tier === "B") return "bg-blue-100 text-blue-700 border-blue-200";
+  return "bg-emerald-100 text-emerald-700 border-emerald-200";
+}
+
+function computeTieredScore(items: TieredEvidenceItem[]) {
+  const rawA = items.filter((e) => e.tier === "A").reduce((s, e) => s + e.contribution, 0);
+  const rawB = items.filter((e) => e.tier === "B").reduce((s, e) => s + e.contribution, 0);
+  const rawC = items.filter((e) => e.tier === "C").reduce((s, e) => s + e.contribution, 0);
+  const capped = {
+    A: Math.min(rawA, TIER_CAPS.A!),
+    B: Math.min(rawB, TIER_CAPS.B!),
+    C: rawC,
+  };
+  const total = Math.min(100, capped.A + capped.B + capped.C);
+  return { rawA, rawB, rawC, capped, total };
+}
 
 export default function MinerPage() {
   const [queue, setQueue] = useState(verificationQueue);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [assignedScore, setAssignedScore] = useState<string>("");
+  const [accepted, setAccepted] = useState<Record<string, boolean>>({});
+  const [flagOpen, setFlagOpen] = useState(false);
+  const [flagStake, setFlagStake] = useState(600);
 
-  const selectedReq = queue.find((r) => r.id === selected);
+  // FIFO: the one and only "active" assignment is the first pending item.
+  // Everything else is locked until this one is closed.
+  const activeReq = useMemo(
+    () => queue.find((r) => r.status === "pending") ?? null,
+    [queue]
+  );
 
-  function handleSubmitVerification(id: string) {
-    if (!assignedScore) return;
-    const score = parseInt(assignedScore);
+  const itemsForActive = activeReq?.tieredEvidence ?? [];
+  const acceptedItems = itemsForActive.filter((it, i) =>
+    accepted[`${activeReq?.id}::${i}`] !== false // default accepted
+  );
+  const scoring = useMemo(() => computeTieredScore(acceptedItems), [acceptedItems]);
+
+  function toggleEvidence(idx: number) {
+    if (!activeReq) return;
+    const key = `${activeReq.id}::${idx}`;
+    setAccepted((prev) => ({ ...prev, [key]: prev[key] === false ? true : false }));
+  }
+
+  function submitVerification() {
+    if (!activeReq) return;
     setQueue((prev) =>
       prev.map((r) =>
-        r.id === id ? { ...r, status: score === 0 ? "rejected" as const : "approved" as const } : r
+        r.id === activeReq.id
+          ? { ...r, status: scoring.total === 0 ? ("rejected" as const) : ("approved" as const) }
+          : r
       )
     );
-    setSelected(null);
-    setAssignedScore("");
+    setAccepted({});
+  }
+
+  function flagForArbitration() {
+    if (!activeReq) return;
+    alert(
+      `Case opened against ${activeReq.applicantHandle}. You staked ${flagStake} Earned points.\n\nThe defendant now has 7 days to respond with additional evidence. If they cannot clear the bar, the case escalates to court and a jury of 11 Tier-2 miners is drafted.`
+    );
+    setQueue((prev) =>
+      prev.map((r) =>
+        r.id === activeReq.id ? { ...r, status: "rejected" as const } : r
+      )
+    );
+    setFlagOpen(false);
+    setAccepted({});
   }
 
   return (
@@ -29,11 +91,117 @@ export default function MinerPage() {
       <div>
         <h1 className="text-2xl font-bold text-ae-navy">Mining Dashboard</h1>
         <p className="text-gray-500 text-sm mt-1">
-          Verify humans. Earn rewards. Secure the network.
+          Verify humans. Earn fees. Maintain the ledger.
         </p>
       </div>
 
-      {/* Mining overview - blockchain-style */}
+      {/* Tier + accuracy + earnings strip */}
+      <div className="grid md:grid-cols-4 gap-4">
+        <div className="bg-ae-navy rounded-2xl p-5 text-white md:col-span-2">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs text-gray-300 uppercase tracking-wider">Your Tier</span>
+            <span className="bg-ae-teal/20 text-ae-teal text-xs px-2 py-0.5 rounded-full font-medium">
+              Validator
+            </span>
+          </div>
+          <p className="text-xl font-bold mb-4">{minerStats.tierLabel}</p>
+          <div className="grid grid-cols-3 gap-3 text-center">
+            <div>
+              <p className="text-xs text-gray-400">Verification</p>
+              <p className="text-lg font-bold font-mono">{minerStats.verificationAccuracy}%</p>
+            </div>
+            <div>
+              <p className="text-xs text-gray-400">Jury</p>
+              <p className="text-lg font-bold font-mono">{minerStats.juryAccuracy}%</p>
+            </div>
+            <div className="bg-white/10 rounded-lg py-1">
+              <p className="text-xs text-gray-400">Composite</p>
+              <p className="text-lg font-bold font-mono text-ae-teal">{minerStats.compositeAccuracy}%</p>
+            </div>
+          </div>
+          <p className="text-[11px] text-gray-400 mt-3">
+            Drop below {minerStats.accuracyThreshold}% composite over a 30-day window and you return to Tier 1 (Node Operator only, no verification or jury income).
+          </p>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-gray-100 p-5">
+          <p className="text-xs text-gray-500 mb-1">Fee + Bounty Earnings (30d)</p>
+          <p className="text-2xl font-bold text-ae-navy font-mono">
+            {(minerStats.rewardsEarned + minerStats.bountyEarned).toLocaleString()}
+          </p>
+          <div className="mt-3 space-y-1 text-xs">
+            <div className="flex justify-between text-gray-500">
+              <span>Tier-2 fee share</span>
+              <span className="font-medium text-ae-navy">{minerStats.rewardsEarned.toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between text-gray-500">
+              <span>Bounties</span>
+              <span className="font-medium text-amber-700">{minerStats.bountyEarned.toLocaleString()}</span>
+            </div>
+            <div className="flex justify-between text-gray-500">
+              <span>Lottery wins</span>
+              <span className="font-medium text-ae-navy">{minerStats.lotteryWins}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-gray-100 p-5">
+          <p className="text-xs text-gray-500 mb-1">Rank</p>
+          <p className="text-2xl font-bold text-ae-navy font-mono">#{minerStats.rank}</p>
+          <p className="text-xs text-gray-500 mt-1">of {minerStats.totalMiners.toLocaleString()} miners</p>
+          <div className="mt-3 text-xs">
+            <div className="flex justify-between text-gray-500">
+              <span>Total verified</span>
+              <span className="font-medium text-ae-navy">{minerStats.totalVerified}</span>
+            </div>
+            <div className="flex justify-between text-gray-500 mt-1">
+              <span>Avg review time</span>
+              <span className="font-medium text-ae-navy">{minerStats.avgReviewTime}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Jury summons - show if any */}
+      {minerJurySummons.length > 0 && (
+        <div className="bg-orange-50 border border-orange-200 rounded-2xl p-5">
+          <div className="flex items-start gap-3">
+            <svg className="w-5 h-5 text-orange-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2a2 2 0 01-.6 1.4L4 17h5m6 0a3 3 0 11-6 0m6 0H9" />
+            </svg>
+            <div className="flex-1">
+              <h3 className="font-semibold text-orange-900">Jury Summons ({minerJurySummons.length})</h3>
+              <p className="text-sm text-orange-800 mt-0.5">
+                You&apos;ve been drafted as a juror. Each seat requires a {protocolParams.jurorStakePct}% Earned-points stake. Wrong-side votes are burned.
+              </p>
+              <div className="mt-3 space-y-2">
+                {minerJurySummons.map((s) => (
+                  <div key={s.caseId} className="bg-white rounded-xl p-3 flex items-center justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-ae-navy truncate">{s.caseTitle}</p>
+                      <p className="text-xs text-gray-500 mt-0.5">
+                        Stage: <span className="capitalize font-medium">{s.stage.replace("_", " ")}</span> · Stake {s.stakeRequired.toLocaleString()} pts · Deadline {s.deadline}
+                      </p>
+                    </div>
+                    <a
+                      href={`/court?case=${s.caseId}`}
+                      className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-colors ${
+                        s.canVote
+                          ? "bg-orange-600 text-white hover:bg-orange-700"
+                          : "bg-white border border-orange-300 text-orange-700 hover:bg-orange-100"
+                      }`}
+                    >
+                      {s.canVote ? "Cast Vote →" : "Review Case →"}
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Network Status (compact) */}
       <div className="bg-ae-navy rounded-2xl p-6 text-white">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-semibold">Network Status</h2>
@@ -45,15 +213,11 @@ export default function MinerPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
             <p className="text-xs text-gray-400">Block Height</p>
-            <p className="text-xl font-bold font-mono">
-              {networkStats.blockHeight.toLocaleString()}
-            </p>
+            <p className="text-xl font-bold font-mono">{networkStats.blockHeight.toLocaleString()}</p>
           </div>
           <div>
             <p className="text-xs text-gray-400">Network TPS</p>
-            <p className="text-xl font-bold font-mono">
-              {networkStats.tps.toLocaleString()}
-            </p>
+            <p className="text-xl font-bold font-mono">{networkStats.tps.toLocaleString()}</p>
           </div>
           <div>
             <p className="text-xs text-gray-400">Avg Block Time</p>
@@ -66,193 +230,293 @@ export default function MinerPage() {
         </div>
       </div>
 
-      {/* Your mining stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Verifications" value={minerStats.totalVerified} color="text-ae-teal" />
-        <StatCard label="Accuracy" value={`${minerStats.accuracy}%`} color="text-green-600" />
-        <StatCard label="Rewards Earned" value={minerStats.rewardsEarned.toLocaleString()} color="text-ae-gold" />
-        <StatCard
-          label="Rank"
-          value={`#${minerStats.rank}`}
-          sub={`of ${minerStats.totalMiners.toLocaleString()} miners`}
-        />
-      </div>
-
-      {/* Verification queue */}
+      {/* FIFO Queue + Scoring */}
       <div className="grid lg:grid-cols-5 gap-6">
-        {/* Queue list */}
+        {/* Queue (FIFO) */}
         <div className="lg:col-span-2 space-y-3">
-          <h2 className="font-semibold text-ae-navy">
-            Verification Queue ({queue.filter((r) => r.status === "pending" || r.status === "in_review").length})
-          </h2>
-          {queue.map((req) => (
-            <button
-              key={req.id}
-              onClick={() => { setSelected(req.id); setAssignedScore(""); }}
-              className={`w-full text-left bg-white rounded-xl border p-4 transition-colors ${
-                selected === req.id
-                  ? "border-ae-teal ring-2 ring-ae-teal/20"
-                  : "border-gray-100 hover:border-gray-200"
-              }`}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <p className="font-medium text-ae-navy text-sm">
-                  {req.applicant}
-                </p>
-                <StatusBadge status={req.status} />
+          <div className="flex items-baseline justify-between">
+            <h2 className="font-semibold text-ae-navy">FIFO Assignment Queue</h2>
+            <span className="text-xs text-gray-500">
+              {queue.filter((r) => r.status === "pending").length} pending
+            </span>
+          </div>
+          <p className="text-xs text-gray-500 leading-relaxed">
+            Cases are dealt in strict FIFO order. You cannot skip. This prevents miners from cherry-picking easy approvals (white paper 7.1).
+          </p>
+          {queue.map((req) => {
+            const isActive = activeReq?.id === req.id;
+            const isLocked = !isActive && req.status === "pending";
+            return (
+              <div
+                key={req.id}
+                className={`bg-white rounded-xl border p-4 transition-colors ${
+                  isActive
+                    ? "border-ae-teal ring-2 ring-ae-teal/20"
+                    : isLocked
+                    ? "border-gray-100 opacity-50"
+                    : "border-gray-100"
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className={`text-xs font-mono font-semibold shrink-0 ${isActive ? "text-ae-teal" : "text-gray-400"}`}>
+                      #{req.fifoPosition}
+                    </span>
+                    <p className="font-medium text-ae-navy text-sm truncate">{req.applicant}</p>
+                  </div>
+                  <div className="flex items-center gap-1 shrink-0">
+                    {isLocked && (
+                      <svg className="w-3.5 h-3.5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                      </svg>
+                    )}
+                    <StatusBadge status={req.status} />
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-gray-400">
+                  <span className="capitalize">{req.type.replace("_", " ")}</span>
+                  <span>·</span>
+                  <span>{req.vouchers} vouchers</span>
+                  <span>·</span>
+                  <span>{req.tieredEvidence.length} evidence items</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-xs text-gray-400">
-                <span className="capitalize">{req.type.replace("_", " ")}</span>
-                <span>·</span>
-                <span>{req.vouchers} vouchers</span>
-                <span>·</span>
-                <span>{req.evidence.length} evidence items</span>
-              </div>
-            </button>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Detail panel */}
+        {/* Active case detail */}
         <div className="lg:col-span-3">
-          {selectedReq ? (
+          {activeReq ? (
             <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-6 sticky top-8">
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <h2 className="text-xl font-bold text-ae-navy">
-                    {selectedReq.applicant}
-                  </h2>
-                  <StatusBadge status={selectedReq.status} />
+                  <h2 className="text-xl font-bold text-ae-navy">{activeReq.applicant}</h2>
+                  <StatusBadge status={activeReq.status} />
                 </div>
                 <p className="text-sm text-gray-400">
-                  {selectedReq.applicantHandle} · Submitted{" "}
-                  {new Date(selectedReq.submittedAt).toLocaleDateString()}
+                  {activeReq.applicantHandle} · Submitted {new Date(activeReq.submittedAt).toLocaleDateString()}
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <p className="text-xs text-gray-500 mb-1">Verification Type</p>
-                  <p className="font-medium text-ae-navy capitalize">
-                    {selectedReq.type.replace("_", " ")}
-                  </p>
-                </div>
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <p className="text-xs text-gray-500 mb-1">Vouchers</p>
-                  <p className="font-medium text-ae-navy">
-                    {selectedReq.vouchers} people vouching
-                  </p>
-                </div>
-              </div>
-
-              {/* Evidence */}
+              {/* Tiered evidence with live scoring */}
               <div>
-                <h3 className="font-semibold text-ae-navy mb-3">
-                  Submitted Evidence
-                </h3>
-                {selectedReq.evidence.length > 0 ? (
-                  <div className="space-y-2">
-                    {selectedReq.evidence.map((e, i) => (
-                      <div
+                <div className="flex items-baseline justify-between mb-3">
+                  <h3 className="font-semibold text-ae-navy">Evidence Review</h3>
+                  <span className="text-xs text-gray-500">Click an item to accept / reject</span>
+                </div>
+                <div className="space-y-2">
+                  {activeReq.tieredEvidence.map((ev, i) => {
+                    const key = `${activeReq.id}::${i}`;
+                    const isAccepted = accepted[key] !== false;
+                    return (
+                      <button
                         key={i}
-                        className="flex items-center gap-3 bg-gray-50 rounded-lg p-3"
+                        onClick={() => toggleEvidence(i)}
+                        className={`w-full flex items-start gap-3 p-3 rounded-xl border text-left transition-colors ${
+                          isAccepted ? tierColor(ev.tier) : "bg-gray-50 border-gray-200 opacity-50"
+                        }`}
                       >
-                        <div className="w-8 h-8 bg-ae-teal/10 rounded flex items-center justify-center">
-                          <svg className="w-4 h-4 text-ae-teal" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-                          </svg>
+                        <div className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
+                          isAccepted
+                            ? ev.tier === "A" ? "bg-gray-200 text-gray-700"
+                              : ev.tier === "B" ? "bg-blue-200 text-blue-800"
+                              : "bg-emerald-200 text-emerald-800"
+                            : "bg-gray-200 text-gray-400"
+                        }`}>
+                          {ev.tier}
                         </div>
-                        <span className="text-sm text-ae-navy">{e}</span>
-                        <button className="ml-auto text-xs text-ae-teal hover:underline">
-                          Review
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-sm text-gray-400">
-                    No documents submitted. Relying on vouching chain ({selectedReq.vouchers} vouchers).
-                  </p>
-                )}
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="text-sm font-medium text-ae-navy">{ev.label}</p>
+                            <span className={`text-xs font-mono shrink-0 ${isAccepted ? "text-ae-navy" : "text-gray-400 line-through"}`}>
+                              +{ev.contribution}%
+                            </span>
+                          </div>
+                          <p className="text-xs text-gray-500 mt-0.5">{ev.description}</p>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
-              {/* Blockchain details */}
+              {/* Tier breakdown */}
+              <div className="bg-gray-50 rounded-xl p-4 space-y-3">
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Score Build</p>
+                {(["A", "B", "C"] as const).map((t) => {
+                  const raw = t === "A" ? scoring.rawA : t === "B" ? scoring.rawB : scoring.rawC;
+                  const cap = TIER_CAPS[t];
+                  const capped = t === "A" ? scoring.capped.A : t === "B" ? scoring.capped.B : scoring.capped.C;
+                  const wasCapped = cap !== null && raw > cap;
+                  return (
+                    <div key={t} className="flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-2">
+                        <span className={`inline-block w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center ${
+                          t === "A" ? "bg-gray-200 text-gray-700" : t === "B" ? "bg-blue-200 text-blue-800" : "bg-emerald-200 text-emerald-800"
+                        }`}>
+                          {t}
+                        </span>
+                        <span className="text-gray-600">
+                          Tier {t}
+                          <span className="text-gray-400 ml-2">
+                            ({t === "A" ? "self-attestation" : t === "B" ? "hard to fake" : "social"})
+                          </span>
+                        </span>
+                      </div>
+                      <div className="font-mono text-sm">
+                        <span className={wasCapped ? "text-orange-600" : "text-ae-navy"}>+{capped}%</span>
+                        {wasCapped && (
+                          <span className="text-xs text-orange-600 ml-1">(capped from {raw}%)</span>
+                        )}
+                        {cap !== null && (
+                          <span className="text-xs text-gray-400 ml-2">max {cap}%</span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+                <div className="border-t border-gray-200 pt-3 flex items-center justify-between">
+                  <span className="text-sm font-semibold text-ae-navy">Proposed % Human</span>
+                  <span className="text-2xl font-bold font-mono text-ae-teal">{scoring.total}%</span>
+                </div>
+              </div>
+
+              {/* On-chain details */}
               <div>
-                <h3 className="font-semibold text-ae-navy mb-3">
-                  On-Chain Details
-                </h3>
+                <h3 className="font-semibold text-ae-navy mb-3 text-sm">On-Chain Record</h3>
                 <div className="bg-gray-50 rounded-xl p-4 space-y-2 font-mono text-xs">
                   <div className="flex justify-between">
                     <span className="text-gray-500">Account ID</span>
                     <span className="text-ae-navy">0x7a3f...e8b2</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Registration Block</span>
-                    <span className="text-ae-navy">#1,284,201</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Vouch TX Hash</span>
-                    <span className="text-ae-navy">0x9c2d...4f1a</span>
-                  </div>
-                  <div className="flex justify-between">
                     <span className="text-gray-500">Evidence Hash</span>
                     <span className="text-ae-navy">0xb8e1...7c3d</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Submission Block</span>
-                    <span className="text-ae-navy">#1,284,855</span>
+                    <span className="text-gray-500">FIFO Assignment</span>
+                    <span className="text-ae-navy">Block #{(networkStats.blockHeight - 4).toLocaleString()}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Miner assigns % human score - no flag as suspicious */}
-              {(selectedReq.status === "pending" ||
-                selectedReq.status === "in_review") && (
-                <div className="pt-4 border-t border-gray-100 space-y-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-ae-navy mb-2">
-                      Assign % Human Score
-                    </label>
-                    <p className="text-xs text-gray-400 mb-3">
-                      Based on the evidence, what percent-human score would you assign? Set to 0 if you believe this is a bot.
-                    </p>
-                    <div className="flex gap-2">
-                      <input
-                        type="number"
-                        value={assignedScore}
-                        onChange={(e) => setAssignedScore(e.target.value)}
-                        placeholder="0-100"
-                        min={0}
-                        max={100}
-                        className="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-ae-teal/30 focus:border-ae-teal font-mono"
-                      />
-                      <span className="flex items-center text-gray-400 text-sm">%</span>
-                    </div>
-                    {assignedScore && parseInt(assignedScore) === 0 && (
-                      <p className="text-xs text-red-500 mt-2">
-                        Score of 0% will flag this account as a suspected bot and initiate an arbitration review.
+              {/* Actions */}
+              <div className="pt-4 border-t border-gray-100 space-y-3">
+                {flagOpen ? (
+                  <div className="bg-red-50 border border-red-200 rounded-xl p-4 space-y-3">
+                    <div>
+                      <p className="font-semibold text-red-900 text-sm">Flag for Arbitration</p>
+                      <p className="text-xs text-red-700 mt-1">
+                        You&apos;re claiming this account is not human. Stake a percentage of your Earned balance as confidence. If the court finds the account human, your stake is burned.
                       </p>
-                    )}
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-red-900 mb-1">
+                        Stake (Earned balance: {currentBalances.earned.toLocaleString()})
+                      </label>
+                      <input
+                        type="range"
+                        min={100}
+                        max={Math.floor(currentBalances.earned / 4)}
+                        step={100}
+                        value={flagStake}
+                        onChange={(e) => setFlagStake(parseInt(e.target.value))}
+                        className="w-full"
+                      />
+                      <div className="flex justify-between text-xs text-red-700 mt-1">
+                        <span>100</span>
+                        <span className="font-mono font-semibold">{flagStake.toLocaleString()} pts</span>
+                        <span>{Math.floor(currentBalances.earned / 4).toLocaleString()}</span>
+                      </div>
+                    </div>
+                    <div className="bg-white rounded-lg p-3 text-xs text-gray-600 space-y-1">
+                      <div className="flex justify-between">
+                        <span>Potential bounty if case wins</span>
+                        <span className="font-mono font-semibold text-emerald-700">
+                          ~20% of defendant&apos;s Earned
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Your stake if case loses</span>
+                        <span className="font-mono font-semibold text-red-700">burned</span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={flagForArbitration}
+                        className="flex-1 bg-red-600 text-white py-2.5 rounded-lg font-medium text-sm hover:bg-red-700 transition-colors"
+                      >
+                        Open Arbitration + Stake {flagStake.toLocaleString()}
+                      </button>
+                      <button
+                        onClick={() => setFlagOpen(false)}
+                        className="px-4 py-2.5 rounded-lg text-sm text-gray-500 hover:bg-gray-50 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
-                  <button
-                    onClick={() => handleSubmitVerification(selectedReq.id)}
-                    disabled={assignedScore === ""}
-                    className="w-full bg-ae-teal text-white py-3 rounded-xl font-medium hover:bg-ae-teal-light transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                  >
-                    Submit Verification ({assignedScore || "?"}% Human)
-                  </button>
-                </div>
-              )}
+                ) : (
+                  <>
+                    <button
+                      onClick={submitVerification}
+                      className="w-full bg-ae-teal text-white py-3 rounded-xl font-medium hover:bg-ae-teal-light transition-colors"
+                    >
+                      Submit {scoring.total}% Human Score
+                    </button>
+                    <button
+                      onClick={() => setFlagOpen(true)}
+                      className="w-full bg-white border border-red-200 text-red-600 py-2.5 rounded-xl font-medium text-sm hover:bg-red-50 transition-colors"
+                    >
+                      Flag for Arbitration (non-human / duplicate)
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           ) : (
             <div className="bg-white rounded-2xl border border-gray-100 p-12 flex flex-col items-center justify-center text-gray-400">
               <svg className="w-12 h-12 mb-3 text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <p>Select a verification request to review</p>
+              <p>Queue is clear. New assignments are dealt in FIFO order.</p>
             </div>
           )}
         </div>
       </div>
+
+      {/* Bounty history */}
+      {minerBountyHistory.length > 0 && (
+        <div className="bg-white rounded-2xl border border-gray-100 p-6">
+          <div className="flex items-baseline justify-between mb-3">
+            <h2 className="font-semibold text-ae-navy">Recent Bounties</h2>
+            <span className="text-xs text-gray-500">
+              Challenger receives {protocolParams.bountyPct}% of condemned Earned balance (white paper 8.4)
+            </span>
+          </div>
+          <div className="space-y-2">
+            {minerBountyHistory.map((b) => (
+              <div key={b.caseId} className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-ae-navy">
+                    {b.defendantHandle} <span className="text-emerald-700 text-xs ml-2">· ruled non-human</span>
+                  </p>
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    Defendant Earned: {b.defendantEarned.toLocaleString()} · Stake returned: {b.challengerStakeReturned.toLocaleString()} · Resolved {b.resolvedAt}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-lg font-bold font-mono text-emerald-700">
+                    +{b.bountyAwarded.toLocaleString()}
+                  </p>
+                  <p className="text-xs text-emerald-600">bounty</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

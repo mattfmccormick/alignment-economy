@@ -24,13 +24,13 @@ const stageColors: Record<string, string> = {
 };
 
 const stageTimelines: Record<string, string> = {
-  arbitration: "Each side has 7 days to respond",
-  open: "Jury of 11 assigned, 7 days to submit evidence",
-  evidence_review: "7 days for both sides to review evidence",
-  voting: "7 days for all jury members to vote",
-  ruling: "Issued once all 11 jury votes are in",
-  appeal: "New jury of 11, same process restarts",
-  resolved: "Final ruling, recorded on-chain",
+  arbitration: "Defendant has 7 days to respond; challenger may withdraw without penalty.",
+  open: "Jury of 11 Tier-2 miners drafted; challenger's stake is now at risk.",
+  evidence_review: "7-day window for jurors to review on-chain evidence.",
+  voting: "7 days for sealed votes. Jurors stake 5% of their Earned balance.",
+  ruling: "Verdict on-chain. Bounty (20% of defendant's Earned) paid to challenger if they won.",
+  appeal: "New jury of 11. Verdict is final.",
+  resolved: "Final ruling, recorded on-chain.",
 };
 
 export default function CaseHistoryPage() {

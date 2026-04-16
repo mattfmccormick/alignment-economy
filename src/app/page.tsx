@@ -424,10 +424,6 @@ function DesignRequirements() {
           Bitcoin met the first. Fiat meets none.{" "}
           <span className="text-ae-teal">The Alignment Economy meets all five.</span>
         </p>
-
-        <h2 className="font-heading text-3xl md:text-5xl font-bold text-ae-navy mt-16 text-center leading-tight">
-          How the Alignment Economy Works
-        </h2>
       </div>
     </section>
   );

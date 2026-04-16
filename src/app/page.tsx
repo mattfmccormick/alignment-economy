@@ -141,23 +141,23 @@ function Hero() {
         </h1>
 
         <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-6 leading-relaxed">
-          The dollar buys less each year. AI is coming for your job. Your mom's
-          contribution has never been valued economically.
+          The dollar buys less every year.
+          <br />
+          AI is coming for your job.
+          <br />
+          Your mom&apos;s work was never counted.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0 mb-6 text-xs sm:text-sm tracking-wide uppercase">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-0 mb-8 text-xs sm:text-sm tracking-wide uppercase">
           <span className="text-red-400 font-medium">Fiat is failing</span>
           <span className="hidden sm:inline text-white/20 mx-3">|</span>
           <span className="text-yellow-400 font-medium">Bitcoin can't fix this</span>
           <span className="hidden sm:inline text-white/20 mx-3">|</span>
-          <span className="text-ae-teal font-medium">The Alignment Economy is a viable path forward</span>
+          <span className="text-ae-teal font-medium">Alignment Economy fixes it</span>
         </div>
 
-        <p className="text-gray-400 text-base max-w-xl mx-auto mb-10 leading-relaxed">
-          The global economic system is evolving: The left wants to
-          redistribute. The right wants to deregulate. Both are missing the
-          point. The measuring stick is broken. The Alignment Economy is a new way to measure
-          and transfer value.
+        <p className="font-heading text-2xl md:text-3xl text-ae-gold mb-10 tracking-tight">
+          Make value visible.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">

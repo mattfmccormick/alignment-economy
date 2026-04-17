@@ -59,7 +59,7 @@ export const memeSections: MemeSection[] = [
       "The measuring stick is broken. Every fiat currency in history has failed. Invisible labor, inflation by design, and AI accelerating the decline.",
     groups: [
       {
-        heading: "All fiat has failed",
+        heading: "All fiat has failed due to inflation or debasement",
         memes: [
           { id: "dollar-vs-monopoly", render: () => <ImgMeme src="/memes/dollar-vs-monopoly.jpeg" alt="The only difference between these two notes is your belief that one has more value than the other" /> },
           { id: "money-debasement", render: () => <ImgMeme src="/memes/money-debasement.png" alt="Money printer go brrr vs coin ridges: they're the same picture" /> },
@@ -137,7 +137,7 @@ export const memeSections: MemeSection[] = [
       "Daily point allocations, daily rebasing, proof of human. A system built for spending, not speculation, that finally sees invisible work.",
     groups: [
       {
-        heading: "Daily point allocations — solves first-mover advantage",
+        heading: "Giving each user a daily allocation of points reduces first-mover advantage",
         memes: [
           { id: "oprah", render: () => <ImgMeme src="/memes/you-get-money-meme-oprah.jpg" alt="You get points! And you get points! Everyone gets points!" /> },
         ],
@@ -149,7 +149,7 @@ export const memeSections: MemeSection[] = [
         ],
       },
       {
-        heading: "Rebasing — solves deflation and inflation",
+        heading: "Rebasing (reducing the total number of points in the system while keeping each user's % the same) reduces inflation",
         memes: [
           { id: "rebase", render: () => <ImgMeme src="/memes/rebase.png" alt="Daily rebasing keeps purchasing power constant" /> },
         ],
@@ -161,7 +161,7 @@ export const memeSections: MemeSection[] = [
         ],
       },
       {
-        heading: "Proof of human",
+        heading: "Miners verify which accounts are human, scoring each on a range from 0% human (known bot) to 100% human",
         memes: [
           { id: "proof-of-human", render: () => <ImgMeme src="/memes/1_rsTTSTcn6AoBdkz3Y9CzDw.jpg" alt="Proof of human verification" /> },
         ],
@@ -179,34 +179,34 @@ export const memeSections: MemeSection[] = [
         ],
       },
       {
-        heading: "Invisible labor, made visible",
+        heading: "Invisible labor — motherhood, mentoring, and more — made visible",
         memes: [
           { id: "value", render: () => <ImgMeme src="/memes/value.jpg" alt="Invisible labor made visible" /> },
           { id: "value-2", render: () => <ImgMeme src="/memes/value-2.jpg" alt="Invisible labor made visible, part two" /> },
         ],
       },
       {
-        heading: "AI alignment",
+        heading: "Helps with AI alignment? Bots can earn points, they just can't get daily allocations",
         memes: [
           { id: "ai", render: () => <ImgMeme src="/memes/ai.jpg" alt="AI aligned with human value" /> },
         ],
       },
       {
-        heading: "Planned obsolescence gets unrewarded",
+        heading: "Supportive points help put an end to planned obsolescence",
         memes: [
           { id: "fridge", render: () => <ImgMeme src="/memes/fridge.jpg" alt="Planned obsolescence: fridge" /> },
           { id: "better-product", render: () => <ImgMeme src="/memes/better-product.jpg" alt="Build a better product, earn longer" /> },
         ],
       },
       {
-        heading: "Taxes",
+        heading: "Ambient points — a better way to do taxes",
         memes: [
           { id: "taxes", render: () => <ImgMeme src="/memes/taxes.jpg" alt="Taxes, but fairer" /> },
           { id: "taxes-theft", render: () => <ImgMeme src="/memes/taxes-theft.jpeg" alt="Why are we forced to pay taxes if they print all the money they want anyway?" /> },
         ],
       },
       {
-        heading: "You're likely one of these two people",
+        heading: "You're likely one of these two people now",
         memes: [
           { id: "over", render: () => <ImgMeme src="/memes/over.jpg" alt="This is over my head" /> },
           { id: "sign-up", render: () => <ImgMeme src="/memes/sign-up.jpg" alt="Where do I sign up?" /> },

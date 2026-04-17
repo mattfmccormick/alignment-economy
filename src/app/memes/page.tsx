@@ -2,28 +2,7 @@
 
 import { useCallback } from "react";
 import { SubpageNav, SubpageFooter } from "@/components/site-nav";
-import { curatedMemes } from "./meme-data";
-
-const sections = [
-  {
-    id: "fiat-failing",
-    stage: 1,
-    title: "The Problem: Fiat Is Failing",
-    subtitle: "The measuring stick is broken. Every fiat currency in history has failed. Invisible labor, inflation by design, and AI accelerating the decline.",
-  },
-  {
-    id: "bitcoin-cant-fix",
-    stage: 2,
-    title: "The Attempt: Why Bitcoin Can't Fix It",
-    subtitle: "Bitcoin proved decentralized value transfer works. But first-mover advantage and deflation mean it will never be daily money.",
-  },
-  {
-    id: "alignment-economy",
-    stage: 3,
-    title: "The Solution: How the Alignment Economy Works",
-    subtitle: "Daily point allocations, daily rebasing, proof of human. A system built for spending, not speculation, that finally sees invisible work.",
-  },
-];
+import { memeSections } from "./meme-data";
 
 export default function MemesPage() {
   const scrollToSection = useCallback((id: string) => {
@@ -48,7 +27,7 @@ export default function MemesPage() {
         {/* Sticky jump nav */}
         <div className="sticky top-16 z-40 bg-ae-navy/95 backdrop-blur-md border-b border-white/10 px-6 py-3">
           <div className="max-w-6xl mx-auto flex gap-2 justify-center overflow-x-auto">
-            {sections.map((s) => (
+            {memeSections.map((s) => (
               <button
                 key={s.id}
                 onClick={() => scrollToSection(s.id)}
@@ -60,47 +39,68 @@ export default function MemesPage() {
           </div>
         </div>
 
-        {/* Meme sections */}
-        {sections.map((section) => {
-          const sectionMemes = curatedMemes.filter(m => m.stage === section.stage);
-          return (
-            <section key={section.id} id={section.id} className="py-16 md:py-20 px-6">
-              <div className="max-w-6xl mx-auto">
-                {/* Section header */}
-                <div className="text-center mb-12">
-                  <h2 className="font-heading text-3xl md:text-4xl font-bold text-ae-navy mb-3">
-                    {section.title}
-                  </h2>
-                  <p className="text-ae-slate text-base max-w-2xl mx-auto leading-relaxed">
-                    {section.subtitle}
-                  </p>
-                </div>
-
-                {/* Meme grid: 1 col mobile, 2 col tablet, 3 col desktop */}
-                {sectionMemes.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {sectionMemes.map((meme) => (
-                      <div
-                        key={meme.id}
-                        className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow"
-                      >
-                        {meme.render()}
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-16 border border-dashed border-gray-300 rounded-2xl bg-white/50">
-                    <p className="text-ae-slate text-lg font-medium mb-2">Coming soon</p>
-                    <p className="text-gray-400 text-sm">New memes for this section are on the way.</p>
-                  </div>
-                )}
+        {/* Section + groups */}
+        {memeSections.map((section) => (
+          <section key={section.id} id={section.id} className="py-14 md:py-20 px-6">
+            <div className="max-w-6xl mx-auto">
+              {/* Section header */}
+              <div className="text-center mb-10">
+                <h2 className="font-heading text-3xl md:text-4xl font-bold text-ae-navy mb-3">
+                  {section.title}
+                </h2>
+                <p className="text-ae-slate text-base max-w-2xl mx-auto leading-relaxed">
+                  {section.subtitle}
+                </p>
               </div>
 
-              {/* Divider between sections */}
-              <div className="max-w-xs mx-auto mt-16 border-t border-gray-200" />
-            </section>
-          );
-        })}
+              {/* Groups */}
+              {section.groups.length === 0 ? (
+                <div className="text-center py-16 border border-dashed border-gray-300 rounded-2xl bg-white/50">
+                  <p className="text-ae-slate text-lg font-medium mb-2">Coming soon</p>
+                  <p className="text-gray-400 text-sm">New memes for this section are on the way.</p>
+                </div>
+              ) : (
+                <div className="space-y-12">
+                  {section.groups.map((group, gi) => (
+                    <div key={gi}>
+                      {/* Group header */}
+                      <div className="mb-5 max-w-3xl">
+                        <div className="flex items-baseline gap-3">
+                          <span className="text-ae-teal font-mono text-xs font-semibold tracking-wider">
+                            {String(gi + 1).padStart(2, "0")}
+                          </span>
+                          <h3 className="font-heading text-xl md:text-2xl font-bold text-ae-navy leading-tight">
+                            {group.heading}
+                          </h3>
+                        </div>
+                        {group.intro && (
+                          <p className="text-ae-slate text-sm mt-2 ml-8 leading-relaxed">
+                            {group.intro}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Meme grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {group.memes.map((meme) => (
+                          <div
+                            key={meme.id}
+                            className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow"
+                          >
+                            {meme.render()}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Section divider */}
+            <div className="max-w-xs mx-auto mt-16 border-t border-gray-200" />
+          </section>
+        ))}
 
         {/* Bottom CTA */}
         <section className="py-16 px-6 bg-ae-navy text-white text-center">

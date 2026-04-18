@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SubpageNav, SubpageFooter } from "@/components/site-nav";
+import { VideoModalTrigger } from "@/components/video-modal";
 
 export const metadata = {
   title: "About | The Alignment Economy",
@@ -23,7 +24,7 @@ export default function AboutPage() {
 
         {/* Documents */}
         <section className="py-16 md:py-24 px-6">
-          <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-8">
+          <div className="max-w-6xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* White Paper */}
             <div className="bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-md transition-shadow">
               <div className="w-14 h-14 rounded-full bg-ae-teal/10 flex items-center justify-center mx-auto mb-5">
@@ -81,6 +82,14 @@ export default function AboutPage() {
                 Download PDF
               </a>
             </div>
+
+            {/* Video Overview */}
+            <VideoModalTrigger
+              youtubeId="CnSxqJ-fps4"
+              title="Video Overview"
+              description="A short walkthrough of the Alignment Economy: the problem, the failed fix, and the path forward."
+              label="Watch Video"
+            />
           </div>
         </section>
       </main>

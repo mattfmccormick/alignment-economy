@@ -81,7 +81,7 @@ export const memeSections: MemeSection[] = [
         ],
       },
       {
-        heading: "Fiat doesn't make all value visible",
+        heading: "And fiat doesn't make all value visible",
         memes: [
           { id: "sahm1", render: () => <ImgMeme src="/memes/sahm1.jpg" alt="Stay-at-home mom contribution is invisible in the economy" /> },
           { id: "teacher-basketball", render: () => <ImgMeme src="/memes/teacher-basketball.jpeg" alt="In another universe, school teachers make $10 million a year" /> },
@@ -143,25 +143,25 @@ export const memeSections: MemeSection[] = [
         ],
       },
       {
-        heading: "If everyone gets points, won't that cause inflation?",
+        heading: "Wait a minute, if everyone gets points, won't that cause inflation?",
         memes: [
           { id: "skeptical-kid", render: () => <ImgMeme src="/memes/third-world-skeptical-kid-meme-template-thumbnail-12ccc16c.webp" alt="Skeptical kid: won't that cause inflation?" /> },
         ],
       },
       {
-        heading: "Rebasing (reducing the total number of points in the system while keeping each user's % the same) reduces inflation",
+        heading: "Yes, that is why the system rebases each day. Rebasing (reducing the total number of points in the system while keeping each user's % the same) reduces inflation",
         memes: [
           { id: "rebase", render: () => <ImgMeme src="/memes/rebase.png" alt="Daily rebasing keeps purchasing power constant" /> },
         ],
       },
       {
-        heading: "But won't there be fake accounts and bots?",
+        heading: "OK, but won't there be fake accounts and bots?",
         memes: [
           { id: "skeptical-baby", render: () => <ImgMeme src="/memes/skeptical_baby.jpg" alt="Skeptical baby: what about fake accounts?" /> },
         ],
       },
       {
-        heading: "Miners verify which accounts are human, scoring each on a range from 0% human (known bot) to 100% human",
+        heading: "We use miners to verify which accounts are human, scoring each on a range from 0% human (known bot) to 100% human",
         memes: [
           { id: "proof-of-human", render: () => <ImgMeme src="/memes/1_rsTTSTcn6AoBdkz3Y9CzDw.jpg" alt="Proof of human verification" /> },
         ],
@@ -179,7 +179,7 @@ export const memeSections: MemeSection[] = [
         ],
       },
       {
-        heading: "Invisible labor — motherhood, mentoring, and more — made visible",
+        heading: "Daily point allocations make invisible labor (motherhood, mentoring, etc.) visible",
         memes: [
           { id: "value", render: () => <ImgMeme src="/memes/value.jpg" alt="Invisible labor made visible" /> },
           { id: "value-2", render: () => <ImgMeme src="/memes/value-2.jpg" alt="Invisible labor made visible, part two" /> },
@@ -199,14 +199,14 @@ export const memeSections: MemeSection[] = [
         ],
       },
       {
-        heading: "Ambient points — a better way to do taxes",
+        heading: "Ambient points are a better way to do taxes",
         memes: [
           { id: "taxes", render: () => <ImgMeme src="/memes/taxes.jpg" alt="Taxes, but fairer" /> },
           { id: "taxes-theft", render: () => <ImgMeme src="/memes/taxes-theft.jpeg" alt="Why are we forced to pay taxes if they print all the money they want anyway?" /> },
         ],
       },
       {
-        heading: "You're likely one of these two people now",
+        heading: "Which one are you?",
         memes: [
           { id: "over", render: () => <ImgMeme src="/memes/over.jpg" alt="This is over my head" /> },
           { id: "sign-up", render: () => <ImgMeme src="/memes/sign-up.jpg" alt="Where do I sign up?" /> },

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { SubpageNav, SubpageFooter } from "@/components/site-nav";
-import { VideoModalTrigger } from "@/components/video-modal";
+import { VideoButton } from "@/components/video-modal";
 
 export const metadata = {
   title: "About | The Alignment Economy",
@@ -24,7 +24,7 @@ export default function AboutPage() {
 
         {/* Documents */}
         <section className="py-16 md:py-24 px-6">
-          <div className="max-w-6xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-8">
             {/* White Paper */}
             <div className="bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-md transition-shadow">
               <div className="w-14 h-14 rounded-full bg-ae-teal/10 flex items-center justify-center mx-auto mb-5">
@@ -78,18 +78,13 @@ export default function AboutPage() {
               <p className="text-ae-slate text-sm leading-relaxed mb-6">
                 A visual overview for sharing with potential funders, collaborators, and supporters.
               </p>
-              <a href="#" className="inline-block border border-gray-200 text-ae-navy px-6 py-2.5 rounded-full font-medium text-sm hover:bg-gray-50 transition-colors">
-                Download PDF
-              </a>
+              <div className="flex flex-col gap-3">
+                <a href="#" className="bg-purple-500 text-white px-6 py-2.5 rounded-full font-medium text-sm hover:bg-purple-600 transition-colors">
+                  Download PDF
+                </a>
+                <VideoButton youtubeId="CnSxqJ-fps4" title="Presentation Overview" label="Watch Video" />
+              </div>
             </div>
-
-            {/* Video Overview */}
-            <VideoModalTrigger
-              youtubeId="CnSxqJ-fps4"
-              title="Video Overview"
-              description="A short walkthrough of the Alignment Economy: the problem, the failed fix, and the path forward."
-              label="Watch Video"
-            />
           </div>
         </section>
       </main>

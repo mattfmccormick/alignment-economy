@@ -79,10 +79,15 @@ export default function AboutPage() {
                 A visual overview for sharing with potential funders, collaborators, and supporters.
               </p>
               <div className="flex flex-col gap-3">
-                <a href="#" className="bg-purple-500 text-white px-6 py-2.5 rounded-full font-medium text-sm hover:bg-purple-600 transition-colors">
+                <VideoButton
+                  youtubeId="CnSxqJ-fps4"
+                  title="Presentation Overview"
+                  label="Watch Video"
+                  className="bg-purple-500 text-white px-6 py-2.5 rounded-full font-medium text-sm hover:bg-purple-600 transition-colors inline-flex items-center justify-center gap-2"
+                />
+                <a href="#" className="border border-gray-200 text-ae-navy px-6 py-2.5 rounded-full font-medium text-sm hover:bg-gray-50 transition-colors">
                   Download PDF
                 </a>
-                <VideoButton youtubeId="CnSxqJ-fps4" title="Presentation Overview" label="Watch Video" />
               </div>
             </div>
           </div>

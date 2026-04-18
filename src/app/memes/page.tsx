@@ -25,7 +25,7 @@ export default function MemesPage() {
         </section>
 
         {/* Sticky jump nav */}
-        <div className="sticky top-16 z-40 bg-ae-navy/95 backdrop-blur-md border-b border-white/10 px-6 py-3">
+        <div className="sticky top-0 z-40 bg-ae-navy/95 backdrop-blur-md border-b border-white/10 px-6 py-3">
           <div className="max-w-6xl mx-auto flex gap-2 justify-center overflow-x-auto">
             {memeSections.map((s) => (
               <button

@@ -9,7 +9,7 @@ export default function WhitePaperPage() {
       <main className="min-h-screen bg-white">
         {/* Hero */}
         <section className="py-16 md:py-24 px-6 bg-ae-navy text-white text-center">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-4xl mx-auto">
             <p className="text-ae-teal text-sm font-medium tracking-wide uppercase mb-4">White Paper</p>
             <h1 className="font-heading text-4xl md:text-5xl font-bold mb-4">The Alignment Economy</h1>
             <p className="text-gray-300 text-lg italic">A Usable Peer-to-Peer Electronic Cash System</p>
@@ -19,7 +19,7 @@ export default function WhitePaperPage() {
 
         {/* Content */}
         <article className="py-12 md:py-20 px-6">
-          <div className="max-w-2xl mx-auto prose-ae">
+          <div className="max-w-3xl mx-auto prose-ae">
             <h2>Abstract</h2>
             <p>A peer-to-peer electronic cash system can be built on a blockchain where the base unit of currency is human attention rather than computational work or staked capital. Each verified human participant receives a fixed daily allocation of points that expire if unspent, reducing first-mover advantage. A daily rebasing mechanism adjusts all saved balances to support stable purchasing power as the network grows, minimizing deflation/inflation. A percent-human verification system, maintained by a decentralized network of miners focused on proof of human, inhibits bot and duplicate accounts. Miners are compensated through a hardcoded 0.5% transaction fee. An arbitration and court system resolves disputes over whether an account belongs to a real, unique human. The result is a currency designed for daily transactions, not speculation, one that compensates previously invisible contributions such as caregiving, mentorship, and the maintenance of physical spaces.</p>
 

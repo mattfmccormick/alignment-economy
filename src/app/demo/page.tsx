@@ -87,7 +87,7 @@ export default function DemoPage() {
 
       {/* View cards */}
       <section className="bg-ae-warm py-16 px-6">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
             {views.map((v) => (
               <Link

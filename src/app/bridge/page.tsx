@@ -19,7 +19,7 @@ export default function BridgePage() {
 
         {/* Content */}
         <article className="py-12 md:py-20 px-6">
-          <div className="max-w-2xl mx-auto prose-ae">
+          <div className="max-w-3xl mx-auto prose-ae">
 
             <h2>Part One: Capture</h2>
 

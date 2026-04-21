@@ -26,7 +26,7 @@ export default function MemesPage() {
 
         {/* Sticky jump nav */}
         <div className="sticky top-16 z-40 bg-ae-navy/95 backdrop-blur-md border-b border-white/10 px-6 py-3">
-          <div className="max-w-6xl mx-auto flex gap-2 justify-center overflow-x-auto">
+          <div className="max-w-7xl mx-auto flex gap-2 justify-center overflow-x-auto">
             {memeSections.map((s) => (
               <button
                 key={s.id}
@@ -42,7 +42,7 @@ export default function MemesPage() {
         {/* Section + groups */}
         {memeSections.map((section) => (
           <section key={section.id} id={section.id} className="py-14 md:py-20 px-6">
-            <div className="max-w-6xl mx-auto">
+            <div className="max-w-7xl mx-auto">
               {/* Section header */}
               <div className="text-center mb-10">
                 <h2 className="font-heading text-3xl md:text-4xl font-bold text-ae-navy mb-3">
@@ -81,7 +81,7 @@ export default function MemesPage() {
                       </div>
 
                       {/* Meme grid */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-start">
                         {group.memes.map((meme) => (
                           <div
                             key={meme.id}

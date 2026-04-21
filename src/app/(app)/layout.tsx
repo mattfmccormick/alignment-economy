@@ -25,7 +25,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </Link>
         </div>
         <MobileHeader />
-        <main className="flex-1 p-4 md:p-8 max-w-6xl">{children}</main>
+        <main className="flex-1 p-4 md:p-8 max-w-7xl">{children}</main>
       </div>
     </div>
   );

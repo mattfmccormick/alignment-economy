@@ -24,7 +24,7 @@ export default function AboutPage() {
 
         {/* Documents */}
         <section className="py-16 md:py-24 px-6">
-          <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-8">
+          <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
             {/* White Paper */}
             <div className="bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-md transition-shadow">
               <div className="w-14 h-14 rounded-full bg-ae-teal/10 flex items-center justify-center mx-auto mb-5">

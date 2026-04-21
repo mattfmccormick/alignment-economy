@@ -104,13 +104,13 @@ export const memeSections: MemeSection[] = [
         heading: "While complex, blockchain is a powerful technology",
         memes: [
           { id: "talking-btc", render: () => <ImgMeme src="/memes/talking-btc.jpg" alt="Talking about Bitcoin" /> },
-          { id: "then-and-now", render: () => <ImgMeme src="/memes/then-and-now.jpg" alt="Bitcoin then and now" /> },
           { id: "jp", render: () => <ImgMeme src="/memes/jp.jpg" alt="JP Morgan and crypto" /> },
         ],
       },
       {
         heading: "But 90% of blockchain is a scam",
         memes: [
+          { id: "then-and-now", render: () => <ImgMeme src="/memes/then-and-now.jpg" alt="Crypto Bros in 2017 vs 2025: from ideals to meme coins and ETFs" /> },
           { id: "scam1", render: () => <ImgMeme src="/memes/scam1.jpg" alt="Most of crypto is a scam" /> },
         ],
       },

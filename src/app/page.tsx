@@ -527,10 +527,9 @@ function FiatIsFailing() {
             This cycle has already started, and it accelerates from here.
           </p>
 
-          {/* Loop graphic - vertical on mobile, circular on desktop */}
-          <div className="max-w-3xl mx-auto">
-            {/* Mobile: vertical loop with connecting arrows */}
-            <div className="md:hidden space-y-0">
+          {/* Vertical loop — same on mobile and desktop */}
+          <div className="max-w-2xl mx-auto">
+            <div className="space-y-0">
               {[
                 { step: "1", title: "AI gets more capable", desc: "Machines produce real output at near-zero cost." },
                 { step: "2", title: "Jobs are displaced", desc: "Each role AI can do cheaper is a role that disappears." },
@@ -541,56 +540,24 @@ function FiatIsFailing() {
                 <div key={s.step}>
                   <div className="flex items-start gap-4">
                     <div className="flex flex-col items-center">
-                      <div className="w-10 h-10 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-400 font-bold text-sm shrink-0">
+                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-400 font-bold text-sm md:text-base shrink-0">
                         {s.step}
                       </div>
-                      {i < 4 && <div className="w-0.5 h-8 bg-red-500/20 mt-1" />}
+                      {i < 4 && <div className="w-0.5 h-8 md:h-10 bg-red-500/20 mt-1" />}
                     </div>
-                    <div className="pb-4">
-                      <h4 className="text-white font-semibold text-sm mb-1">{s.title}</h4>
-                      <p className="text-gray-400 text-xs leading-relaxed">{s.desc}</p>
+                    <div className="pb-4 md:pb-6 pt-1.5">
+                      <h4 className="text-white font-semibold text-sm md:text-base mb-1">{s.title}</h4>
+                      <p className="text-gray-400 text-xs md:text-sm leading-relaxed">{s.desc}</p>
                     </div>
                   </div>
                 </div>
               ))}
               {/* Loop-back arrow */}
               <div className="flex items-center gap-4 pl-3">
-                <svg className="w-6 h-6 text-red-400/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-6 h-6 md:w-7 md:h-7 text-red-400/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 9l-6 6m0 0l6 6m-6-6h18" />
                 </svg>
-                <span className="text-red-400/60 text-xs font-bold uppercase tracking-wide">Back to step 1. Repeat forever.</span>
-              </div>
-            </div>
-
-            {/* Desktop: circular layout */}
-            <div className="hidden md:block relative max-w-2xl mx-auto">
-              <svg viewBox="0 0 500 500" className="w-full absolute inset-0" fill="none">
-                <path d="M250 60 A190 190 0 1 1 220 63" stroke="rgba(239,68,68,0.12)" strokeWidth="3" fill="none" />
-                <path d="M220 63 L232 50 L226 70" fill="rgba(239,68,68,0.25)" />
-                <text x="250" y="245" textAnchor="middle" fill="rgba(239,68,68,0.4)" fontSize="14" fontWeight="bold">REPEAT</text>
-                <text x="250" y="265" textAnchor="middle" fill="rgba(239,68,68,0.4)" fontSize="14" fontWeight="bold">FOREVER</text>
-              </svg>
-
-              <div className="relative" style={{ paddingBottom: "100%" }}>
-                {[
-                  { step: "1", title: "AI gets more capable", desc: "Machines produce real output at near-zero cost.", top: "2%", left: "50%", transform: "translateX(-50%)" },
-                  { step: "2", title: "Jobs are displaced", desc: "Each role AI can do cheaper is a role that disappears.", top: "28%", left: "82%", transform: "translateX(-50%)" },
-                  { step: "3", title: "Government prints more", desc: "Stimulus and bailouts. Each round debases the currency.", top: "68%", left: "82%", transform: "translateX(-50%)" },
-                  { step: "4", title: "Asset prices inflate", desc: "Owners get richer automatically. Everyone else is priced out.", top: "68%", left: "18%", transform: "translateX(-50%)" },
-                  { step: "5", title: "Workers get squeezed", desc: "Workers ask for higher wages, but companies would rather invest in AI than pay them. Cost rises, jobs shrink.", top: "28%", left: "18%", transform: "translateX(-50%)" },
-                ].map((s) => (
-                  <div
-                    key={s.step}
-                    className="absolute bg-white/5 backdrop-blur-sm border border-red-500/20 rounded-xl p-3 text-center w-[32%]"
-                    style={{ top: s.top, left: s.left, transform: s.transform }}
-                  >
-                    <div className="w-7 h-7 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 font-bold text-xs mx-auto mb-1.5">
-                      {s.step}
-                    </div>
-                    <h4 className="text-white font-semibold text-sm mb-1">{s.title}</h4>
-                    <p className="text-gray-400 text-xs leading-relaxed">{s.desc}</p>
-                  </div>
-                ))}
+                <span className="text-red-400/60 text-xs md:text-sm font-bold uppercase tracking-wide">Back to step 1. Repeat forever.</span>
               </div>
             </div>
           </div>

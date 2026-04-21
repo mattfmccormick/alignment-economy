@@ -9,35 +9,30 @@ import {
   minerBountyHistory,
   protocolParams,
   currentBalances,
-  type TieredEvidenceItem,
 } from "@/lib/mock-data";
 import { StatusBadge } from "@/components/status-badge";
 
-// Tier caps per white paper 6.1
-const TIER_CAPS: Record<"A" | "B" | "C", number | null> = { A: 30, B: 80, C: null };
-
+// Tier is a classification hint, not an enforced cap. Per white paper 6:
+// "game theory would determine the best method and weighting of evidence."
+// The miner sets the weight on each accepted item. Total is capped at 100%.
 function tierColor(tier: "A" | "B" | "C") {
   if (tier === "A") return "bg-gray-100 text-gray-700 border-gray-200";
   if (tier === "B") return "bg-blue-100 text-blue-700 border-blue-200";
   return "bg-emerald-100 text-emerald-700 border-emerald-200";
 }
 
-function computeTieredScore(items: TieredEvidenceItem[]) {
-  const rawA = items.filter((e) => e.tier === "A").reduce((s, e) => s + e.contribution, 0);
-  const rawB = items.filter((e) => e.tier === "B").reduce((s, e) => s + e.contribution, 0);
-  const rawC = items.filter((e) => e.tier === "C").reduce((s, e) => s + e.contribution, 0);
-  const capped = {
-    A: Math.min(rawA, TIER_CAPS.A!),
-    B: Math.min(rawB, TIER_CAPS.B!),
-    C: rawC,
-  };
-  const total = Math.min(100, capped.A + capped.B + capped.C);
-  return { rawA, rawB, rawC, capped, total };
+function tierLabel(tier: "A" | "B" | "C") {
+  if (tier === "A") return "self-attestation";
+  if (tier === "B") return "hard to fake";
+  return "social";
 }
+
+type ItemState = { accepted: boolean; weight: number };
 
 export default function MinerPage() {
   const [queue, setQueue] = useState(verificationQueue);
-  const [accepted, setAccepted] = useState<Record<string, boolean>>({});
+  // Per-item state: accepted + miner-assigned weight (default = suggested contribution)
+  const [itemState, setItemState] = useState<Record<string, ItemState>>({});
   const [flagOpen, setFlagOpen] = useState(false);
   const [flagStake, setFlagStake] = useState(600);
 
@@ -49,15 +44,49 @@ export default function MinerPage() {
   );
 
   const itemsForActive = activeReq?.tieredEvidence ?? [];
-  const acceptedItems = itemsForActive.filter((it, i) =>
-    accepted[`${activeReq?.id}::${i}`] !== false // default accepted
-  );
-  const scoring = useMemo(() => computeTieredScore(acceptedItems), [acceptedItems]);
+
+  // Hydrate default state on the active request
+  function keyOf(idx: number) {
+    return `${activeReq?.id}::${idx}`;
+  }
+  function getItem(idx: number): ItemState {
+    const k = keyOf(idx);
+    if (itemState[k]) return itemState[k];
+    const suggested = itemsForActive[idx]?.contribution ?? 0;
+    return { accepted: true, weight: suggested };
+  }
+
+  const scoring = useMemo(() => {
+    let totalA = 0, totalB = 0, totalC = 0;
+    itemsForActive.forEach((it, i) => {
+      const s = getItem(i);
+      if (!s.accepted) return;
+      if (it.tier === "A") totalA += s.weight;
+      else if (it.tier === "B") totalB += s.weight;
+      else totalC += s.weight;
+    });
+    const raw = totalA + totalB + totalC;
+    return {
+      byTier: { A: totalA, B: totalB, C: totalC },
+      raw,
+      total: Math.min(100, Math.max(0, raw)),
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemState, itemsForActive]);
 
   function toggleEvidence(idx: number) {
     if (!activeReq) return;
-    const key = `${activeReq.id}::${idx}`;
-    setAccepted((prev) => ({ ...prev, [key]: prev[key] === false ? true : false }));
+    const k = keyOf(idx);
+    const cur = getItem(idx);
+    setItemState((prev) => ({ ...prev, [k]: { ...cur, accepted: !cur.accepted } }));
+  }
+
+  function setWeight(idx: number, weight: number) {
+    if (!activeReq) return;
+    const k = keyOf(idx);
+    const cur = getItem(idx);
+    const clamped = Math.max(0, Math.min(100, weight));
+    setItemState((prev) => ({ ...prev, [k]: { ...cur, weight: clamped } }));
   }
 
   function submitVerification() {
@@ -69,7 +98,7 @@ export default function MinerPage() {
           : r
       )
     );
-    setAccepted({});
+    setItemState({});
   }
 
   function flagForArbitration() {
@@ -83,7 +112,7 @@ export default function MinerPage() {
       )
     );
     setFlagOpen(false);
-    setAccepted({});
+    setItemState({});
   }
 
   return (
@@ -299,85 +328,125 @@ export default function MinerPage() {
                 </p>
               </div>
 
-              {/* Tiered evidence with live scoring */}
+              {/* Evidence review with miner-set weights */}
               <div>
-                <div className="flex items-baseline justify-between mb-3">
+                <div className="flex items-baseline justify-between mb-2">
                   <h3 className="font-semibold text-ae-navy">Evidence Review</h3>
-                  <span className="text-xs text-gray-500">Click an item to accept / reject</span>
+                  <span className="text-xs text-gray-500">Accept or reject · set the weight</span>
                 </div>
+                <p className="text-xs text-gray-500 mb-3 leading-relaxed">
+                  You decide the weight of each piece. Tiers are a classification, not a cap. Per the white paper, game theory determines norms across the network over time. Vouches alone can reach 100% if they carry enough backing.
+                </p>
                 <div className="space-y-2">
                   {activeReq.tieredEvidence.map((ev, i) => {
-                    const key = `${activeReq.id}::${i}`;
-                    const isAccepted = accepted[key] !== false;
+                    const s = getItem(i);
+                    const isAccepted = s.accepted;
                     return (
-                      <button
+                      <div
                         key={i}
-                        onClick={() => toggleEvidence(i)}
-                        className={`w-full flex items-start gap-3 p-3 rounded-xl border text-left transition-colors ${
-                          isAccepted ? tierColor(ev.tier) : "bg-gray-50 border-gray-200 opacity-50"
+                        className={`rounded-xl border transition-colors ${
+                          isAccepted ? tierColor(ev.tier) : "bg-gray-50 border-gray-200 opacity-60"
                         }`}
                       >
-                        <div className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
-                          isAccepted
-                            ? ev.tier === "A" ? "bg-gray-200 text-gray-700"
-                              : ev.tier === "B" ? "bg-blue-200 text-blue-800"
-                              : "bg-emerald-200 text-emerald-800"
-                            : "bg-gray-200 text-gray-400"
-                        }`}>
-                          {ev.tier}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between gap-2">
-                            <p className="text-sm font-medium text-ae-navy">{ev.label}</p>
-                            <span className={`text-xs font-mono shrink-0 ${isAccepted ? "text-ae-navy" : "text-gray-400 line-through"}`}>
-                              +{ev.contribution}%
-                            </span>
+                        <button
+                          onClick={() => toggleEvidence(i)}
+                          className="w-full flex items-start gap-3 p-3 text-left"
+                        >
+                          <div className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
+                            isAccepted
+                              ? ev.tier === "A" ? "bg-gray-200 text-gray-700"
+                                : ev.tier === "B" ? "bg-blue-200 text-blue-800"
+                                : "bg-emerald-200 text-emerald-800"
+                              : "bg-gray-200 text-gray-400"
+                          }`}>
+                            {ev.tier}
                           </div>
-                          <p className="text-xs text-gray-500 mt-0.5">{ev.description}</p>
-                        </div>
-                      </button>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-2">
+                              <p className="text-sm font-medium text-ae-navy">{ev.label}</p>
+                              <span className="text-[10px] uppercase tracking-wider text-gray-500 shrink-0">
+                                {tierLabel(ev.tier)}
+                              </span>
+                            </div>
+                            <p className="text-xs text-gray-500 mt-0.5">{ev.description}</p>
+                            {ev.voucher && (
+                              <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-gray-600">
+                                <span>
+                                  {ev.voucher.handle} · <span className="font-mono text-ae-navy">{ev.voucher.percentHuman}% human</span>
+                                </span>
+                                <span>
+                                  stake <span className="font-mono text-ae-navy">{ev.voucher.stakeAmount.toLocaleString()}</span> pts ({ev.voucher.stakePct}% earned)
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </button>
+
+                        {/* Weight slider — active only when accepted */}
+                        {isAccepted && (
+                          <div className="px-3 pb-3 pt-0 -mt-1">
+                            <div className="flex items-center gap-3">
+                              <input
+                                type="range"
+                                min={0}
+                                max={100}
+                                value={s.weight}
+                                onChange={(e) => setWeight(i, parseInt(e.target.value))}
+                                className="flex-1"
+                              />
+                              <div className="flex items-center gap-1 bg-white rounded-md px-2 py-1 border border-gray-200 w-20 shrink-0">
+                                <input
+                                  type="number"
+                                  min={0}
+                                  max={100}
+                                  value={s.weight}
+                                  onChange={(e) => setWeight(i, parseInt(e.target.value || "0"))}
+                                  className="w-10 text-sm font-mono text-right bg-transparent focus:outline-none"
+                                />
+                                <span className="text-xs text-gray-400">%</span>
+                              </div>
+                            </div>
+                            {ev.contribution !== s.weight && (
+                              <p className="text-[11px] text-gray-500 mt-1">
+                                Suggested starting weight: {ev.contribution}%
+                              </p>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Tier breakdown */}
+              {/* Score summary */}
               <div className="bg-gray-50 rounded-xl p-4 space-y-3">
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Score Build</p>
-                {(["A", "B", "C"] as const).map((t) => {
-                  const raw = t === "A" ? scoring.rawA : t === "B" ? scoring.rawB : scoring.rawC;
-                  const cap = TIER_CAPS[t];
-                  const capped = t === "A" ? scoring.capped.A : t === "B" ? scoring.capped.B : scoring.capped.C;
-                  const wasCapped = cap !== null && raw > cap;
-                  return (
-                    <div key={t} className="flex items-center justify-between text-sm">
-                      <div className="flex items-center gap-2">
-                        <span className={`inline-block w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center ${
-                          t === "A" ? "bg-gray-200 text-gray-700" : t === "B" ? "bg-blue-200 text-blue-800" : "bg-emerald-200 text-emerald-800"
-                        }`}>
-                          {t}
-                        </span>
-                        <span className="text-gray-600">
-                          Tier {t}
-                          <span className="text-gray-400 ml-2">
-                            ({t === "A" ? "self-attestation" : t === "B" ? "hard to fake" : "social"})
-                          </span>
-                        </span>
-                      </div>
-                      <div className="font-mono text-sm">
-                        <span className={wasCapped ? "text-orange-600" : "text-ae-navy"}>+{capped}%</span>
-                        {wasCapped && (
-                          <span className="text-xs text-orange-600 ml-1">(capped from {raw}%)</span>
-                        )}
-                        {cap !== null && (
-                          <span className="text-xs text-gray-400 ml-2">max {cap}%</span>
-                        )}
-                      </div>
+                {(["A", "B", "C"] as const).map((t) => (
+                  <div key={t} className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className={`inline-block w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center ${
+                        t === "A" ? "bg-gray-200 text-gray-700" : t === "B" ? "bg-blue-200 text-blue-800" : "bg-emerald-200 text-emerald-800"
+                      }`}>
+                        {t}
+                      </span>
+                      <span className="text-gray-600">
+                        Tier {t}
+                        <span className="text-gray-400 ml-2">({tierLabel(t)})</span>
+                      </span>
                     </div>
-                  );
-                })}
+                    <div className="font-mono text-sm text-ae-navy">
+                      +{scoring.byTier[t]}%
+                    </div>
+                  </div>
+                ))}
                 <div className="border-t border-gray-200 pt-3 flex items-center justify-between">
-                  <span className="text-sm font-semibold text-ae-navy">Proposed % Human</span>
+                  <div>
+                    <span className="text-sm font-semibold text-ae-navy">Proposed % Human</span>
+                    {scoring.raw > 100 && (
+                      <p className="text-[11px] text-gray-500 mt-0.5">Raw sum {scoring.raw}%, capped at 100</p>
+                    )}
+                  </div>
                   <span className="text-2xl font-bold font-mono text-ae-teal">{scoring.total}%</span>
                 </div>
               </div>

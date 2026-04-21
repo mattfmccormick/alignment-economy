@@ -65,13 +65,24 @@ export interface VouchRecord {
 
 export type EvidenceTier = "A" | "B" | "C";
 
+export interface VoucherMeta {
+  handle: string;
+  percentHuman: number;    // voucher's own %Human score
+  stakeAmount: number;     // points locked behind the vouch
+  stakePct: number;        // % of voucher's Earned staked (minimum 5% per white paper 6.1)
+}
+
 export interface TieredEvidenceItem {
   label: string;
   tier: EvidenceTier;
-  // the % contribution the miner would assign when accepted. Tier A caps at 30% total,
-  // Tier B caps at 80% total, Tier C is uncapped.
+  // SUGGESTED starting weight for the miner. Per white paper 6: "game theory would
+  // determine the best method and weighting of evidence." The miner can override
+  // this freely; the three tiers are a classification hint, not enforced caps.
   contribution: number;
   description: string;
+  // Attached to Tier C items. Lets the miner weigh a vouch by the voucher's own
+  // trust and the collateral they've locked behind it.
+  voucher?: VoucherMeta;
 }
 
 export interface VerificationRequest {
@@ -289,11 +300,11 @@ export const verificationQueue: VerificationRequest[] = [
     currentScore: 32,
     evidence: ["Facial scan", "Voice print"],
     tieredEvidence: [
-      { label: "Selfie", tier: "A", contribution: 20, description: "Easy to fake. Capped as Tier A." },
-      { label: "Facial geometry scan", tier: "B", contribution: 60, description: "First biometric. Per white paper 6.1." },
-      { label: "Voice print (liveness check)", tier: "B", contribution: 15, description: "Second biometric. +15%." },
-      { label: "Vouch from @elena (staked 5% earned)", tier: "C", contribution: 10, description: "Tier C: +10% per vouch, no cap." },
-      { label: "Vouch from @jmartinez (staked 5% earned)", tier: "C", contribution: 10, description: "Tier C: +10% per vouch, no cap." },
+      { label: "Selfie", tier: "A", contribution: 15, description: "Self-attestation. Easy to fake." },
+      { label: "Facial geometry scan", tier: "B", contribution: 45, description: "Hard to fake biometric." },
+      { label: "Voice print (liveness check)", tier: "B", contribution: 15, description: "Hard to fake biometric with liveness signal." },
+      { label: "Vouch from @elena", tier: "C", contribution: 12, description: "Socially grounded.", voucher: { handle: "@elena", percentHuman: 95, stakeAmount: 1_500, stakePct: 5 } },
+      { label: "Vouch from @jmartinez", tier: "C", contribution: 8, description: "Socially grounded.", voucher: { handle: "@jmartinez", percentHuman: 72, stakeAmount: 480, stakePct: 5 } },
     ],
     vouchers: 2,
     status: "pending",
@@ -309,13 +320,13 @@ export const verificationQueue: VerificationRequest[] = [
     currentScore: 55,
     evidence: ["Passport scan", "Utility bill"],
     tieredEvidence: [
-      { label: "Stated name & DOB", tier: "A", contribution: 10, description: "Self-attestation." },
-      { label: "Passport scan (gov ID)", tier: "B", contribution: 60, description: "Primary Tier B evidence." },
-      { label: "Utility bill (address match)", tier: "B", contribution: 15, description: "Corroborating Tier B." },
-      { label: "Vouch from @sarah_c", tier: "C", contribution: 10, description: "Tier C vouch: +10%." },
-      { label: "Vouch from @jkim", tier: "C", contribution: 10, description: "Tier C vouch: +10%." },
-      { label: "Vouch from @mrivera", tier: "C", contribution: 10, description: "Tier C vouch: +10%." },
-      { label: "Vouch from @localcoop", tier: "C", contribution: 10, description: "Tier C vouch: +10%." },
+      { label: "Stated name & DOB", tier: "A", contribution: 8, description: "Self-attestation." },
+      { label: "Passport scan (gov ID)", tier: "B", contribution: 45, description: "Hard to fake identity evidence." },
+      { label: "Utility bill (address match)", tier: "B", contribution: 12, description: "Corroborating address record." },
+      { label: "Vouch from @sarah_c", tier: "C", contribution: 10, description: "Socially grounded.", voucher: { handle: "@sarah_c", percentHuman: 88, stakeAmount: 1_100, stakePct: 5 } },
+      { label: "Vouch from @jkim", tier: "C", contribution: 9, description: "Socially grounded.", voucher: { handle: "@jkim", percentHuman: 81, stakeAmount: 760, stakePct: 5 } },
+      { label: "Vouch from @mrivera", tier: "C", contribution: 9, description: "Socially grounded.", voucher: { handle: "@mrivera", percentHuman: 77, stakeAmount: 540, stakePct: 5 } },
+      { label: "Vouch from @localcoop", tier: "C", contribution: 7, description: "Non-human vouch (business account).", voucher: { handle: "@localcoop", percentHuman: 100, stakeAmount: 3_200, stakePct: 8 } },
     ],
     vouchers: 4,
     status: "pending",
@@ -331,15 +342,15 @@ export const verificationQueue: VerificationRequest[] = [
     currentScore: 78,
     evidence: [],
     tieredEvidence: [
-      { label: "Selfie", tier: "A", contribution: 15, description: "Tier A only." },
-      { label: "Vouch from @elena", tier: "C", contribution: 10, description: "+10%." },
-      { label: "Vouch from @dkim", tier: "C", contribution: 10, description: "+10%." },
-      { label: "Vouch from @matt", tier: "C", contribution: 10, description: "+10%." },
-      { label: "Vouch from @sarah_c", tier: "C", contribution: 10, description: "+10%." },
-      { label: "Vouch from @jkim", tier: "C", contribution: 10, description: "+10%." },
-      { label: "Vouch from @mrivera", tier: "C", contribution: 10, description: "+10%." },
-      { label: "Vouch from @localcoop", tier: "C", contribution: 10, description: "+10%." },
-      { label: "Vouch from @community", tier: "C", contribution: 10, description: "+10%." },
+      { label: "Selfie", tier: "A", contribution: 10, description: "Self-attestation." },
+      { label: "Vouch from @elena", tier: "C", contribution: 12, description: "Socially grounded.", voucher: { handle: "@elena", percentHuman: 95, stakeAmount: 1_500, stakePct: 5 } },
+      { label: "Vouch from @dkim", tier: "C", contribution: 11, description: "Socially grounded.", voucher: { handle: "@dkim", percentHuman: 90, stakeAmount: 1_200, stakePct: 5 } },
+      { label: "Vouch from @matt", tier: "C", contribution: 10, description: "Socially grounded.", voucher: { handle: "@matt", percentHuman: 87, stakeAmount: 1_217, stakePct: 5 } },
+      { label: "Vouch from @sarah_c", tier: "C", contribution: 10, description: "Socially grounded.", voucher: { handle: "@sarah_c", percentHuman: 88, stakeAmount: 1_100, stakePct: 5 } },
+      { label: "Vouch from @jkim", tier: "C", contribution: 9, description: "Socially grounded.", voucher: { handle: "@jkim", percentHuman: 81, stakeAmount: 760, stakePct: 5 } },
+      { label: "Vouch from @mrivera", tier: "C", contribution: 9, description: "Socially grounded.", voucher: { handle: "@mrivera", percentHuman: 77, stakeAmount: 540, stakePct: 5 } },
+      { label: "Vouch from @localcoop", tier: "C", contribution: 8, description: "Non-human vouch.", voucher: { handle: "@localcoop", percentHuman: 100, stakeAmount: 3_200, stakePct: 8 } },
+      { label: "Vouch from @community", tier: "C", contribution: 8, description: "Non-human vouch.", voucher: { handle: "@community", percentHuman: 100, stakeAmount: 4_100, stakePct: 10 } },
     ],
     vouchers: 8,
     status: "in_review",
@@ -356,7 +367,7 @@ export const verificationQueue: VerificationRequest[] = [
     currentScore: 10,
     evidence: ["Facial scan"],
     tieredEvidence: [
-      { label: "Facial scan (partial, no liveness)", tier: "B", contribution: 10, description: "Incomplete. Liveness check missing." },
+      { label: "Facial scan (partial, no liveness)", tier: "B", contribution: 10, description: "Incomplete biometric. Liveness check missing." },
     ],
     vouchers: 0,
     status: "pending",
@@ -372,12 +383,12 @@ export const verificationQueue: VerificationRequest[] = [
     currentScore: 45,
     evidence: ["National ID", "Address proof"],
     tieredEvidence: [
-      { label: "Stated name & address", tier: "A", contribution: 10, description: "Self-attestation." },
-      { label: "National ID (Aadhaar)", tier: "B", contribution: 60, description: "Primary Tier B." },
-      { label: "Address proof", tier: "B", contribution: 5, description: "Corroborating Tier B." },
-      { label: "Vouch from @rsharma", tier: "C", contribution: 10, description: "+10%." },
-      { label: "Vouch from @auntie_k", tier: "C", contribution: 10, description: "+10%." },
-      { label: "Vouch from @tech_meetup", tier: "C", contribution: 10, description: "+10%." },
+      { label: "Stated name & address", tier: "A", contribution: 8, description: "Self-attestation." },
+      { label: "National ID (Aadhaar)", tier: "B", contribution: 48, description: "Hard to fake identity evidence." },
+      { label: "Address proof", tier: "B", contribution: 6, description: "Corroborating address record." },
+      { label: "Vouch from @rsharma", tier: "C", contribution: 11, description: "Socially grounded.", voucher: { handle: "@rsharma", percentHuman: 92, stakeAmount: 980, stakePct: 5 } },
+      { label: "Vouch from @auntie_k", tier: "C", contribution: 10, description: "Socially grounded.", voucher: { handle: "@auntie_k", percentHuman: 87, stakeAmount: 620, stakePct: 5 } },
+      { label: "Vouch from @tech_meetup", tier: "C", contribution: 9, description: "Non-human vouch.", voucher: { handle: "@tech_meetup", percentHuman: 100, stakeAmount: 2_200, stakePct: 7 } },
     ],
     vouchers: 3,
     status: "pending",

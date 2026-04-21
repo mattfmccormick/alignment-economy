@@ -37,6 +37,7 @@ const stageDeadlines: Record<string, string> = {
 export default function MyCasesPage() {
   const [showDefensePanel, setShowDefensePanel] = useState(false);
   const [selectedEvidence, setSelectedEvidence] = useState<string[]>([]);
+  const [otherDescription, setOtherDescription] = useState("");
 
   // Cases where current user is the defendant
   const myCases = disputes.filter(
@@ -100,7 +101,7 @@ export default function MyCasesPage() {
               <div>
                 <h3 className="font-semibold text-ae-navy mb-1">Prove You&apos;re Human</h3>
                 <p className="text-sm text-gray-500">
-                  Upload evidence to defend your identity. Select the types of evidence you want to submit. The more you provide, the stronger your defense.
+                  Submit any combination of evidence. A miner will assign the weight of each piece — per the white paper, game theory sets the norms over time, not hard-coded rules. You can reach 100% through vouches alone if they carry enough backing.
                 </p>
               </div>
 
@@ -111,6 +112,8 @@ export default function MyCasesPage() {
                   { type: "Government ID", desc: "Passport, driver license, etc." },
                   { type: "Photo", desc: "Selfie holding today's date" },
                   { type: "Voice Recording", desc: "Read a verification phrase" },
+                  { type: "Vouchers", desc: "Other verified humans stake for you" },
+                  { type: "Other", desc: "Something else — describe below" },
                 ].map((item) => (
                   <button
                     key={item.type}
@@ -141,6 +144,21 @@ export default function MyCasesPage() {
                   </button>
                 ))}
               </div>
+
+              {selectedEvidence.includes("Other") && (
+                <div>
+                  <label className="block text-sm font-medium text-ae-navy mb-1.5">
+                    Describe your &quot;Other&quot; evidence
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={otherDescription}
+                    onChange={(e) => setOtherDescription(e.target.value)}
+                    placeholder="e.g. Diploma, employment record, social media history, pet photos…"
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-ae-teal/30 focus:border-ae-teal resize-none"
+                  />
+                </div>
+              )}
 
               <div>
                 <label className="block text-sm font-medium text-ae-navy mb-1.5">Written Statement (optional)</label>

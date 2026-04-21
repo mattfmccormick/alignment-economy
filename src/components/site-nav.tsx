@@ -15,7 +15,7 @@ export function ALogo({ className = "w-8 h-8" }: { className?: string }) {
 
 export function SubpageNav({ cta }: { cta?: { label: string; href: string } }) {
   return (
-    <nav className="bg-ae-navy/95 backdrop-blur-md border-b border-white/10">
+    <nav className="sticky top-0 z-50 bg-ae-navy/95 backdrop-blur-md border-b border-white/10">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5 group">
           <span className="text-ae-teal"><ALogo className="w-8 h-8" /></span>

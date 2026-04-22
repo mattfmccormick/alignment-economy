@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: "%s | The Alignment Economy",
   },
   description:
-    "The global economic system is evolving: The left wants to redistribute. The right wants to deregulate. Both are missing the point. The Alignment Economy is a nonprofit building a new way to measure and transfer value.",
+    "The dollar buys less every year. AI is coming for your job. Your mom's work was never counted. The Alignment Economy is a nonprofit building a new way to measure and transfer value.",
   keywords: [
     "alignment economy",
     "new economic system",
@@ -37,13 +37,13 @@ export const metadata: Metadata = {
     siteName: "The Alignment Economy",
     title: "The Alignment Economy | A New Way to Measure and Transfer Value",
     description:
-      "The global economic system is evolving: The left wants to redistribute. The right wants to deregulate. Both are missing the point.",
+      "The dollar buys less every year. AI is coming for your job. Your mom's work was never counted.",
   },
   twitter: {
     card: "summary_large_image",
     title: "The Alignment Economy",
     description:
-      "A new way to measure and transfer value. Daily point allocations. Daily rebasing. Proof of human.",
+      "The dollar buys less every year. AI is coming for your job. Your mom's work was never counted.",
   },
   robots: {
     index: true,
@@ -90,7 +90,7 @@ export default function RootLayout({
               logo: "https://alignmenteconomy.org/apple-touch-icon.png",
               image: "https://alignmenteconomy.org/apple-touch-icon.png",
               description:
-                "A nonprofit building a new economic system that makes invisible labor visible and aligns incentives so cooperation wins.",
+                "The dollar buys less every year. AI is coming for your job. Your mom's work was never counted. A nonprofit building a new way to measure and transfer value.",
               foundingDate: "2025",
               sameAs: [],
               contactPoint: {

@@ -110,7 +110,7 @@ export const memeSections: MemeSection[] = [
       {
         heading: "But 90% of blockchain is a scam",
         memes: [
-          { id: "then-and-now", render: () => <ImgMeme src="/memes/then-and-now.jpg" alt="Crypto Bros in 2017 vs 2025: from ideals to meme coins and ETFs" /> },
+          { id: "crypto-then-and-now", render: () => <ImgMeme src="/memes/Cryto-then-and-now-meme.jpg" alt="Crypto then and now" /> },
           { id: "scam1", render: () => <ImgMeme src="/memes/scam1.jpg" alt="Most of crypto is a scam" /> },
         ],
       },
